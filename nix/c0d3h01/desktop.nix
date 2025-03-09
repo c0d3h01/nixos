@@ -11,6 +11,9 @@
   # Enable dconf service for GNOME settings management
   programs.dconf.enable = true;
 
+  # Virtual boxes
+  virtualisation.libvirtd.enable = true;
+
   # Exclude unwanted GNOME packages
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour
@@ -39,12 +42,13 @@
 
   # Additional system packages
   environment.systemPackages = with pkgs; [
-    pkgs.gnome-photos
-    pkgs.gnome-tweaks
-    pkgs.evolutionWithPlugins
-    pkgs.rhythmbox
-    pkgs.libreoffice
-    pkgs.micro
+    gnome-photos
+    gnome-tweaks
+    gnome-boxes
+    evolutionWithPlugins
+    rhythmbox
+    libreoffice
+    micro
 
     # Gnome Extensions
     gnomeExtensions.user-themes
@@ -59,7 +63,6 @@
         disable-user-extensions = false;
         enabled-extensions = [
           "user-theme@gnome-shell-extensions.gcampax.github.com"
-          "gsconnect@gnome-shell-extension-gsconnect.github.com"
         ];
 
         #   favorite-apps = [
@@ -81,12 +84,12 @@
       };
 
       "org/gnome/desktop/background" = {
-        picture-uri = "file://${config.users.users.c0d3h01.home}/dotfiles/image/wallpaper.png";
-        picture-uri-dark = "file://${config.users.users.c0d3h01.home}/dotfiles/image/wallpaper.png";
+        picture-uri = "file://${config.users.users.c0d3h01.home}/dotfiles/assets/wallpaper.png";
+        picture-uri-dark = "file://${config.users.users.c0d3h01.home}/dotfiles/assets/wallpaper.png";
       };
 
       "org/gnome/desktop/screensaver" = {
-        picture-uri = "file://${config.users.users.c0d3h01.home}/dotfiles/image/wallpaper.png";
+        picture-uri = "file://${config.users.users.c0d3h01.home}/dotfiles/assets/wallpaper.png";
         primary-color = "#3465a4";
         secondary-color = "#000000";
       };

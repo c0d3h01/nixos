@@ -13,7 +13,6 @@
       color.ui = true;
       fetch.prune = true;
       push.default = "current";
-      diff.colorMoved = "zebra";
 
       # Helpful aliases
       alias = {

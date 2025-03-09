@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   imports = [
     ./modules
@@ -25,40 +25,59 @@
     LESS = "-R";
   };
 
-  # Install home-manager pkgs
+  # -*-[ Home Packages ]-*-
   home.packages = with pkgs; [
+
+    # -*-[ Let install Home-manager ]-*-
     home-manager
+
+    # -*-[ Utilities ]-*-
     fastfetch
     glances
     tmux
     xclip
     curl
     wget
-    eza
-    bat
-    inxi
-    fd
-    direnv
-    ripgrep
-    dust
-    procs
-    git
-    git-lfs
-    gh
-    gitui
-    nix-output-monitor
-    diff-so-fancy
-    nix-prefetch-github
     tree
-    nodePackages.typescript-language-server
-    nodePackages.vscode-langservers-extracted
-    lua-language-server
-    rust-analyzer
-    nil
     appimage-run
     asar
     fuse
     dos2unix
+
+    # -*-[ Editors & Viewers ]-*-
+    eza # Improved ls
+    bat # Improved cat
+    fd # Improved find
+    ripgrep # Better than grep
+    dust # Disk usage visualization
+
+    # -*-[ Rust Tooling ]-*-
+    cargo
+    rustc
+    rust-analyzer
+
+    # -*-[ Git Tools ]-*-
+    git
+    git-lfs
+    gh # GitHub CLI
+    gitui # Terminal UI for git
+
+    # -*-[ Nix Tools ]-*-
+    nix-output-monitor # Monitor nix-build progress
+    nix-prefetch-github
+
+    # -*-[ Language Servers ]-*-
+    nodePackages.typescript-language-server
+    nodePackages.vscode-langservers-extracted
+    lua-language-server
+    nil
+
+    # -*-[ System Monitoring ]-*-
+    inxi
+    procs
+
+    # -*-[ Diffing ]-*-
+    diff-so-fancy
   ];
 
   # XDG Base Directory specification
@@ -76,8 +95,6 @@
       videos = "$HOME/Videos";
       templates = "$HOME/Templates";
       publicShare = "$HOME/Public";
-      #NPM_CONFIG_PREFIX = "$HOME/.npm-global";
-      #PATH = "$HOME/.npm-global/bin:$PATH";
     };
   };
 }

@@ -64,11 +64,11 @@ in
 
           # Extra
           "identity.fxaccounts.enabled" = true;
-          "browser.search.suggest.enabled" = false;
+          "browser.search.suggest.enabled" = true;
           "browser.urlbar.shortcuts.bookmarks" = true;
+          "browser.urlbar.suggest.bookmark" = true;
           "browser.urlbar.shortcuts.history" = false;
           "browser.urlbar.shortcuts.tabs" = false;
-          "browser.urlbar.suggest.bookmark" = false;
           "browser.urlbar.suggest.engines" = false;
           "browser.urlbar.suggest.history" = false;
           "browser.urlbar.suggest.openpage" = false;

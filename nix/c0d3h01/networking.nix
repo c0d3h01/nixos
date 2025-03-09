@@ -10,8 +10,8 @@
   systemd.network.wait-online.enable = false;
   # -*- Network manager configurations -*-
   networking.networkmanager.enable = true;
-  networking.networkmanager.wifi.powersave = lib.mkForce false;
-  # networking.networkmanager.settings.connection."wifi.powersave" = lib.mkForce false;
+  # networking.networkmanager.wifi.powersave = lib.mkForce false;
+  networking.networkmanager.settings.connection."wifi.powersave" = lib.mkForce 2;
 
   # -*- DNS -*-
   # Use systemd-resolved

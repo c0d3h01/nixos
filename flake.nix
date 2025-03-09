@@ -55,12 +55,7 @@
         inherit system specialArgs;
         modules = [
           # -*-[ System configurations, modules ]-*-
-          ./nix
-
-          ({ config, ... }: {
-            system.stateVersion = "24.11";
-            networking.hostName = "NixOS";
-          })
+          ./nix/nixman.nix
 
           # -*-[ Home Manager integration, modules ]-*-
           home-manager.nixosModules.home-manager

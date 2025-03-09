@@ -22,4 +22,3 @@ update:
 clean:
 	sudo nix-store --gc
 	sudo nix-collect-garbage -d
-	home-manager expire-generations "-1 days"
