@@ -8,6 +8,8 @@
     dotDir = ".config/zsh";
 
     history = {
+      extended = true;
+      ignoreDups = true;
       expireDuplicatesFirst = true;
       ignoreSpace = true;
       save = 15000;
@@ -65,7 +67,11 @@
       # Nix
       nrs = "sudo nixos-rebuild switch --flake ~/dotfiles/.";
       ncg = "sudo nix-collect-garbage -d";
-      nixpkgs = "nix repl nixpkgs";
+      npkgs = "nix repl nixpkgs";
+      ns = "nix search nixpkgs";
+      nr = "nix run nixpkgs#";
+      nf = "nix flake";
+      nd = "nix develop";
     };
 
     plugins = [
@@ -118,37 +124,56 @@
     '';
 
     initExtra = ''
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      # Lazy load NVM
+        nvm() {
+          unset -f nvm
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          nvm "$@"
+        }
 
-      # Enable Powerline glyphs
-      export POWERLINE=true
+        # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+        # Enable Powerline glyphs
+        export POWERLINE=true
       
-      # Improved Vi mode
-      bindkey -v
-      export KEYTIMEOUT=1
+        # Improved Vi mode
+        bindkey -v
+        # Better vi mode integration
+        bindkey '^?' backward-delete-char
+        bindkey '^h' backward-delete-char
+        bindkey '^w' backward-kill-word
+        export KEYTIMEOUT=1
       
-      # Cursor customization
-      zle-keymap-select() {
-        case $KEYMAP in
-          vicmd) echo -ne "\033[2 q" ;;  # Block cursor
-          viins|main) echo -ne "\033[6 q" ;; # Beam cursor
-        esac
-      }
-      zle -N zle-keymap-select
-      echo -ne "\033[6 q"  # Initial beam cursor
+        # Cursor customization
+        zle-keymap-select() {
+          case $KEYMAP in
+            vicmd) echo -ne "\033[2 q" ;;  # Block cursor
+            viins|main) echo -ne "\033[6 q" ;; # Beam cursor
+          esac
+        }
+        zle -N zle-keymap-select
+        echo -ne "\033[6 q"  # Initial beam cursor
       
-      # FZF integration
-      [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+        # FZF integration
+        [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
       
-      # Enhanced completion colors
-      zstyle ':completion:*' menu select
-      zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
-      zstyle ':completion:*' group-name '''
-      zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
+        # Enhanced completion colors
+        zstyle ':completion:*' menu select
+        zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+        zstyle ':completion:*' group-name '''
+        zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
+        # Case-insensitive completion
+        zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
       
-      # Directory stack navigation
-      setopt AUTO_PUSHD
-      setopt PUSHD_IGNORE_DUPS
+        # Directory stack navigation
+        setopt AUTO_PUSHD
+        setopt PUSHD_IGNORE_DUPS
+
+        # Direnv integration
+        eval "$(direnv hook zsh)"
+
+        # z - jump around
+        ${lib.optionalString (pkgs.zoxide != null) "eval \"$(${pkgs.zoxide}/bin/zoxide init zsh)\""} 
     '';
   };
 
@@ -258,6 +283,11 @@
         style = "bold dimmed white";
       };
     };
+  };
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
   };
 
   programs.fzf = {
