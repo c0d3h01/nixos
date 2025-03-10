@@ -16,8 +16,8 @@
   programs.nix-ld.enable = true;
 
   # flatpak Apps
-  services.flatpak.enable = true;
-  xdg.portal.enable = true;
+  # services.flatpak.enable = true;
+  # xdg.portal.enable = true;
 
   # Limit Nix Build Jobs
   nix.settings.max-jobs = 2;
@@ -50,6 +50,7 @@
     youtube-music
     spotify
     transmission_4-gtk
+    google-chrome
 
     # -*- Development tools -*-
     postman
@@ -66,6 +67,7 @@
     glfw
     glew
     glm
+    go # Go lang
 
     # -*- Misc utilities -*-
     android-tools
