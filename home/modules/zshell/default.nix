@@ -227,7 +227,7 @@
         disabled = false;
         style = "bold blue";
         symbols = {
-          NixOS = "❄️  NixOS";
+          NixOS = " NixOS";
         };
       };
 
@@ -235,14 +235,14 @@
       username = {
         style_user = "bold green";
         style_root = "bold red";
-        format = "[🕵️ $user]($style) ";
+        format = "[ ⥈ $user]($style) ";
         show_always = true;
       };
 
       # Hostname Section
       hostname = {
         style = "bold yellow";
-        format = "[🌐 $hostname]($style) ";
+        format = "[$hostname]($style) ";
       };
 
       # Directory Section
@@ -253,17 +253,17 @@
         read_only_style = "red";
         read_only = " ";
         substitutions = {
-          "Documents" = "📁 Documents";
-          "Downloads" = "📥 Downloads";
-          "Music" = "🎵 Music";
-          "Pictures" = "🖼️ Pictures";
+          "Documents" = " ";
+          "Downloads" = " ";
+          "Music" = " ";
+          "Pictures" = " ";
         };
-        format = "[📂 $path]($style)";
+        format = "[ $path]($style)";
       };
 
       # Git Branch Section
       git_branch = {
-        symbol = " ";
+        symbol = "  ";
         style = "bold purple";
         format = "[$symbol$branch]($style) ";
       };
@@ -271,17 +271,16 @@
       # Git Status Section
       git_status = {
         style = "bold yellow";
-        conflicted = "⚔️ ";
-        ahead = "🚀 ";
-        behind = "🔙 ";
-        diverged = "🔀 ";
-        untracked = "❓ ";
-        stashed = "📦 ";
-        modified = "📝 ";
-        staged = "✅ ";
-        renamed = "📛 ";
-        deleted = "🗑️ ";
-        format = "([$all_status$ahead_behind]($style) )";
+        conflicted = " x ";
+        ahead = " ⇡ ";
+        behind = " ⇣ ";
+        diverged = " ⇕ ";
+        untracked = " ? ";
+        stashed = " § ";
+        modified = " ! ";
+        staged = " + ";
+        renamed = " » ";
+        deleted = " ✘ ";
       };
 
       # Nix Shell Section
@@ -294,15 +293,15 @@
       # Command Duration Section
       cmd_duration = {
         min_time = 1000;
-        format = "⏱️  [$duration]($style) ";
+        format = "[⏱ $duration]($style) ";
         style = "bold magenta";
       };
 
       # Prompt Character Section
       character = {
-        success_symbol = "[➜](bold green)";
-        error_symbol = "[✗](bold red)";
-        vicmd_symbol = "[V](bold blue)";
+        success_symbol = "[⇝ ](bold green)";
+        error_symbol = "[✗ ](bold red)";
+        vicmd_symbol = "[V ](bold blue)";
       };
 
       # Right Prompt (Time)
@@ -311,7 +310,7 @@
         disabled = false;
         time_format = "%T"; # 24-hour format
         style = "bold dimmed white";
-        format = "[⏰ $time]($style)";
+        format = "[⏱  $time]($style)";
       };
     };
   };
