@@ -1,15 +1,11 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
     ./apps
-    ./c0d3h01
-    ./hardware-configuration.nix
+    ./user
+    ./hardware.nix
   ];
-
-  # -*-[ NixOS Configuration ]-*-
-  system.stateVersion = "24.11";
-  networking.hostName = "nixos";
 
   # -*-[ Bootloader Configuration ]-*-
   boot.loader = {
