@@ -53,29 +53,24 @@
     spotify
     transmission_4-gtk
     google-chrome
+    postman
 
     # -*-[ Development tools ]-*-
-
     # Algorithmic
     opencv
 
     # Web development tools.
     nodejs
-    nodenv
     yarn
-    postman #GUI
 
     # C/C++ tools
     clang
-    gcc
     pkg-config
     gnumake
     cmake
     ninja
+    # Graphics
     glib
-
-    # GTK & Graphics
-    gtk3
     glfw
     glew
     glm

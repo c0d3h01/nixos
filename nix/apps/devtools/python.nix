@@ -5,13 +5,13 @@
 {
   environment.systemPackages = with pkgs; [
     # Python environment modules
-    python312Full
-    python312Packages.pip
-    python312Packages.django
-    python312Packages.flask
-
-    # Jupyter lab
-    python312Packages.jupyterlab
+    (pkgs.python312.withPackages (ps: with ps; [
+      pip
+      django
+      flask
+      sympy
+      jupyterlab
+    ]))
 
     # Type checker but also provides the main LSP functionality.
     pyright
