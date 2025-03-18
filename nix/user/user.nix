@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 
 {
   # Set your time zone.
@@ -7,10 +7,10 @@
   services.timesyncd.enable = true;
 
   # -*- Define a user account -*-
-  users.users.c0d3h01 = {
+  users.users.${username} = {
     description = "Harshal Sawant";
     isNormalUser = true;
-    home = "/home/c0d3h01";
+    home = "/home/${username}";
     shell = pkgs.zsh;
     extraGroups = [ "networkmanager" "wheel" "audio" "video" "plugdev" "docker" "libvirtd" ];
     openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINcq9uTCVusCJRWgHTj8u4sdvvuXfPZcinAYTbNZW+eI c0d3h01@gmail.com" ];
