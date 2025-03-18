@@ -5,7 +5,6 @@
     # Package sources
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
-    flake-utils.url = "github:numtide/flake-utils";
 
     # Home Manager
     home-manager = {
@@ -20,10 +19,19 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, nixpkgs-stable, home-manager, nur, ... }:
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nur, ... }:
     let
-      # System architecture
+      # System architecture, user configurations
       system = "x86_64-linux";
+      username = "c0d3h01";
+      hostname = "NixOS"; # nixos-rebuild --flake .#NewHostName!
+      useremail = "c0d3h01@gmail.com";
+
+      # Shared arguments for modules
+      specialArgs = {
+        inherit system username hostname useremail;
+        inputs = self.inputs;
+      };
 
       # Generate pkgs with custom configurations
       pkgs = import nixpkgs {
@@ -40,19 +48,17 @@
       };
 
       lib = nixpkgs.lib;
-
-      # Shared arguments for modules
-      specialArgs = {
-        inherit system;
-        inputs = self.inputs;
-      };
     in
     {
-      nixosConfigurations.nixos = lib.nixosSystem {
+      nixosConfigurations.${hostname} = lib.nixosSystem {
         inherit system specialArgs;
         modules = [
           # -*-[ System configurations, modules ]-*-
           ./nix/configuration.nix
+          ({ config, pkgs, ... }: {
+            system.stateVersion = "24.11";
+            networking.hostName = "${hostname}";
+          })
 
           # -*-[ Home Manager integration, modules ]-*-
           home-manager.nixosModules.home-manager
@@ -61,7 +67,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = specialArgs;
-              users.c0d3h01 = import ./home/home.nix;
+              users.${username} = import ./home/home.nix;
             };
           }
 
