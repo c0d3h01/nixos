@@ -4,7 +4,6 @@
   boot.kernelParams = [
     # CPU Performance
     "processor.max_cstate=2"          # Limit CPU idle states to reduce latency
-    "intel_idle.max_cstate=2"        # For Intel CPUs (not applicable here, but included for completeness)
     "amd_iommu=on"                   # Enable AMD IOMMU for better I/O performance
     "idle=nomwait"                   # Disable MWAIT for CPU idle states (improves responsiveness)
     "mitigations=off"                # Disable CPU vulnerability mitigations for better performance
@@ -21,14 +20,12 @@
     # I/O Performance
     "elevator=noop"                  # Use noop I/O scheduler for SSDs (better performance)
     "scsi_mod.use_blk_mq=1"          # Enable multi-queue for SCSI devices
-    "nvme_core.io_timeout=4294967295" # Increase NVMe timeout for better reliability
+    "nvme_core.io_timeout=4294967295" # Increase NVMe timeout fo better reliability
     "nvme_core.max_retries=10"       # Increase NVMe retry attempts
 
     # Power Management (Performance-Oriented)
     "pcie_aspm=off"                  # Disable ASPM for better PCIe performance
-    "pcie_aspm.policy=performance"   # Set PCIe ASPM policy to performance
     "acpi_osi=Linux"                 # Ensure proper ACPI support
-    "acpi_backlight=vendor"          # Use vendor-specific backlight control
 
     # Network Performance
     "net.core.netdev_max_backlog=16384" # Increase network backlog for better throughput
