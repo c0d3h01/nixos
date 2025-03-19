@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, hostname, lib, ... }:
 {
   programs.zsh = {
     enable = true;
@@ -113,8 +113,6 @@
       export NPM_CONFIG_PREFIX="$HOME/.npm-global"
       export PATH="$HOME/.npm-global/bin:$PATH"
       export NVM_DIR="$HOME/.config/nvm"
-      export EDITOR="nvim"
-      export VISUAL="nvim"
       export MANPAGER="nvim +Man!"
       export MANWIDTH=80
       export FZF_DEFAULT_OPTS=" \
@@ -130,39 +128,42 @@
 
     initExtra = ''
       # Lazy load NVM
-        nvm() {
+        lazy_nvm() {
           unset -f nvm
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm "$@"
         }
+        alias nvm=lazy_nvm
 
         # Lazy load Direnv
-        direnv() {
+        lazy_ direnv() {
           unset -f direnv
           eval "$(direnv hook zsh)"
           direnv "$@"
         }
+        alias direnv=lazy_direnv
 
         # Lazy load Zoxide
-        z() {
+        lazy_z() {
           unset -f z
           eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
           z "$@"
         }
+        alias z=lazy_z
 
         # Extract archives
         extract() {
-          if [-f "$1"]; then
-            case "$1" in
-            *.tar.gz) tar xzf "$1";;
-            *.tar.xz) tar xJf "$1";;
-            *.tar.bz2) tar xjf "$1";;
-            *.zip) unzip "$1";;
-            *) echo "Unsupported file formmat!";;
+        if [ -f "$1" ]; then
+          case "$1" in
+            *.tar.gz) tar xzf "$1" ;;
+            *.tar.xz) tar xJf "$1" ;;
+            *.tar.bz2) tar xjf "$1" ;;
+            *.zip) unzip "$1" ;;
+            *) echo "Unsupported file format!" ;;
           esac
-          else
-            echo "File not found: $1"
-          fi
+        else
+          echo "File not found: $1"
+        fi
         }
 
         # FZF integration
@@ -189,9 +190,6 @@
         zle -N zle-keymap-select
         echo -ne "\033[6 q"  # Initial beam cursor
       
-        # FZF integration
-        [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-      
         # Enhanced completion colors
         zstyle ':completion:*' menu select
         zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
@@ -217,10 +215,10 @@
         "$directory"
         "$git_branch"
         "$git_status"
-        "$nix_shell"
         "$cmd_duration"
         "$line_break"
         "$character"
+        "$right_format"
       ];
 
       add_newline = false;
@@ -232,7 +230,7 @@
         disabled = false;
         style = "bold blue";
         symbols = {
-          NixOS = " NixOS";
+          NixOS = " ${hostname}";
         };
       };
 
@@ -286,13 +284,6 @@
         staged = " + ";
         renamed = " » ";
         deleted = " ✘ ";
-      };
-
-      # Nix Shell Section
-      nix_shell = {
-        symbol = "❄️ ";
-        format = "[$symbol$name]($style) ";
-        style = "bold blue";
       };
 
       # Command Duration Section
