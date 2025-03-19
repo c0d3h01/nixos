@@ -1,48 +1,68 @@
-{ config, pkgs, ... }:
-
+{ config, lib, pkgs, ... }:
 {
-  programs.kitty = {
+  programs.kitty = lib.mkForce {
     enable = true;
-    settings = {
-      italic_font = "auto";
-      bold_font = "auto";
-      bold_italic_font = "auto";
-      font_size = "13.0";
 
-      foreground = "#c0b18b";
-      background = "#262626";
+    # Modern, minimal, soft dark theme configuration
+    themeFile = "Catppuccin-Mocha";
+
+    settings = {
+      # Font configuration
+      font_family = "FiraCodeRoman-Regular";
+      font_size = "13.0";
+      adjust_line_height = "110%";
+
+      # Window appearance
+      window_padding_width = "10";
+      hide_window_decorations = "yes";
       background_opacity = "0.9";
-      selection_foreground = "#2f2f2f";
-      selection_background = "#d75f5f";
-      cursor = "#8fee96";
-      cursor_shape = "block";
+
+      # Terminal behavior
+      scrollback_lines = "10000";
+      enable_audio_bell = "no";
+      confirm_os_window_close = "0";
+
+      # Cursor settings
+      cursor_shape = "beam";
       cursor_blink_interval = "0.5";
-      cursor_stop_blinking_after = "15.0";
-      scrollback_lines = "9000";
-      scrollback_pager = "less +G -R";
-      wheel_scroll_multiplier = "5.0";
-      click_interval = "0.5";
-      select_by_word_characters = ":@-./_~?&=%+#";
-      mouse_hide_wait = "0.5";
-      enabled_layouts = "*";
+
+      # Mouse behavior
+      copy_on_select = "clipboard";
+      mouse_hide_wait = "3.0";
+
+      # Performance
       repaint_delay = "10";
       input_delay = "3";
-      visual_bell_duration = "0.0";
-      enable_audio_bell = "yes";
-      open_url_modifiers = "ctrl+shift";
-      open_url_with = "default";
-      term = "xterm-kitty";
-      window_border_width = "0";
-      window_margin_width = "15";
-      active_border_color = "#ffffff";
-      inactive_border_color = "#cccccc";
-      hide_window_decorations = "yes";
-      macos_option_as_alt = "no";
-      remember_window_size = "yes";
-      confirm_os_window_close = "0";
-      macos_titlebar_color = "background";
+      sync_to_monitor = "yes";
+
+      # Tab bar
+      tab_bar_style = "powerline";
+      tab_powerline_style = "slanted";
+      active_tab_font_style = "bold";
     };
-    extraConfig = builtins.readFile ./nordtheme;
+
+    # Key mappings for common operations
+    keybindings = {
+      # Window management
+      "ctrl+shift+enter" = "new_window";
+      "ctrl+shift+w" = "close_window";
+      "ctrl+shift+]" = "next_window";
+      "ctrl+shift+[" = "previous_window";
+
+      # Tab management
+      "ctrl+shift+t" = "new_tab";
+      "ctrl+shift+q" = "close_tab";
+      "ctrl+shift+right" = "next_tab";
+      "ctrl+shift+left" = "previous_tab";
+
+      # Font size
+      "ctrl+shift+equal" = "increase_font_size";
+      "ctrl+shift+minus" = "decrease_font_size";
+      "ctrl+shift+backspace" = "restore_font_size";
+
+      # Clipboard
+      "ctrl+shift+c" = "copy_to_clipboard";
+      "ctrl+shift+v" = "paste_from_clipboard";
+    };
   };
 }
-
