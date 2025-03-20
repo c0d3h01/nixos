@@ -6,6 +6,12 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
 
+    # Secret Manager 
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Home Manager
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -19,7 +25,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nur, ... }:
+  outputs = { self, nixpkgs, nixpkgs-stable, agenix, home-manager, nur, ... }:
     let
       # System architecture, user configurations
       system = "x86_64-linux";
@@ -55,6 +61,8 @@
         modules = [
           # -*-[ System configurations, modules ]-*-
           ./nix/configuration.nix
+          ./secrets.nix
+          agenix.nixosModules.default
           ({ config, pkgs, ... }: {
             system.stateVersion = "24.11";
             networking.hostName = "${hostname}";
