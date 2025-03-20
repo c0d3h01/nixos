@@ -58,6 +58,11 @@
         ];
       };
 
+      # Set interface
+      "org/gnome/desktop/interface" = {
+        enable-hot-corners = false;
+      };
+
       # Set wallpaper
       "org/gnome/desktop/background" = {
         picture-uri = "file://${config.users.users.${username}.home}/dotfiles/assets/wallpaper.png";
