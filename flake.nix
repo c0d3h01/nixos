@@ -62,9 +62,9 @@
           # -*-[ System configurations, modules ]-*-
           ./nix/configuration.nix
           ./secrets.nix
-          ({ config, pkgs, ... }: {
+          ({ config, ... }: {
             system.stateVersion = "24.11";
-            networking.hostName = "${hostname}";
+            networking.hostName = hostname;
           })
 
           # -*-[ Home Manager integration, modules ]-*-
@@ -93,9 +93,7 @@
           pkg-config
           gtk3
         ];
-        shellHook = ''
-          exec ${pkgs.zsh}/bin/zsh
-        '';
+        shellHook = "exec ${pkgs.zsh}/bin/zsh";
       };
 
       # NixFormatter

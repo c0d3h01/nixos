@@ -6,7 +6,7 @@
     networkmanager = {
       enable = true;
       # Disable WiFi power saving
-      wifi.powersave = lib.mkDefault false;
+      wifi.powersave = false;
     };
 
     # DNS configuration
@@ -28,12 +28,6 @@
   # DNS resolution service
   services.resolved = {
     enable = true;
-    dnssec = "false";
-    extraConfig = ''
-      Cache=yes
-      DNSStubListener=yes
-      MulticastDNS=yes
-    '';
   };
 
   # Disable waiting for network to be online

@@ -20,7 +20,6 @@
       experimental-features = [ "nix-command" "flakes" ];
       auto-optimise-store = true;
       max-jobs = lib.mkDefault 8;
-      cores = lib.mkDefault 4;
     };
     # Garbage collection
     gc = {
@@ -49,7 +48,6 @@
 
   # Hardware acceleration for video rendering
   hardware.graphics = {
-    enable = true;
     enable32Bit = true;
   };
 
@@ -71,15 +69,5 @@
       X11Forwarding = true;
       AllowUsers = [ "${username}" ];
     };
-  };
-
-  # -*-[ Systemd logs ]-*-
-  services.journald = {
-    extraConfig = ''
-      SystemMaxUse=500M
-      SystemMaxFiles=10
-    '';
-    rateLimitBurst = 2000;
-    rateLimitInterval = "60s";
   };
 }

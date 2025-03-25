@@ -11,9 +11,6 @@
     excludePackages = with pkgs; [ xterm ];
   };
 
-  # Enable dconf service for GNOME settings management
-  programs.dconf.enable = true;
-
   # Exclude unwanted GNOME packages
   environment = {
     gnome.excludePackages = with pkgs; [
@@ -110,9 +107,6 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-gnome
-    ];
+    extraPortals = with pkgs; [ xdg-desktop-portal-gnome ];
   };
 }

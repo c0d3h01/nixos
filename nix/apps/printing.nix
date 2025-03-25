@@ -8,5 +8,4 @@
     avahi.enable = true;
     avahi.openFirewall = true;
   };
-  networking.firewall.allowedTCPPorts = [ 631 ];
 }

@@ -4,8 +4,6 @@
   # Set your time zone.
   time.timeZone = "Asia/Kolkata";
 
-  services.timesyncd.enable = true;
-
   # -*- Define a user account -*-
   users.users.${username} = {
     description = "Harshal Sawant";

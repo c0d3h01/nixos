@@ -3,11 +3,6 @@
 {
   # Enable system optimization services
   services = {
-    # Enable thermald for thermal management
-    thermald = {
-      enable = true;
-    };
-
     # Enable fstrim for SSDs
     fstrim = {
       enable = true;
