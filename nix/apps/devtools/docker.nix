@@ -1,26 +1,21 @@
-{ config, pkgs, username, ... }:
-
+{ config
+, pkgs
+, username
+, ...
+}:
 {
-  # -*-[ Docker Setup ]-*-
-  # Enable Docker Daemon and Utilities
+  users.users.${username}.extraGroups = [ "docker" ];
   virtualisation.docker = {
     enable = true;
     enableOnBoot = false;
-    autoPrune.enable = true; # Automatically remove unused Docker resources
+    autoPrune.enable = true;
   };
-
-  # Install CLI tools
+  virtualisation.docker.extraOptions = ''
+    --default-shm-size=2g
+  '';
   environment.systemPackages = with pkgs; [
     docker
     docker-compose
     lazydocker
   ];
-
-  users.users.${username}.extraGroups = [ "docker" ];
-
-  # Configure default memory and CPU limits
-  virtualisation.docker.extraOptions = ''
-    --default-shm-size=2g
-    # --default-ulimit=nofile=1024:1024
-  '';
 }

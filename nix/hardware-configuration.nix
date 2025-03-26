@@ -5,7 +5,8 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "sd_mod" ];
@@ -14,19 +15,22 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/97ce89ec-0870-4c12-aaea-cfb500692866";
-      fsType = "ext4";
-    };
-
-  fileSystems."/home/c0d3h01/Desktop/hdd" =
-    { device = "/dev/disk/by-uuid/e478fdb0-5dd7-463e-b579-7c1b75ccb9cf";
+    {
+      device = "/dev/disk/by-uuid/97ce89ec-0870-4c12-aaea-cfb500692866";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/B30B-0142";
+    {
+      device = "/dev/disk/by-uuid/B30B-0142";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
+    };
+
+  fileSystems."/home/c0d3h01/Desktop/hdd" =
+    {
+      device = "/dev/disk/by-uuid/e478fdb0-5dd7-463e-b579-7c1b75ccb9cf";
+      fsType = "ext4";
     };
 
   swapDevices = [ ];

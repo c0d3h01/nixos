@@ -1,10 +1,13 @@
-{ config, pkgs, lib, ... }:
-
+{ config
+, pkgs
+, lib
+, ...
+}:
 {
   imports = [
     ./devtools
     ./printing.nix
-    # ./virtual.nix
+    ./virtual.nix
   ];
 
   # Enable flatpak support
@@ -16,26 +19,22 @@
       # Group packages by category for better organization
       devTools = with pkgs; [
         # Utilities
-        nix-ld
 
         # Editors and IDEs
+        vscodium-fhs
         vscode-fhs
         jetbrains.webstorm
 
         # Version control
-        git
         github-desktop
 
         # JavaScript/TypeScript
         nodejs
         nodePackages.node2nix
-        nodePackages.typescript
-        nodePackages.typescript-language-server
-        nodePackages.vscode-langservers-extracted
-        nodePackages.prettier
-        nodePackages.eslint
 
         # C/C++
+        gcc
+        gdb
         clang
         gnumake
         cmake
@@ -90,7 +89,7 @@
         android-studio
         flutter
         dart
-        openjdk
+        # openjdk
         gradle
         kotlin
         go

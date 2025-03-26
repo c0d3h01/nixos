@@ -1,7 +1,8 @@
-{ config, pkgs, ... }:
-
+{ config
+, pkgs
+, ...
+}:
 {
-  # -*- Enable printing -*-
   services = {
     printing.enable = true;
     printing.drivers = with pkgs; [ gutenprint hplip ];

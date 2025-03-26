@@ -1,5 +1,8 @@
-{ config, username, pkgs, ... }:
-
+{ config
+, username
+, pkgs
+, ...
+}:
 {
   # Enable X server and GNOME
   services.xserver = {
@@ -105,8 +108,10 @@
     };
   };
 
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [ xdg-desktop-portal xdg-desktop-portal-gnome ];
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [ xdg-desktop-portal xdg-desktop-portal-gnome ];
+    };
   };
 }

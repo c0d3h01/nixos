@@ -1,9 +1,12 @@
-{ config, lib, pkgs, ... }:
+{ config
+, lib
+, pkgs
+, ...
+}:
 {
   fonts = {
     fontDir.enable = true;
     enableDefaultPackages = true;
-
     packages = with pkgs; [
       dejavu_fonts
       hack-font

@@ -15,7 +15,7 @@ cd $SCRIPT_DIR || exit 1
 # Ensure hardware configuration exists
 echo "-*-> Generating hardware configuration..."
 sudo mount /dev/nvme0n1p1 /boot && echo "Mounted /boot"
-sudo nixos-generate-config --show-hardware-config >$SCRIPT_DIR/nix/hardware.nix && echo "Generated hardware.nix"
+sudo nixos-generate-config --show-hardware-config >$SCRIPT_DIR/nix/hardware-cofiguration.nix && echo "Generated hardware.nix"
 
 # Cleanup Xdg user directories
 echo "-*-> Cleaning up XDG directories..."
