@@ -66,6 +66,9 @@
             system.stateVersion = "24.11";
             networking.hostName = hostname;
           })
+          
+          # Import hardware-configuration.nix
+          (import /etc/nixos/hardware-configuration.nix)
 
           # -*-[ Home Manager integration, modules ]-*-
           home-manager.nixosModules.home-manager
