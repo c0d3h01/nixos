@@ -11,6 +11,13 @@
     flatpak.enable = false;
   };
 
+  # VirtualMachine
+  # virtualisation.libvirtd.enable = true;
+  # users.users.${username}.extraGroups = [ "libvirtd" ];
+
+  # Allow running dynamically linked binaries
+  programs.nix-ld.enable = true;
+
   # Environment packages
   environment.systemPackages =
     let
@@ -71,7 +78,6 @@
         tor-browser
         spotify
         transmission_4-gtk
-        google-chrome
         anydesk
       ];
 
@@ -83,12 +89,10 @@
       ];
 
       androidTools = with pkgs; [
+        android-studio
         flutter
-        dart
         openjdk
         gradle
-        kotlin
-        go
       ];
     in
     devTools ++ communicationApps ++ desktopApps ++ networkingTools ++ androidTools;
