@@ -1,9 +1,7 @@
-{ config
-, pkgs
+{ pkgs
 , user
 , ...
-}:
-{
+}: {
   imports = [
     ../../modules
     ../../secrets

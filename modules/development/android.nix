@@ -1,8 +1,4 @@
-{ config
-, pkgs
-, specialArgs
-, ...
-}:
+{ pkgs, ... }:
 let
   androidenv = pkgs.androidenv.override { licenseAccepted = true; };
   androidSdk = (androidenv.composeAndroidPackages {

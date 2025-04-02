@@ -1,13 +1,16 @@
-{ config
-, user
+{ user
 , pkgs
 , ...
 }:
 {
   programs.git = {
     enable = true;
+
+    # User Configurations
     userName = "${user.username}";
     userEmail = "${user.email}";
+
+    # Git Configuations
     extraConfig = {
       init.defaultBranch = "main";
       push.autoSetupRemote = true;
@@ -15,6 +18,12 @@
       color.ui = true;
       fetch.prune = true;
       push.default = "current";
+
+      # GPG signing
+      core.sshCommand = "${pkgs.openssh}/bin/ssh -i ~/.ssh/id_ed25519";
+      url."git@github.com:".insteadOf = "https://github.com/";
+      commit.gpgsign = false;
+
       # Core helpful aliases
       alias = {
         st = "status";
@@ -25,6 +34,7 @@
         graph = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
       };
     };
+
     # Delta for better diffs
     delta = {
       enable = true;
@@ -35,6 +45,7 @@
         syntax-theme = "ansi";
       };
     };
+
     # Common ignores
     ignores = [
       # General

@@ -39,7 +39,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... } @ inputs:
+  outputs = { nixpkgs, home-manager, ... } @ inputs:
     let
       # System configuration
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
@@ -60,14 +60,14 @@
         inherit system;
         config.allowUnfree = true;
         overlays = [
-          (final: prev: {
+          (_: _: {
             unstable = import inputs.nixpkgs-unstable {
               inherit system;
               config.allowUnfree = true;
             };
           })
           inputs.nur.overlays.default
-          (final: prev: {
+          (_: prev: {
             myPackages = prev.callPackage ./pkgs { };
           })
         ];
@@ -82,17 +82,12 @@
       };
 
       # NixOS module
-      mkNixOSConfiguration = { system ? defaultSystem, hostname ? userConfig.hostname }:
+      mkNixOSConfiguration = { system ? defaultSystem }:
         nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = mkSpecialArgs system // { agenix = inputs.agenix; };
 
           modules = [
-            ({ config, user, ... }: {
-              system.stateVersion = user.stateVersion;
-              networking.hostName = hostname;
-            })
-
             ./hosts/${userConfig.username}
             home-manager.nixosModules.home-manager
             {
@@ -117,10 +112,6 @@
       # NixOS configurations
       nixosConfigurations = {
         ${userConfig.hostname} = mkNixOSConfiguration { };
-
-        "${userConfig.hostname}-minimal" = mkNixOSConfiguration {
-          hostname = "${userConfig.hostname}-minimal";
-        };
       };
 
       # Development shells

@@ -1,7 +1,10 @@
-{ config
-, ...
-}:
 {
+  # Security settings (Hardening)
+  security = {
+    protectKernelImage = true;
+    sudo.execWheelOnly = true;
+  };
+
   # Enable the firewall
   # and allow specific ports
   networking.firewall = {

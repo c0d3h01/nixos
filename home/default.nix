@@ -1,15 +1,10 @@
-{ config
-, pkgs
+{ pkgs
 , user
 , ...
-}:
-{
-  imports = [
-    ./modules
-  ];
+}: {
+  imports = [ ./modules ];
 
   modules.firefox.enable = true;
-
   home = {
     username = "${user.username}";
     homeDirectory = "/home/${user.username}";

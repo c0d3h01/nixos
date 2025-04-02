@@ -1,8 +1,7 @@
-{ config
-, pkgs
+{ pkgs
 , ...
-}:
-{
+}: {
+
   boot = {
     tmp.cleanOnBoot = true;
     consoleLogLevel = 1;

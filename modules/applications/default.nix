@@ -1,13 +1,6 @@
-{ config
-, pkgs
-, lib
-, user
-, ...
-}:
-{
-  imports = [
-    ../development
-  ];
+{ pkgs, ... }: {
+
+  imports = [ ../development ];
 
   # Flatpak apps support
   # services.flatpak.enable = true;

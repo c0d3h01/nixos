@@ -1,5 +1,4 @@
-{ config
-, agenix
+{ agenix
 , user
 , system
 , ...
