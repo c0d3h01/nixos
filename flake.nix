@@ -6,7 +6,7 @@
     nixpkgs = {
       url = "github:nixos/nixpkgs/nixos-24.11";
     };
-    
+
     nixpkgs-unstable = {
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
@@ -25,12 +25,6 @@
     # Community packages
     nur = {
       url = "github:nix-community/NUR";
-    };
-
-    # Application-specific flakes
-    nixcord = {
-      url = "github:kaylorben/nixcord";
-      flake = false;
     };
 
     spicetify-nix = {
@@ -72,9 +66,9 @@
               config.allowUnfree = true;
             };
           })
-          inputs.nur.overlay
+          inputs.nur.overlays.default
           (final: prev: {
-            myPackages = prev.callPackage ./pkgs {};
+            myPackages = prev.callPackage ./pkgs { };
           })
         ];
       };
@@ -91,14 +85,14 @@
       mkNixOSConfiguration = { system ? defaultSystem, hostname ? userConfig.hostname }:
         nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = mkSpecialArgs system;
+          specialArgs = mkSpecialArgs system // { agenix = inputs.agenix; };
+
           modules = [
             ({ config, user, ... }: {
               system.stateVersion = user.stateVersion;
               networking.hostName = hostname;
-              nixpkgs.pkgs = mkPkgs system;
             })
-            
+
             ./hosts/${userConfig.username}
             home-manager.nixosModules.home-manager
             {
@@ -108,56 +102,55 @@
                 extraSpecialArgs = mkSpecialArgs system;
                 users.${userConfig.username} = {
                   imports = [ ./home ];
-                  home.stateVersion = user.stateVersion;
+                  home.stateVersion = userConfig.stateVersion;
                 };
               };
             }
-            
+
             inputs.agenix.nixosModules.default
             inputs.spicetify-nix.nixosModules.default
           ];
         };
 
-    in {
+    in
+    {
       # NixOS configurations
       nixosConfigurations = {
-        ${userConfig.hostname} = mkNixOSConfiguration {};
-        
-        # Example alternative configuration
+        ${userConfig.hostname} = mkNixOSConfiguration { };
+
         "${userConfig.hostname}-minimal" = mkNixOSConfiguration {
           hostname = "${userConfig.hostname}-minimal";
         };
       };
 
       # Development shells
-      devShells = forAllSystems (system: let
-        pkgs = mkPkgs system;
-      in {
-        default = pkgs.mkShell {
-          packages = with pkgs; [
-            pkg-config
-            gtk3
-            zsh
-            inputs.agenix.packages.${system}.default
-            nixpkgs-fmt
-          ];
-          
-          shellHook = ''
-            exec ${pkgs.zsh}/bin/zsh
-          '';
-        };
+      devShells = forAllSystems (system:
+        let
+          pkgs = mkPkgs system;
+        in
+        {
+          default = pkgs.mkShell {
+            packages = with pkgs; [
+              pkg-config
+              gtk3
+            ];
 
-        ci = pkgs.mkShell {
-          packages = with pkgs; [
-            nixpkgs-fmt
-            statix
-            deadnix
-          ];
-        };
-      });
+            shellHook = ''
+              exec ${pkgs.zsh}/bin/zsh
+            '';
+          };
+
+          ci = pkgs.mkShell {
+            packages = with pkgs; [
+              nixpkgs-fmt
+              statix
+              deadnix
+            ];
+          };
+        });
 
       # Formatter
-      formatter = forAllSystems (system: mkPkgs system).nixpkgs-fmt;
+      formatter = forAllSystems (system: let pkgs = mkPkgs system; in pkgs.nixpkgs-fmt);
 
       # CI checks
       checks = forAllSystems (system: {
@@ -170,28 +163,5 @@
           };
         };
       });
-
-      # Custom packages
-      packages = forAllSystems (system: let
-        pkgs = mkPkgs system;
-      in {
-        default = pkgs.callPackage ./pkgs/default.nix {};
-        deploy = pkgs.callPackage ./pkgs/deploy.nix {};
-      });
-
-      # Templates for quick-start
-      templates = {
-        default = {
-          path = ./templates/default;
-          description = "Default NixOS configuration template";
-        };
-        minimal = {
-          path = ./templates/minimal;
-          description = "Minimal NixOS configuration";
-        };
-      };
-
-      # Documentation generation
-      lib = import ./lib { inherit (nixpkgs) lib; };
     };
 }
