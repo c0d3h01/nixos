@@ -5,7 +5,6 @@
     viAlias = true;
     vimAlias = true;
     defaultEditor = true;
-    package = pkgs.unstable.neovim-unwrapped;
 
     plugins = with pkgs.vimPlugins; [
       lazy-nvim
