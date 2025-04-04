@@ -56,6 +56,7 @@
 │       ├── security.nix
 │       └── services.nix
 ├── secrets
+│   ├── default.nix
 │   └── secrets.nix
 └── structure.md
 ```
