@@ -1,14 +1,14 @@
 {
-  # GPG Agent (without SSH)
+  # GPG Agent
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = false;
+    enableSSHSupport = true;
   };
 
   # SSH Daemon
   services.openssh = {
     enable = true;
-    # openFirewall = true;
+    openFirewall = true;
     settings = {
       PasswordAuthentication = false;
       PermitRootLogin = "no";
