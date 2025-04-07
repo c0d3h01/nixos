@@ -2,53 +2,60 @@
   description = "NixOS Dotfiles c0d3h01";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
     nur = {
       url = "github:nix-community/NUR";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
     agenix = {
       url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, ... } @ inputs:
+  outputs = { self
+    , nixpkgs-stable
+    , nixpkgs-unstable
+    , home-manager
+    , agenix
+    , ... 
+  } @ inputs:
     let
-      # ========== Configuration ==========
+      # System Architecture
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
       defaultSystem = "x86_64-linux";
 
+      # User Configuations
       userConfig = {
         username = "c0d3h01";
         fullName = "Harshal Sawant";
         email = "c0d3h01@gmail.com";
-        hostname = "NixOS";
+        hostname = "localhost";
         stateVersion = "24.11";
       };
 
-      # ========== Helper Functions ==========
-      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+      # Helper Functions
+      forAllSystems = nixpkgs-stable.lib.genAttrs supportedSystems;
 
-      mkPkgs = system: import inputs.nixpkgs {
+      mkPkgs = system: import nixpkgs-stable {
         inherit system;
         config = {
           allowUnfree = true;
@@ -67,20 +74,20 @@
         ];
       };
 
-      mkSpecialArgs = system: {
+      mkSpecialArgs = {
         inherit inputs system agenix;
         user = userConfig;
         pkgs = mkPkgs system;
       };
 
-      # ========== NixOS Configuration ==========
+      # NixOS Configuration
       mkNixOSConfiguration = { system ? defaultSystem, hostname ? userConfig.hostname }:
-        nixpkgs.lib.nixosSystem {
+        nixpkgs-stable.lib.nixosSystem {
           inherit system;
           specialArgs = mkSpecialArgs system;
 
           modules = [
-            # Host-specific configurat  ion
+            # Host-specific configuration
             ./hosts/${userConfig.username}
 
             # Home Manager integration
@@ -116,26 +123,17 @@
             ];
             shellHook = "exec zsh";
           };
-
-          ci = pkgs.mkShell {
-            packages = with pkgs; [
-              nixpkgs-fmt
-              statix
-              deadnix
-            ];
-          };
         });
+      
+      checks = forAllSystems (system: {
+        formatting = pkgsFor system.runCommand "check-formatting" {
+          nativeBuildInputs = [ (pkgsFor system).nixpkgs-fmt ];
+        } ''
+          nixpkgs-fmt --check ${./.}
+          touch $out
+        '';
+      });
 
       formatter = forAllSystems (system: (mkPkgs system).nixpkgs-fmt);
-
-    #   checks = forAllSystems (system:
-    #     inputs.pre-commit-hooks.lib.${system}.run {
-    #       src = ./.;
-    #       hooks = {
-    #         nixpkgs-fmt.enable = true;
-    #         statix.enable = true;
-    #         deadnix.enable = true;
-    #       };
-    #     });
     };
 }
