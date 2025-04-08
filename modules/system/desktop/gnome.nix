@@ -75,6 +75,10 @@
           "just-perfection-desktop@just-perfection"
         ];
       };
+      "org/gnome/shell/extensions/just-perfection" = {
+        theme = true;
+        custom-shell-theme = true;
+      };
       # interface
       "org/gnome/desktop/interface" = {
         enable-hot-corners = true;
