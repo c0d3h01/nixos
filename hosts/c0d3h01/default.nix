@@ -1,7 +1,7 @@
 { pkgs
 , user
-, ...
-}: {
+, ... }: {
+
   imports = [
     ../../modules
     #../../secrets
@@ -28,9 +28,9 @@
   users.users.${user.username} = {
     description = "${user.fullName}";
     isNormalUser = true;
-    home = "/home/${user.username}";
     shell = pkgs.zsh;
     ignoreShellProgramCheck = true;
+    home = "/home/${user.username}";
     extraGroups = [
       "networkmanager"
       "wheel"
