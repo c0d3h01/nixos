@@ -53,7 +53,6 @@
         telegram-desktop
         slack
         zoom-us
-        element-desktop
       ];
 
       desktopApps = with pkgs; [
