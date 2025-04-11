@@ -3,18 +3,16 @@
     <img src="assets/README/glow-text.svg" alt="Crafted Dotfiles by c0d3h01" style="margin-left: 12px;"/>
 </div>
 
+### Read this first
+> The NixOS Matrix channel is the most fucking useless community I’ve ever come across. Full of dumbasses who just read your messages and never say a damn word — absolute dead weight. No support, no help, just a bunch of passive clowns pretending to be a community. Still, I’m using NixOS because the system itself is powerful as hell, and I built my entire dotfiles setup from scratch without a single bit of help from any of those useless fucks.
+
 ## 📂 **Installation**
 ```bash
-sudo nixos-rebuild switch --flake github:c0d3h01/dotfiles#NixOS --fast
+$ chmod +x ./install.sh
+$ ./install.sh
 ```
 
-## 📂 **Home Manager config Installation**
+## 📂 **Standalone HomeManager Installation**
 ```bash
 home-manager switch --flake .
-```
-
-### **Refresh Git Cloning While Building**
-> If you need to **force a fresh clone of the repository** while rebuilding, use `--refresh`:
-```bash
-sudo nixos-rebuild switch --flake github:c0d3h01/dotfiles#NixOS --refresh
 ```
