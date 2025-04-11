@@ -116,7 +116,7 @@
       };
       # wallpaper
       "org/gnome/desktop/background" = {
-        picture-uri = "file://${config.users.users.${user.username}.home}/dotfiles/assets/wallpaper.png";
+        picture-uri = "file://${config.users.users.${user.username}.home}/dotfiles/assets/wallpapers/image1.png";
         picture-uri-dark = "file://${config.users.users.${user.username}.home}/dotfiles/assets/wallpapers/image1.png";
         picture-options = "zoom";
       };
@@ -138,16 +138,13 @@
       };
 
       iconTheme = lib.mkForce {
-        name = "Tela-dark";
-        package = pkgs.tela-icon-theme;
+        name = "Papirus-Dark";
+        package = pkgs.papirus-icon-theme;
       };
 
       theme = lib.mkForce {
-        name = "Catppuccin-Mocha-Blue";
-        package = pkgs.catppuccin-gtk.override {
-          variant = "mocha";
-          accents = [ "blue" ];
-        };
+        name = "Dracula";
+        package = pkgs.dracula-theme;
       };
 
       gtk3.extraConfig = lib.mkForce {
