@@ -51,12 +51,13 @@
         username = "c0d3h01";
         fullName = "Harshal Sawant";
         email = "haarshalsawant@gmail.com";
-        hostname = "Nixlocalhost";
+        hostname = "NixOS";
         stateVersion = "24.11";
       };
 
-      pkgsFor = system: import nixpkgs {
+      mkPkgs = system: import nixpkgs {
         inherit system;
+        # Unstable Nixpkgs config
         config = {
           allowUnfree = true;
           tarball-ttl = 0;
@@ -70,14 +71,14 @@
               config.allowUnfree = true;
             };
           })
+          # Nur for firefox extensions
           inputs.nur.overlays.default
         ];
       };
 
-      # Special Arguments for NixOS modules
+      # Special Arguments for Nix modules
       specialArgs = system: {
-        inherit inputs system;
-        user = userConfig;
+        inherit inputs system userConfig;
       };
 
       # NixOS Configuration
@@ -87,12 +88,8 @@
           specialArgs = specialArgs system;
 
           modules = [
-            {
-              nixpkgs.pkgs = pkgsFor system;
-            }
-
-            # Host-specific configuration
-            ./hosts/${userConfig.username}
+            ./nix
+            { nixpkgs.pkgs = mkPkgs system; }
 
             # Home Manager integration
             home-manager.nixosModules.home-manager
@@ -103,7 +100,7 @@
                 extraSpecialArgs = specialArgs system;
 
                 users.${userConfig.username} = {
-                  imports = [ ./home ];
+                  imports = [ ./home/home.nix ];
                   home.stateVersion = userConfig.stateVersion;
                 };
               };
@@ -116,24 +113,13 @@
       nixosConfigurations.${userConfig.hostname} = mkNixOSConfiguration { };
 
       devShells = forAllSystems (system:
-        let
-          pkgs = pkgsFor system;
-        in
-        {
+      let pkgs = mkPkgs system; in {
           default = pkgs.mkShell {
-            packages = with pkgs; [
+            packages = with nixpkgs; [
               pkg-config
               gtk3
             ];
             shellHook = "exec zsh";
-          };
-
-          ci = pkgs.mkShell {
-            packages = with pkgs; [
-              nixpkgs-fmt
-              statix
-              deadnix
-            ];
           };
         });
 
@@ -147,6 +133,6 @@
           };
         });
 
-      formatter = forAllSystems (system: (pkgsFor system).nixpkgs-fmt);
+      formatter = forAllSystems (system: (mkPkgs system).nixfmt-rfc-style);
     };
 }
