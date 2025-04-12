@@ -12,9 +12,9 @@
 ├── flake.lock
 ├── flake.nix
 ├── home
-│   ├── default.nix
 │   ├── flake.lock
 │   ├── flake.nix
+│   ├── home.nix
 │   └── modules
 │       ├── default.nix
 │       ├── firefox
@@ -24,17 +24,22 @@
 │       ├── nextcloud
 │       ├── spicetify
 │       └── zshell
-├── hosts
-│   └── c0d3h01
-│       ├── default.nix
-│       └── hardware-configuration.nix
 ├── install.sh
-├── modules
+├── nix
 │   ├── applications
 │   │   ├── default.nix
 │   │   └── notion-app-enhanced
+│   ├── audio.nix
+│   ├── boot.nix
+│   ├── c0d3h01
+│   │   ├── default.nix
+│   │   └── hardware-configuration.nix
 │   ├── default.nix
-│   ├── development
+│   ├── desktop
+│   │   ├── default.nix
+│   │   ├── gnome.nix
+│   │   └── sway.nix
+│   ├── devtools
 │   │   ├── android.nix
 │   │   ├── default.nix
 │   │   ├── docker.nix
@@ -42,17 +47,12 @@
 │   │   ├── podman.nix
 │   │   ├── python.nix
 │   │   └── rust.nix
-│   └── system
-│       ├── audio.nix
-│       ├── boot.nix
-│       ├── default.nix
-│       ├── desktop
-│       ├── fonts.nix
-│       ├── hardware.nix
-│       ├── networking.nix
-│       ├── nix.nix
-│       ├── security.nix
-│       └── services.nix
+│   ├── fonts.nix
+│   ├── hardware.nix
+│   ├── networking.nix
+│   ├── nix.nix
+│   ├── security.nix
+│   └── services.nix
 ├── secrets
 │   ├── default.nix
 │   └── secrets.nix
