@@ -59,33 +59,21 @@
         stateVersion = "24.11";
       };
 
-      mkPkgs =
-        system:
-        import nixpkgs {
-          inherit system;
-          # Unstable Nixpkgs config
-          config = {
-            allowUnfree = true;
-            tarball-ttl = 0;
-            android_sdk.accept_license = true;
-          };
-          overlays = [
-            (final: prev: {
-              # Stable Nixpkgs config
-              stable = import inputs.nixpkgs-stable {
-                inherit system;
-                config.allowUnfree = true;
-              };
-            })
-            # Nur for firefox extensions
-            inputs.nur.overlays.default
-          ];
-        };
-
       # Special Arguments for Nix modules
       specialArgs = system: {
         inherit inputs system userConfig;
       };
+
+      mkPkgs =
+        system:
+        import nixpkgs {
+          inherit system;
+          config = {
+           allowUnfree = true;
+           tarball-ttl = 0;
+           android_sdk.accept_license = true;
+         };
+        };
 
       # NixOS Configuration
       mkNixOSConfiguration =
@@ -98,8 +86,9 @@
           specialArgs = specialArgs system;
 
           modules = [
-            ./nix
+            ./system
             { nixpkgs.pkgs = mkPkgs system; }
+            (import ./overlays)
 
             # Home Manager integration
             home-manager.nixosModules.home-manager
@@ -119,7 +108,6 @@
         };
     in
     {
-      # ========== Outputs ==========
       nixosConfigurations.${userConfig.hostname} = mkNixOSConfiguration { };
 
       devShells = forAllSystems (

@@ -19,8 +19,5 @@
       nssmdns4 = true;
       openFirewall = true;
     };
-
-    # Fstrim optimization
-    fstrim.enable = true;
   };
 }

@@ -2,7 +2,7 @@
 {
 
   imports = [
-    ../../secrets
+    ../../../secrets
     ./hardware-configuration.nix
   ];
 

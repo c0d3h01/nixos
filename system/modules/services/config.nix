@@ -9,6 +9,14 @@
   # build takes forever
   documentation.nixos.enable = false;
 
+  # nixpkgs = {
+  #   config = {
+  #     allowUnfree = true;
+  #     tarball-ttl = 0;
+  #     android_sdk.accept_license = true;
+  #   };
+  # };
+
   nix = {
     settings = {
       show-trace = true;
@@ -16,11 +24,6 @@
       auto-optimise-store = true;
       max-jobs = "auto";
       cores = 0; # Use all available cores
-      trusted-users = [
-        "root"
-        "${userConfig.username}"
-      ];
-
       experimental-features = [
         "nix-command"
         "flakes"

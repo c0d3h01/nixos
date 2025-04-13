@@ -1,0 +1,7 @@
+{
+  imports = [
+    ./firefox
+    ./nextcloud
+    ./spicetify
+  ];
+}

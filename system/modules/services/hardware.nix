@@ -10,4 +10,7 @@
     algorithm = "lz4";
     memoryPercent = 100;
   };
+
+  # Fstrim optimization
+  services.fstrim.enable = true;
 }

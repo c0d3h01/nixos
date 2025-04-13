@@ -3,8 +3,6 @@ name: Update Dotfiles Structure
 on:
   push:
   pull_request:
-  schedule:
-    - cron: "0 */6 * * *"
   workflow_dispatch:
 
 jobs:
@@ -22,10 +20,11 @@ jobs:
 
       - name: Generate tree structure
         run: |
-          echo "# 📂 Dotfiles Structure" > structure.md
-          echo '```' >> structure.md
-          tree -L 3 --noreport >> structure.md
-          echo '```' >> structure.md
+          echo "# 📂 Dotfiles Structure" > docs/structure.md
+          echo '```' >> docs/structure.md
+          echo "Last updated: $(date +'%Y-%m-%d %H:%M:%S')" >> docs/structure.md
+          tree -L 3 --noreport >> docs/structure.md
+          echo '```' >> docs/structure.md
 
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
