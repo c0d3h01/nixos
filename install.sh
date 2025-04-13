@@ -20,15 +20,15 @@ FLAKE_TARGET="NixOS"
 echo -e "${GREEN}Starting installation...${null}"
 
 echo -e "${YELLOW}Installing git...${null}"
-nix-env -iA nixos.git &> /dev/null
+nix-env -iA nixos.git
 
 echo -e "${CYAN}Cloning dotfiles...${null}"
-git clone "$REPO_URL" "$DOTFILES_DIR" &> /dev/null
+git clone "$REPO_URL" "$DOTFILES_DIR"
 
 cd "$DOTFILES_DIR"
 
 echo -e "${BLUE}Updating flake...${null}"
-nix flake update &> /dev/null
+nix flake update
 
 echo -e "${RED}Removing old hardware config...${null}"
 rm -f "./hosts/$HOST_NAME/hardware-configuration.nix"
