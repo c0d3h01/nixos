@@ -9,9 +9,6 @@
 
 {
   nixpkgs.overlays = [
-    # Nur for firefox extensions
-    inputs.nur.overlays.default
-
     (final: prev: {
       # Stable Nixpkgs config
       stable = import inputs.nixpkgs-stable {
