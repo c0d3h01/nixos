@@ -9,6 +9,7 @@
   # build takes forever
   documentation.nixos.enable = false;
 
+  nixpkgs.config.allowUnfree = true;
   nix = {
     settings = {
       show-trace = true;
