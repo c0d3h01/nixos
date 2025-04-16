@@ -1,23 +1,11 @@
+{ inputs }:
 {
-  config,
-  system,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}:
 
-{
-  nixpkgs.overlays = [
-    inputs.hyprpanel.overlay
-    (final: prev: {
-      # Stable Nixpkgs config
-      stable = import inputs.nixpkgs-stable {
-        inherit system;
-        config.allowUnfree = true;
-      };
-    })
-
-    # (import ./overlay3)
-  ];
+  default = final: prev: {
+    # Stable Nixpkgs config, i use unstable as default
+    stable = import inputs.nixpkgs-stable {
+      system = prev.stdenv.system;
+      config.allowUnfree = true;
+    };
+  };
 }

@@ -1,7 +1,0 @@
-{
-  imports = [
-    ./applications
-    ./core
-    ./terminal
-  ];
-}
