@@ -2,7 +2,7 @@
 {
 
   # Flatpak apps support
-  services.flatpak.enable = true;
+  # services.flatpak.enable = true;
 
   # VirtualMachine
   # virtualisation.libvirtd.enable = true;
@@ -21,11 +21,12 @@
       ];
 
       unstablePkgs = with pkgs; [
-        # Notion Enhancer
+        # Notion Enhancer With patches
         (pkgs.callPackage ./notion-app-enhanced { })
 
         # Editors and IDEs
         vscode-fhs
+        android-studio
 
         # Developement desktop apps
         postman
@@ -34,10 +35,40 @@
         # Communication apps
         vesktop
         telegram-desktop
+        slack
+        element-desktop
+        zoom-us
 
         # Common desktop apps
         spotify
         anydesk
+
+        # Network tools
+        metasploit
+        nmap
+        tcpdump
+        aircrack-ng
+        wireshark
+
+        # -+ Common Developement tools
+        nodejs
+
+        # C/C++
+        gdb
+        clang
+        gnumake
+        cmake
+        ninja
+
+        # Gtk tools
+        gtk3
+        gtk4
+        pkg-config
+
+        # Android Tools
+        flutter
+        openjdk
+        android-tools
       ];
     in
     stablePkgs ++ unstablePkgs;
