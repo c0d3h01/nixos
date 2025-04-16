@@ -6,6 +6,7 @@
     ./development
     ./laptop
     ./modules
+    ../overlays
   ];
 
   system.stateVersion = userConfig.stateVersion;
