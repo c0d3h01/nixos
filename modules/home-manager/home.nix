@@ -23,13 +23,9 @@
   nixpkgs = {
     config = {
       allowUnfree = true;
-      tarball-ttl = 0;
       android_sdk.accept_license = true;
     };
   };
-
-  # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
 
   home = {
     username = "${userConfig.username}";
@@ -96,8 +92,6 @@
   };
 
   programs = {
-    zoxide.enable = true;
-
     ssh = {
       enable = true;
       matchBlocks = {

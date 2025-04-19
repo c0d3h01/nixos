@@ -7,7 +7,6 @@
 }:
 {
   imports = [
-    ./electron.nix
     ./hyprland.nix
     ./hyprlock.nix
     ./hyprpaper.nix
@@ -86,14 +85,4 @@
       };
     };
   };
-
-  # AMD GPU Drivers
-  services.xserver.videoDrivers = [ "amdgpu" ];
-  hardware.graphics.extraPackages = with pkgs; [
-    libva
-    libva-utils
-  ];
-  systemd.tmpfiles.rules = [
-    "L+ /opt/rocm/hip - - - - ${pkgs.rocmPackages.clr}"
-  ];
 }

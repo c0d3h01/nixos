@@ -6,10 +6,9 @@
   # ZRAM Swap
   zramSwap = {
     enable = true;
-    swapDevices = 1;
-    priority = 10;
-    algorithm = "zstd";
-    memoryPercent = 200;
+    priority = 100;
+    algorithm = "lz4";
+    memoryPercent = 100;
   };
 
   # Fstrim optimization
@@ -18,11 +17,10 @@
   boot = {
     tmp.cleanOnBoot = true;
     consoleLogLevel = 3;
-    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
+    # kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
 
     initrd = {
       verbose = false;
-      systemd.enable = true;
     };
 
     kernelParams = [

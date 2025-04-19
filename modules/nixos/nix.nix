@@ -15,7 +15,6 @@ in
     config = {
       allowUnfreePredicate = _: true;
       allowUnfree = true;
-      tarball-ttl = 0;
       android_sdk.accept_license = true;
     };
   };
@@ -23,12 +22,8 @@ in
   system.stateVersion = userConfig.stateVersion;
   networking.hostName = userConfig.hostname;
 
-  # build takes forever
-  documentation.nixos.enable = false;
-
   hardware.graphics = {
     enable = true;
-    enable32Bit = true;
   };
 
   nix = {

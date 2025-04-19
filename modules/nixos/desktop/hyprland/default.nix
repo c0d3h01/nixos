@@ -107,7 +107,7 @@ in
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
+      xdg-desktop-portal
       xdg-desktop-portal-hyprland
     ];
 
@@ -165,6 +165,7 @@ in
     blueman.enable = true;
     fwupd.enable = true;
     upower.enable = true;
+    power-profiles-daemon.enable = true;
     gnome.gnome-keyring.enable = true;
   };
 

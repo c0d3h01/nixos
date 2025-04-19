@@ -1,7 +1,4 @@
 #!/bin/bash
-# /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  #
-# A bash script designed to run only once dotfiles installed
-
 # THIS SCRIPT CAN BE DELETED ONCE SUCCESSFULLY BOOTED!! And also, edit ~/.config/hypr/configs/Settings.conf
 # NOT necessary to do since this script is only designed to run only once as long as the marker exists
 # marker file is located at ~/.config/hypr/.initial_startup_done
