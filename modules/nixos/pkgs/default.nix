@@ -4,7 +4,7 @@
   imports = [ ./development ];
 
   # Flatpak apps support
-  # services.flatpak.enable = true;
+  services.flatpak.enable = true;
 
   # VirtualMachine
   # virtualisation.libvirtd.enable = true;
