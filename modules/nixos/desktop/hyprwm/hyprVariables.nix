@@ -18,8 +18,8 @@
     '';
     Laptop = ''
       # ---- Laptop-specific Monitor Setup ---- #
-      monitor =   eDP-1, 2560x1440, 0x0, 1
-      monitor = , preferred, auto, 1
+      # monitor =   eDP-1, 2560x1440, 0x0, 1
+      monitor = , preferred, auto, auto
     '';
   };
   WindowRules = {
