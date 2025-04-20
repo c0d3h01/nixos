@@ -4,7 +4,7 @@
 
 ## Overview
 
-- This repository contains my personal NixOS configurations and dotfiles. The setup follows a modular structure with separate configurations for different hosts and shared components. I use laptop as primary host!
+- This repository contains my personal NixOS configurations and dotfiles.
 
 ## Repository Structure
 
