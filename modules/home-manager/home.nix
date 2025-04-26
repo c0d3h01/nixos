@@ -11,8 +11,6 @@
     ./config
     ./git
     ./gtk
-    ./kitty
-    ./neovim
     ./spicetify
     ./zshell
 
@@ -45,6 +43,9 @@
     ];
 
     packages = with pkgs; [
+      # Terminal
+      kitty
+
       # Utilities
       coreutils
       bashInteractive
@@ -94,6 +95,28 @@
           forwardAgent = true;
         };
       };
+    };
+
+    neovim = {
+      enable = true;
+      viAlias = true;
+      vimAlias = true;
+      defaultEditor = true;
+
+      plugins = with pkgs.vimPlugins; [
+        lazy-nvim
+        LazyVim
+        lazygit-nvim
+        tokyonight-nvim
+        rocks-nvim
+      ];
+
+      extraPackages = with pkgs; [
+        tree-sitter
+        lazygit
+        imagemagick
+        xclip
+      ];
     };
   };
 }

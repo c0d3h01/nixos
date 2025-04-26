@@ -1,14 +1,64 @@
-{ lib, ... }:
 {
-  # Starship prompt
-  programs.starship = {
-    enable = true;
-    enableZshIntegration = true;
-    settings =
-      let
-        darkgray = "242";
-      in
-      {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  darkgray = "242"; # Starship
+in
+{
+  programs = {
+    bat = {
+      enable = true;
+      config = {
+        theme = "Dracula";
+      };
+      extraPackages = with pkgs.bat-extras; [
+        batdiff
+        batman
+        prettybat
+      ];
+    };
+
+    direnv = {
+      enable = true;
+      silent = true;
+      nix-direnv.enable = true;
+    };
+
+    eza = {
+      enable = true;
+      extraOptions = [
+        "--classify"
+        "--color-scale"
+        "--git"
+        "--group-directories-first"
+      ];
+    };
+
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+      defaultOptions = [
+        "--color=dark"
+        "--color=fg:-1,bg:-1,hl:#c678dd,fg+:#ffffff,bg+:#4b5263,hl+:#d858fe"
+        "--color=info:#98c379,prompt:#61afef,pointer:#be5046,marker:#e5c07b,spinner:#61afef,header:#61afef"
+      ];
+    };
+
+    ripgrep = {
+      enable = true;
+      arguments = [
+        "--smart-case"
+        "--pretty"
+      ];
+    };
+
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
+      settings = {
         add_newline = true;
         format = lib.concatStrings [
           "$username"
@@ -71,7 +121,7 @@
 
         nix_shell = {
           format = "[$symbol]($style) ";
-          symbol = "❄️";
+          symbol = "❄️ ";
           style = "bold blue";
         };
 
@@ -92,14 +142,7 @@
           style = "bold dimmed green";
           ssh_only = false;
         };
-
-        right_format = "$time";
-        time = {
-          disabled = false;
-          time_format = "%T"; # 24-hour format
-          style = "bold dimmed white";
-          format = "[$time]($style)";
-        };
       };
+    };
   };
 }

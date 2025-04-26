@@ -5,7 +5,7 @@
 }:
 {
   imports = [
-    ./programs
+    ./programs.nix
   ];
 
   programs = {
@@ -72,15 +72,10 @@
       envExtra = ''
         export MANPAGER="nvim +Man!"
         export PATH="$HOME/.local/bin:$PATH"
-        export EDITOR="nvim"
-        export VISUAL="nvim"
-        export TERM="xterm-256color"
-        export LANG="en_IN.UTF-8"
-        export LC_ALL="en_IN.UTF-8"
       '';
 
       # Functional config
-      initExtra = ''
+      initContent = ''
         # Improved completion
         zstyle ':completion:*' menu select
         zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
