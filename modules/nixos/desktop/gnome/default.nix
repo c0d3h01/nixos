@@ -43,7 +43,7 @@
       gnome-system-monitor
     ];
 
-    systemPackages = with pkgs.stable; [
+    systemPackages = with pkgs; [
       # Desktop common Apps
       gnome-photos
       gnome-tweaks
@@ -53,13 +53,10 @@
 
       # Gnome extensions
       gnomeExtensions.gsconnect
-      gnomeExtensions.dash-to-dock
+      gnomeExtensions.blur-my-shell
       gnomeExtensions.just-perfection
-    ];
-
-    pathsToLink = [
-      "/share/icons"
-      "/share/applications"
+      gnomeExtensions.rounded-corners
+      gnomeExtensions.compiz-alike-magic-lamp-effect
     ];
   };
 
@@ -69,34 +66,28 @@
         disable-user-extensions = false;
         enabled-extensions = [
           "gsconnect@andyholmes.github.io"
-          "dash-to-dock@micxgx.gmail.com"
+          "blur-my-shell@aunetx"
           "just-perfection-desktop@just-perfection"
+          "Rounded_Corners@lennart-k"
+          "compiz-alike-magic-lamp-effect@hermes83.github.com"
         ];
       };
 
-      # dash-to-dock
-      "org/gnome/shell/extensions/dash-to-dock" = {
-        always-center-icons = false;
-        apply-custom-theme = true;
-        background-opacity = "0.80000000000000004";
-        custom-theme-shrink = true;
-        dash-max-icon-size = "48";
-        dock-fixed = true;
-        dock-position = "BOTTOM";
-        extend-height = false;
-        height-fraction = "0.90000000000000002";
-        icon-size-fixed = true;
-        intellihide-mode = "ALL_WINDOWS";
-        preferred-monitor = "-2";
-        preferred-monitor-by-connector = "eDP-1";
-        show-trash = true;
+      # Just Perfection
+      "org/gnome/shell/extensions/just-perfection" = {
+        hot-corner = false;
+      };
+
+      # Rounded Corners
+      "org/gnome/shell/extensions/rounded-window-corners" = {
+        use-gtk-theme-radius = false;
+        radius = 12;
       };
 
       # interface
       "org/gnome/desktop/interface" = {
         enable-hot-corners = true;
         clock-show-weekday = true;
-        clock-show-seconds = false;
         clock-show-date = true;
         clock-format = "12h";
         color-scheme = "prefer-dark";
