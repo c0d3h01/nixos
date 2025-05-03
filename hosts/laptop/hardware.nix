@@ -4,22 +4,22 @@
   # powerManagement.cpuFreqGovernor = "schedutil";
 
   # ZRAM Swap
-  zramSwap = {
-    enable = true;
-    priority = 100;
-    algorithm = "zstd";
-    memoryPercent = 100;
-  };
+  # zramSwap = {
+  #   enable = true;
+  #   priority = 100;
+  #   algorithm = "zstd";
+  #   memoryPercent = 100;
+  # };
 
   # Override filesystems to prevent conflicts
   fileSystems = lib.mkForce {
     "/boot" = {
-      device = "/dev/disk/by-partlabel/nixos-boot";
+      device = "/dev/disk/by-partlabel/disk-nvme-nixos-boot";
       fsType = "vfat";
     };
 
     "/" = {
-      device = "/dev/disk/by-partlabel/nixos-root";
+      device = "/dev/disk/by-partlabel/disk-nvme-nixos-root";
       fsType = "ext4";
     };
 
