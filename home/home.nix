@@ -1,9 +1,6 @@
 {
   pkgs,
   userConfig,
-  outputs,
-  inputs,
-  lib,
   ...
 }:
 
@@ -14,9 +11,9 @@
   ];
 
   home = {
-    username = "${userConfig.username}";
+    username = userConfig.username;
     homeDirectory = "/home/${userConfig.username}";
-    stateVersion = "${userConfig.stateVersion}";
+    stateVersion = userConfig.stateVersion;
 
     sessionVariables = {
       EDITOR = "nvim";
