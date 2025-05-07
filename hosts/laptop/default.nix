@@ -5,6 +5,7 @@
     ./disko.nix
     ./hardware.nix
     ../../nixos
+    ../../secrets
   ];
 
   time.timeZone = "Asia/Kolkata";
@@ -36,7 +37,7 @@
       "video"
     ];
     openssh.authorizedKeys.keys = [
-      ""
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID+1xp8R61gtbYX6xLKpHerFshlFvlNPIDeGYvyVAMn8 harshalsawant.dev@gmail.com"
     ];
   };
 }
