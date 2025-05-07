@@ -6,7 +6,7 @@
 
 {
   imports = [
-    ./configs
+    ./config.nix
     ./modules
   ];
 
@@ -45,6 +45,8 @@
       fuse
       appimage-run
       nh # Nix Garbage Cleaner
+      stow
+      zellij
 
       # Editors & Viewers
       fd # find
@@ -69,18 +71,5 @@
       zstd
       cabextract
     ];
-  };
-
-  programs = {
-    ssh = {
-      enable = true;
-      matchBlocks = {
-        "c0d3h01" = {
-          hostname = "c0d3h01";
-          user = "root";
-          forwardAgent = true;
-        };
-      };
-    };
   };
 }
