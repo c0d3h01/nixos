@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   modulesPath,
   ...
 }:
@@ -18,12 +17,18 @@
     enable = true;
     priority = 100;
     algorithm = "zstd";
-    memoryPercent = 200;
+    memoryPercent = 100;
   };
 
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/57913b7c-10d6-4c92-8fd8-e269758630db";
     fsType = "ext4";
+    options = [
+      "defaults"
+      "noatime"
+      "nodiratime"
+      "discard"
+    ];
   };
 
   boot = {
@@ -32,14 +37,13 @@
 
     tmp.cleanOnBoot = true;
     consoleLogLevel = 3;
-    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
+    # kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
 
     kernelParams = [
-      "quiet"
-      "splash"
-      "preempt=full"
+      "nowatchdog"
+      "loglevel=3"
+      "systemd.unified_cgroup_hierarchy=1"
       "mitigations=off"
-      "udev.log_level=3"
     ];
 
     kernel.sysctl = {
