@@ -1,5 +1,6 @@
 {
   config,
+  userConfig,
   pkgs,
   lib,
   ...
@@ -7,7 +8,6 @@
 
 let
   androidenv = pkgs.androidenv.override { licenseAccepted = true; };
-
   androidSdk =
     (androidenv.composeAndroidPackages {
       cmdLineToolsVersion = "8.0";
@@ -21,9 +21,7 @@ let
       ndkVersions = [ "22.0.7026061" ];
       extraLicenses = [ "android-sdk-license" ];
     }).androidsdk;
-
   sdkRoot = "${androidSdk}/libexec/android-sdk";
-
 in
 {
   options = {
@@ -38,6 +36,9 @@ in
     environment.systemPackages = with pkgs; [
       androidSdk
     ];
+
+    programs.adb.enable = true;
+    users.users.${userConfig.username}.extraGroups = [ "adbusers" ];
 
     environment.variables = {
       ANDROID_HOME = sdkRoot;

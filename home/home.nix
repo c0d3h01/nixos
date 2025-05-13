@@ -6,7 +6,6 @@
 
 {
   imports = [
-    ./config.nix
     ./modules
   ];
 
@@ -31,10 +30,11 @@
     packages = with pkgs; [
       # Terminal
       kitty
+      tree-sitter
 
       # Utilities
+      tmux
       coreutils
-      bashInteractive
       fastfetch
       glances
       xclip
@@ -43,7 +43,6 @@
       tree
       asar
       fuse
-      appimage-run
       nh # Nix Garbage Cleaner
       stow
       zellij

@@ -16,24 +16,17 @@
   # Allow running dynamically linked binaries
   programs.nix-ld.enable = true;
 
-  services = {
-    earlyoom = {
-      enable = true;
-      enableNotifications = true;
-      reportInterval = 0;
-      freeMemThreshold = 4;
-    };
-
-    systembus-notify.enable = true;
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
   };
-  services.ananicy.enable = true;
 
   # My Custom ToolSets
   myModules = {
     # androidTools = true;
     # dockerTools = true;
-    hackerMode = true;
-    mysqlTools = true;
+    # hackerMode = true;
+    # mysqlTools = true;
     podmanTools = true;
     pythonTools = true;
     rustTools = true;
@@ -45,9 +38,6 @@
       stablePkgs = with pkgs.stable; [
         # Notion Enhancer With patches
         (pkgs.callPackage ./notion-app-enhanced { })
-
-        # Editors and IDEs
-        vscode-fhs
 
         # Developement desktop apps
         postman
@@ -64,23 +54,30 @@
         drawio
         electrum
 
-        # Game
-        zeroadPackages.zeroad-unwrapped
-
         # VirtualBox
         gnome-boxes
       ];
 
       unstablePkgs = with pkgs; [
+        # Code editor
+        vscode-fhs
+        zed-editor
+
         # -+ Common Developement tools
         nodejs
 
+        # Electron tools
+        electron
+        # electron-fiddle
+
         # C/C++
         gdb
+        gcc
         clang
         gnumake
         cmake
         ninja
+        clang-tools
 
         # Gtk tools
         pkg-config
@@ -88,6 +85,7 @@
         # Android Tools
         flutter
         openjdk
+        # androidsdk
       ];
     in
     stablePkgs ++ unstablePkgs;

@@ -12,6 +12,7 @@
     overlays = outputs.overlays;
     config = {
       allowUnfree = true;
+      allowInsecure = true;
       android_sdk.accept_license = true;
     };
   };

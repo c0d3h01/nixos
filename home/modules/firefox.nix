@@ -12,7 +12,6 @@
     package = pkgs.firefox-esr;
 
     profiles.${userConfig.username} = {
-      # Essential extensions only
       extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         ublock-origin
         privacy-badger
@@ -45,19 +44,34 @@
         "media.gmp-widevinecdm.enabled" = true;
 
         # UI preferences
-        "browser.uidensity" = 1;
-        "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
+        "browser.uidensity" = 0; # Compact mode for more screen space
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-        "browser.toolbars.bookmarks.visibility" = "always";
+        "browser.toolbars.bookmarks.visibility" = "newtab"; # Only show on new tab
+        "browser.tabs.inTitlebar" = false; # Separate tabs from title bar for cleaner look
+        "browser.compactmode.show" = true; # Enable compact mode option
 
-        # Usability settings
-        "browser.search.suggest.enabled" = true;
-        "browser.urlbar.suggest.bookmark" = true;
-        "browser.urlbar.suggest.history" = true;
-        "media.autoplay.enabled" = true;
+        # Minimize UI
+        "browser.chrome.toolbar_tips" = false;
+        "browser.tabs.firefox-view" = false; # Disable Firefox View button
+        "browser.tabs.tabClipWidth" = 140; # Ensure tabs aren't too narrow
+        "browser.tabs.tabMinWidth" = 100;
+
+        # Colorful vibrant UI settings
+        "browser.newtabpage.activity-stream.improvesearch.handoffToAwesomebar" = false;
+        "browser.newtabpage.activity-stream.feeds.topsites" = true;
+        "browser.newtabpage.activity-stream.feeds.section.topstories" = false; # Clean new tab
+        "browser.theme.content-theme" = 0; # Let our custom theme control colors
+        "browser.theme.toolbar-theme" = 0;
+
+        # Smooth scrolling
+        "general.smoothScroll" = true;
+        "general.smoothScroll.mouseWheel.durationMaxMS" = 400;
+        "general.smoothScroll.mouseWheel.durationMinMS" = 200;
+
+        # Animation settings
+        "toolkit.cosmeticAnimations.enabled" = true;
       };
 
-      # UserChrome CSS for consistent theming
       userChrome = "
           * {
               box-shadow: none !important;
