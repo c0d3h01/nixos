@@ -22,3 +22,6 @@
 [submodule "gdb/gef"]
 	path = gdb/gef
 	url = https://github.com/hugsy/gef
+[submodule "zsh/plugins/fzf-tab"]
+	path = zsh/plugins/fzf-tab
+	url = https://github.com/Aloxaf/fzf-tab.git
