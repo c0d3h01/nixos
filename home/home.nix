@@ -30,7 +30,6 @@
     packages = with pkgs; [
       # Terminal
       kitty
-      tree-sitter
 
       # Utilities
       tmux
@@ -46,16 +45,13 @@
       nh # Nix Garbage Cleaner
       stow
       zellij
-
-      # zsh
       bat
       direnv
       zoxide
       eza
       ripgrep
-      starship
-
-      # Editors & Viewers
+      fzf
+      htop
       fd # find
       file
 
@@ -81,6 +77,6 @@
   };
 
   programs = {
-    zsh.enable = true;
+    neovim.enable = true;
   };
 }
