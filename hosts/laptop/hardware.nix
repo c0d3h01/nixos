@@ -29,7 +29,12 @@
     memoryPercent = 100;
   };
 
-  # powerManagement.cpuFreqGovernor = "schedutil";
+  services.fstrim = {
+    enable = true;
+    interval = "weekly";
+  };
+
+  powerManagement.cpuFreqGovernor = "schedutil";
 
   boot = {
     kernelModules = [ "kvm-amd" ];

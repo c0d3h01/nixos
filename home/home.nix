@@ -10,40 +10,30 @@
     ./apps
   ];
 
+  programs.home-manager.enable = true;
+  services.syncthing.enable = true;
+
   home = {
     username = userConfig.username;
     homeDirectory = "/home/${userConfig.username}";
     stateVersion = userConfig.stateVersion;
 
-    sessionVariables = {
-      EDITOR = "nvim";
-      VISUAL = "nvim";
-      TERMINAL = "kitty";
-      BROWSER = "firefox";
-      PAGER = "less";
-      LESS = "-R";
-    };
-
-    sessionPath = [
-      "$HOME/.npm-global/bin"
-    ];
-
     packages = with pkgs; [
       # Terminal
       kitty
+      neovim
 
       # Utilities
       tmux
       coreutils
       fastfetch
-      glances
       xclip
       curl
       wget
       tree
       asar
       fuse
-      nh # Nix Garbage Cleaner
+      nh
       stow
       zellij
       bat
@@ -52,9 +42,14 @@
       eza
       ripgrep
       fzf
-      htop
-      fd # find
+      fd
       file
+      bashInteractive
+      lsd
+      tea
+      less
+      findutils
+      hub
 
       # Nix Tools
       nix-prefetch-github
@@ -66,6 +61,8 @@
       # System Monitoring
       inxi
       procs
+      glances
+      htop
 
       # Extractors
       unzip
@@ -74,10 +71,14 @@
       xz
       zstd
       cabextract
-    ];
-  };
 
-  programs = {
-    neovim.enable = true;
+      # git
+      git
+      git-lfs
+      gh
+      delta
+      mergiraf
+      lazygit
+    ];
   };
 }

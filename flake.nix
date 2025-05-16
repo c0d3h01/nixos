@@ -1,5 +1,5 @@
 {
-  description = "Credit: Harshal (c0d3h01), NixOS Dotfiles";
+  description = "NixOS configuration with flakes";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";

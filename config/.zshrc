@@ -8,6 +8,7 @@ export MANPAGER="nvim +Man!"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/.npm-globle/bin:$PATH"
 
 # ===== Tool Configurations =====
 export LESS="-R -F -X -M"
@@ -19,8 +20,8 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 autoload -Uz colors && colors
 
 # History configuration
-HISTSIZE=20000
-SAVEHIST=20000
+HISTSIZE=10000
+SAVEHIST=10000
 HISTFILE=~/.zsh_history
 HISTORY_IGNORE="(rm *|pkill *|kill *|shutdown *|reboot *|exit)"
 setopt append_history           # Append to history file instead of overwriting
@@ -190,6 +191,7 @@ fpath+=("$ZSH_PLUGINS/zsh-completions")
 
 # zsh-autosuggestions
 source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh"
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=60
 
 # pure prompt
 fpath+=("$ZSH_PLUGINS/pure")
@@ -203,4 +205,7 @@ source "$ZSH_PLUGINS/zsh-autopair/autopair.zsh"
 source "$ZSH_PLUGINS/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 
 # fzf-tab
-source "$ZSH_PLUGINS/fzf-tab/fzf-tab.plugin.zsh"
+source "$ZSH_PLUGINS/fzf-tab/fzf-tab.zsh"
+
+# prevent broken terminals by resetting to sane defaults after a command
+ttyctl -f

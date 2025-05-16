@@ -5,7 +5,6 @@
     ./fonts.nix
     ./networking.nix
     ./nix.nix
-    ./optimize.nix
     ./printing.nix
     ./security.nix
   ];

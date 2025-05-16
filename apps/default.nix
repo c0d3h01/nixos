@@ -30,8 +30,12 @@
   environment.systemPackages =
     let
       unstablePkgs = with pkgs; [
+        # Browser
+        firefox-esr
+
         # -+ Common Developement tools
         nodejs
+        yarn
 
         # Electron tools
         electron
