@@ -4,6 +4,7 @@
   pkgs,
   ...
 }:
+
 {
   options = {
     myModules.rustTools = lib.mkOption {
@@ -14,15 +15,10 @@
   };
 
   config = lib.mkIf config.myModules.rustTools {
-
     environment.systemPackages = with pkgs; [
       rustup
       rustfmt
       rust-analyzer
     ];
-    programs.zsh.shellInit = ''
-      export RUSTUP_HOME="$HOME/.rustup"
-      export CARGO_HOME="$HOME/.cargo"
-    '';
   };
 }
