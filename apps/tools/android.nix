@@ -37,9 +37,6 @@ in
       androidSdk
     ];
 
-    programs.adb.enable = true;
-    users.users.${userConfig.username}.extraGroups = [ "adbusers" ];
-
     environment.variables = {
       ANDROID_HOME = sdkRoot;
       ANDROID_SDK_ROOT = sdkRoot;
