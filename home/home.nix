@@ -20,6 +20,8 @@
     # rustTools = true;
   };
 
+  myRDev.enable = true;
+
   home = {
     username = userConfig.username;
     homeDirectory = "/home/${userConfig.username}";
