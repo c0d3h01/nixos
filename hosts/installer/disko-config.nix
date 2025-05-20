@@ -38,16 +38,16 @@
                     mountpoint = "/";
                     mountOptions = [
                       "compress=zstd:3"
-                      "noatime"
                       "discard=async"
+                      "noatime"
                       "ssd"
-                      "space_cache=v2"
                     ];
                   };
                   "/@home" = {
                     mountpoint = "/home";
                     mountOptions = [
                       "compress=zstd:3"
+                      "discard=async"
                       "noatime"
                       "ssd"
                     ];
@@ -56,6 +56,7 @@
                     mountpoint = "/nix";
                     mountOptions = [
                       "compress=zstd:1"
+                      "discard=async"
                       "noatime"
                       "ssd"
                     ];
@@ -64,6 +65,7 @@
                     mountpoint = "/var/log";
                     mountOptions = [
                       "compress=zstd:1"
+                      "discard=async"
                       "noatime"
                       "ssd"
                     ];
