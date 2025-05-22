@@ -26,7 +26,9 @@ return {
 		})
 		opts.formatting = opts.formatting or {}
 		-- disrupts the workflow
-		opts.formatting.format_on_save = true
+		opts.formatting.format_on_save = {
+  			enabled = true,
+		}
 
 		opts.config = opts.config or {}
 		opts.config.clangd = opts.config.clangd or {}
