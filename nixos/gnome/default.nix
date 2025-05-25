@@ -5,15 +5,10 @@
 }:
 
 {
-  # Enable X server and GNOME
-  services = {
-    xserver = {
-      enable = true;
-      videoDrivers = [ "amdgpu" ];
-      xkb.layout = "us";
-      desktopManager.gnome.enable = true;
-      displayManager.gdm.enable = true;
-    };
+  # Enable Gnome, X server
+  services.xserver = {
+    desktopManager.gnome.enable = true;
+    displayManager.gdm.enable = true;
   };
 
   security.polkit.extraConfig = ''
@@ -105,9 +100,6 @@
     xdg.portal = {
       enable = true;
       extraPortals = with pkgs; [ xdg-desktop-portal-gnome ];
-      config = {
-        common.default = "gnome";
-      };
     };
   };
 }
