@@ -5,7 +5,7 @@ export ZDOTDIR="$HOME/.config/zsh"
 export EDITOR="nvim"
 export VISUAL="nvim"
 export MANPAGER="nvim +Man!"
-export CHROME_EXECUTABLE="$(which firefox-esr)"
+export CHROME_EXECUTABLE="$(which firefox)"
 export JAVA_HOME="$(dirname $(dirname $(readlink -f $(which javac))))"
 export NIX_USER_PROFILE_DIR=${NIX_USER_PROFILE_DIR:-/nix/var/nix/profiles/per-user/${USER}}
 export NIX_PROFILES=${NIX_PROFILES:-$HOME/.nix-profile}
@@ -104,14 +104,14 @@ bindkey '^e' end-of-line
 # Navigation
 alias ..='cd ..' ...='cd ../..' ....='cd ../../..' -- -='cd -'
 
-# Modern ls replacements
-alias l='eza -l --icons --group-directories-first --color=auto'
-alias ls='eza --icons --group-directories-first --color=auto'
-alias ll='eza -l --git --header --classify --binary --group --time-style=long-iso --links --all --icons --group-directories-first --color=auto'
-alias la='eza -a --icons --group-directories-first --color=auto'
-alias lt='eza --tree --level=2 --icons --group-directories-first --color=auto'
-alias lta='eza --tree --level=2 -a --icons --group-directories-first --color=auto'
-alias ltg='eza --tree --level=2 --git-ignore --icons --group-directories-first --color=auto'
+# Modern ls replacements with lsd
+alias l='lsd -l --group-dirs first --color auto'
+alias ls='lsd --group-dirs first --color auto'
+alias ll='lsd -l --header --classify --size short --group-dirs first --date "+%Y-%m-%d %H:%M" --all --color auto'
+alias la='lsd -a --group-dirs first --color auto'
+alias lt='lsd --tree --depth 2 --group-dirs first --color auto'
+alias lta='lsd --tree --depth 2 -a --group-dirs first --color auto'
+alias ltg='lsd --tree --depth 2 --ignore-glob ".git" --group-dirs first --color auto'
 
 # Git shortcuts
 alias g='git'
