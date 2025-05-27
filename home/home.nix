@@ -22,10 +22,10 @@
       # Notion Enhancer With patches
       (pkgs.callPackage ./modules/notion-app-enhanced { })
 
-      # Code editor
+      # Code editors
       vscode-fhs
-      # jetbrains.pycharm-community-bin
-      # android-studio
+      jetbrains.pycharm-community-bin
+      android-studio
 
       # Communication apps
       vesktop
@@ -47,13 +47,13 @@
       kitty
       neovim
       tmux
+      nix-direnv
       coreutils
       fastfetch
       xclip
       curl
       wget
       tree
-      tree-sitter
       nh
       stow
       zellij
@@ -65,34 +65,16 @@
       file
       bashInteractive
       lsd
-      eza
       tea
       less
       findutils
       hub
-      ruby
       xdg-utils
       pciutils
       inxi
       procs
       glances
       cheat
-      julia
-      go
-      glade
-      gtk4
-      gtkmm4
-      glib
-      nodejs
-      yarn
-      electron
-      gdb
-      gcc
-      gnumake
-      cmake
-      ninja
-      clang-tools
-      pkg-config
 
       # Language Servers
       lua-language-server
