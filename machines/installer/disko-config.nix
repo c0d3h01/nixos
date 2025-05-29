@@ -8,8 +8,10 @@
           type = "gpt";
           partitions = {
             ESP = {
-              name = "nixos-esp";
-              size = "512M";
+              priority = 1;
+              name = "nix-esp";
+              start = "1MiB";
+              end = "513M";
               type = "EF00";
               content = {
                 type = "filesystem";
@@ -60,6 +62,12 @@
                       "noatime"
                       "ssd"
                     ];
+                  };
+                  "/@swap" = {
+                    mountpoint = "/.swapvol";
+                    swap = {
+                      swapfile.size = "4G";
+                    };
                   };
                 };
               };
