@@ -1,6 +1,7 @@
 {
   pkgs,
   userConfig,
+  inputs,
   ...
 }:
 
@@ -22,10 +23,12 @@
       # Notion Enhancer With patches
       (pkgs.callPackage ./modules/notion-app-enhanced { })
 
+      inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default
+
       # Code editors
       vscode-fhs
-      jetbrains.pycharm-community-bin
-      android-studio
+      # jetbrains.pycharm-community-bin
+      # android-studio
 
       # Communication apps
       vesktop
@@ -40,11 +43,10 @@
       anydesk
       drawio
       electrum
-      blender-hip
-      gimp
+      # blender-hip
+      # gimp
 
       # Terminal Utilities
-      kitty
       neovim
       tmux
       nix-direnv

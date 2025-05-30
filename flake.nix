@@ -21,6 +21,11 @@
     # sops-nix.url = "github:Mic92/sops-nix";
     # sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    ghostty.url = "github:/ghostty-org/ghostty";
+    ghostty.inputs.nixpkgs.follows = "nixpkgs";
+    ghostty.inputs.flake-utils.follows = "flake-utils";
+    ghostty.inputs.flake-compat.follows = "";
+
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
