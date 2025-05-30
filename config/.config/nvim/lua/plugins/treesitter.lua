@@ -4,7 +4,7 @@ local command = "ln -sf " .. nvim_data_dir .. "/site/parser/*.so " .. nvim_data_
 return {
 	"nvim-treesitter/nvim-treesitter",
 	build = command,
-	opts = function(_, opts)
+	opts = function()
 		vim.fn.system(command)
 	end,
 }
