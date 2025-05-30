@@ -14,7 +14,6 @@
       twitter-color-emoji
       noto-fonts
       noto-fonts-cjk-sans
-      inter
     ];
 
     fontconfig = {
@@ -26,7 +25,6 @@
         ];
 
         sansSerif = lib.mkForce [
-          "Inter"
           "Noto Sans"
         ];
 
