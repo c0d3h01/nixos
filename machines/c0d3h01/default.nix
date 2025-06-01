@@ -14,6 +14,7 @@
   ];
 
   age.secrets.ssh.file = ../../secrets/ssh.age;
+  documentation.enable = false;
 
   time.timeZone = "Asia/Kolkata";
   i18n = {
