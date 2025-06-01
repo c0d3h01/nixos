@@ -29,7 +29,6 @@
       gnome-contacts
       gnome-weather
       gnome-maps
-      gnome-text-editor
       gnome-connections
       gnome-system-monitor
     ];
@@ -38,10 +37,6 @@
       # Desktop common Apps
       gnome-photos
       gnome-tweaks
-      libreoffice
-      transmission_4
-      micro
-
       # Gnome extensions
       gnomeExtensions.tiling-assistant
     ];
