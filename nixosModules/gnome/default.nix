@@ -32,13 +32,17 @@
       gnome-connections
       gnome-system-monitor
     ];
-
-    systemPackages = with pkgs; [
-      # Desktop common Apps
-      gnome-photos
-      gnome-tweaks
-    ];
   };
+
+  environment.systemPackages = with pkgs.gnomeExtensions; [
+    dash-to-dock
+    user-themes
+    blur-my-shell
+    # open-bar
+  ] ++ (with pkgs; [
+    gnome-photos
+    gnome-tweaks
+  ]);
 
   home-manager.users."${userConfig.username}" = {
     dconf.settings = {
@@ -46,7 +50,22 @@
         disable-user-extensions = false;
         enabled-extensions = [
           "gsconnect@andyholmes.github.io"
+          # "openbar@neuromorph"
+          "dash-to-dock@micxgx.gmail.com"
+          "user-theme@gnome-shell-extensions.gcampax.github.com"
+          "blur-my-shell@aunetx"
         ];
+      };
+
+      # User themes
+      "org/gnome/shell/extensions/user-theme" = {
+        name = "WhiteSur-Dark";
+      };
+
+      # Dask to Dock
+      "org/gnome/shell/extensions/dash-to-dock" = {
+        dock-position = "BOTTOM";
+        intellihide-mode = "ALL-WINDOWS";
       };
 
       # interface
