@@ -60,6 +60,7 @@
 
       # Terminal Utilities
       neovim
+      vim
       tmux
       coreutils
       fastfetch
