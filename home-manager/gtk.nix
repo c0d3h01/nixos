@@ -4,17 +4,10 @@
   gtk = {
     enable = true;
 
-    # theme = lib.mkDefault {
-    #   name = "Catppuccin-Mocha-Compact-Mauve-Dark";
-    #   package = lib.mkDefault (
-    #     pkgs.catppuccin-gtk.override {
-    #       accents = [ "mauve" ];
-    #       size = "compact";
-    #       tweaks = [ "rimless" ];
-    #       variant = "mocha";
-    #     }
-    #   );
-    # };
+    theme = {
+      name = "WhiteSur-Dark";
+      package = pkgs.whitesur-gtk-theme;
+    };
 
     cursorTheme = lib.mkDefault {
       name = "Bibata-Modern-Ice";
@@ -22,8 +15,8 @@
     };
 
     iconTheme = lib.mkDefault {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
+      name = "WhiteSur";
+      package = pkgs.whitesur-icon-theme;
     };
 
     gtk3.extraConfig = lib.mkDefault {
