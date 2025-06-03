@@ -1,10 +1,7 @@
-theme = GruvboxDarkHard
+theme = Belafonte Night
 
-font-family = ""
-font-family = "FiraCode Nerd Font"
-
-window-height = 4000
-window-width = 4000
+window-height = 200
+window-width = 200
 
 clipboard-read = allow
 clipboard-write = allow
@@ -13,4 +10,4 @@ shell-integration = none
 macos-option-as-alt = true
 
 gtk-titlebar = true
-background-opacity = 0.9
+background-opacity = 0.8
