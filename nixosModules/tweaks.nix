@@ -1,6 +1,8 @@
+{ lib, ... }:
+
 {
-  services.power-profiles-daemon.enable = false;
-  powerManagement.powertop.enable = true;
-  services.thermald.enable = true;
-  powerManagement.cpuFreqGovernor = "schedutil";
+  powerManagement.powertop.enable = lib.mkDefault true;
+  powerManagement.cpuFreqGovernor = lib.mkDefault "schedutil";
+  services.thermald.enable = lib.mkDefault true;
+  services.earlyoom.enable = lib.mkDefault true;
 }
