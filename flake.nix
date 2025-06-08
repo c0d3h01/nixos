@@ -1,63 +1,110 @@
 {
-  description = "NixOS configuration with flakes";
+  description = "NixOS Flake: workspace";
 
   inputs = {
-    nixpkgs.url = "git+https://github.com/nixos/nixpkgs?shallow=1&ref=nixos-unstable";
-    # nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    systems.url = "github:nix-systems/default";
-
+    # Nixpkgs channels
+    nixpkgs.url = "git+https://github.com/nixos/nixpkgs?shallow=1&ref=nixos-unstable-small";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
+    systems.url = "github:nix-systems/default";
     flake-utils.inputs.systems.follows = "systems";
 
+    # Home Manager
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Host-specific modules
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
-    pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
-
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    ghostty.url = "github:/ghostty-org/ghostty";
-
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
-
+    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+    pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
+    ghostty.url = "github:ghostty-org/ghostty";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+    devenv.url = "github:cachix/devenv";
+    devenv.inputs.nixpkgs.follows = "nixpkgs";
+    helix.url = "github:helix-editor/helix";
+    helix.inputs.nixpkgs.follows = "nixpkgs";
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
+    vscode-server.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-generators.url = "github:nix-community/nixos-generators";
+    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   outputs =
-    {
+    inputs@{
       self,
       nixpkgs,
-      home-manager,
+      nixpkgs-stable,
       flake-utils,
+      home-manager,
       ...
-    }@inputs:
+    }:
     let
-      inherit (self) outputs;
-      supportedSystems = [
-        "x86_64-linux"
-        "aarch64-darwin"
-        "x86_64-darwin"
-      ];
-      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-
-      # User Configuations
-      userConfig = {
+      declarative = {
+        hostname = "devbox";
         username = "c0d3h01";
         fullName = "Harshal Sawant";
-        hostname = "NixOS";
+      };
+
+      allSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
+      forAllSystems = nixpkgs.lib.genAttrs allSystems;
+
+      overlays = [
+        (final: prev: {
+          stable = import nixpkgs-stable {
+            system = final.system or "x86_64-linux";
+            config.allowUnfree = true;
+          };
+          helix = inputs.helix.packages.${final.system or "x86_64-linux"}.helix;
+          devenv = inputs.devenv.packages.${final.system or "x86_64-linux"}.devenv;
+        })
+      ];
+
+      nixpkgsConfig = {
+        config = {
+          allowUnfree = true;
+          allowBroken = false;
+          allowUnsupportedSystem = false;
+        };
+        overlays = overlays;
+      };
+
+      machineModule = name: ./machines/${name};
+      homeModule = ./home-manager/home.nix;
+
+      # Modular devshells import
+      devShellModules = {
+        python = ./devshells/python.nix;
+        rust = ./devshells/rust.nix;
+        node = ./devshells/node.nix;
+        go = ./devshells/go.nix;
+        java = ./devshells/java.nix;
       };
     in
-    {
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
-      checks = forAllSystems (system: {
-        pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
+
+    flake-utils.lib.eachSystem allSystems (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; } // nixpkgsConfig;
+        pkgsStable = import nixpkgs-stable {
+          inherit system;
+          config.allowUnfree = true;
+        };
+      in
+      {
+        formatter = pkgs.nixfmt-tree;
+
+        checks.pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
           src = ./.;
           hooks = {
             alejandra.enable = true;
@@ -65,43 +112,69 @@
             deadnix.enable = true;
           };
         };
-      });
 
-      # NixOS configuration with home-manager.
-      nixosConfigurations.${userConfig.hostname} = nixpkgs.lib.nixosSystem {
+        # Devshells for languages
+        devShells = builtins.mapAttrs (name: file: import file { inherit pkgs; }) devShellModules;
+
+        homeConfigurations."${declarative.username}@${declarative.hostname}" =
+          home-manager.lib.homeManagerConfiguration
+            {
+              pkgs = pkgs;
+              extraSpecialArgs = {
+                inherit inputs self declarative;
+                pkgsStable = pkgsStable;
+                pkgsUnstable = pkgs;
+              };
+              modules = [ homeModule ];
+            };
+      }
+    )
+    // {
+      nixosConfigurations.${declarative.hostname} = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs outputs userConfig; };
+        specialArgs = {
+          inherit inputs self declarative;
+          pkgsStable = import nixpkgs-stable {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+          };
+          pkgsUnstable = import nixpkgs {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+          };
+        };
         modules = [
-          ./machines/c0d3h01
+          (machineModule declarative.username)
           inputs.disko.nixosModules.disko
           inputs.sops-nix.nixosModules.sops
-          # inputs.nixos-hardware.nixosModules.dell-inspiron-14-5420
-
+          (
+            { config, ... }:
+            {
+              nixpkgs = nixpkgsConfig;
+            }
+          )
           home-manager.nixosModules.home-manager
           {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = { inherit inputs outputs userConfig; };
-              users.${userConfig.username} = {
-                imports = [
-                  ./home-manager/home.nix
-                ];
+              extraSpecialArgs = {
+                inherit inputs self declarative;
+                pkgsStable = import nixpkgs-stable {
+                  system = "x86_64-linux";
+                  config.allowUnfree = true;
+                };
+                pkgsUnstable = import nixpkgs {
+                  system = "x86_64-linux";
+                  config.allowUnfree = true;
+                };
+              };
+              users.${declarative.username} = {
+                imports = [ homeModule ];
               };
             };
           }
         ];
-      };
-
-      # Standalone home-manager configuration
-      homeConfigurations = {
-        "${userConfig.username}@${userConfig.hostname}" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs outputs userConfig; };
-          modules = [
-            ./home-manager/home.nix
-          ];
-        };
       };
     };
 }
