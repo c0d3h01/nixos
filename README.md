@@ -1,32 +1,72 @@
+<div align="center">
+
 # c0d3h01's NixOS Dotfiles
 
-Personal NixOS configuration with flakes and home-manager.
+_Declarative NixOS configuration with Flakes & Home Manager_
 
-> [!NOTE]   
-> I use disko for paritioning with btrfs filesystem    
+[![Stars](https://img.shields.io/github/stars/c0d3h01/dotfiles?color=F5BDE6&labelColor=303446&style=for-the-badge&logo=starship&logoColor=F5BDE6)](https://github.com/c0d3h01/dotfiles/stargazers)
+[![Repo Size](https://img.shields.io/github/repo-size/c0d3h01/dotfiles?color=C6A0F6&labelColor=303446&style=for-the-badge&logo=github&logoColor=C6A0F6)](https://github.com/c0d3h01/dotfiles/)
+[![NixOS](https://img.shields.io/badge/NixOS-Unstable-blue?style=for-the-badge&logo=NixOS&logoColor=white&label=NixOS&labelColor=303446&color=91D7E3)](https://nixos.org)
+[![License](https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=MIT&colorA=313244&colorB=F5A97F&logo=unlicense&logoColor=F5A97F&)](https://github.com/c0d3h01/dotfiles/blob/main/LICENSE)
 
-## Installation commands
+<img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/palette/macchiato.png" width="600px" alt="Catppuccin Macchiato Palette" />
+
+</div>
+
+---
+
+## System Information
+
+- **OS**: NixOS (Unstable channel)
+- **Desktop**: GNOME
+- **Filesystem**: Btrfs with automatic snapshots
+- **Package Manager**: Nix with Flakes
+- **Configuration**: Fully declarative and reproducible
+
+### Fresh Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/c0d3h01/dotfiles.git
+cd dotfiles
 
-$ sudo nix --experimental-features "nix-command flakes" run \
-github:nix-community/disko/latest -- --mode destroy,format,mount ./machines/installer/disko-config.nix
+# Partition and format disk with Disko
+sudo nix --experimental-features "nix-command flakes" run \
+  github:nix-community/disko/latest -- \
+  --mode destroy,format,mount ./machines/installer/disko-config.nix
 
-$ sudo nixos-install --flake .#NixOS
-
+# Install NixOS
+sudo nixos-install --flake .#devbox
 ```
 
-## Daily Commands
+### Existing System
 
-### System Management
-- **Apply system changes**: `sudo nixos-rebuild switch --flake .#NixOS`
-- **Apply home changes**: `home-manager switch --flake .#c0d3h01@NixOS`
-- **Test before applying**: `nixos-rebuild test --flake .#NixOS`
-- **Format code**: `nix fmt`
-- **Update flakes**: `nix flake update`
-- **Check syntax**: `nix flake check`
+```bash
+# Clone the repository
+git clone https://github.com/c0d3h01/dotfiles.git
+cd dotfiles
 
-### Development
-- **Build without applying**: `nixos-rebuild build --flake .#NixOS`
-- **Show flake info**: `nix flake show`
-- **Debug build (Enabled by config)**: `nixos-rebuild build --flake .#NixOS --show-trace`
+# Apply system configuration
+sudo nixos-rebuild switch --flake .#devbox
+
+# Apply user configuration
+home-manager switch --flake .#c0d3h01@devbox
+```
+
+## System Management
+
+| Command                                        | Description                          |
+| ---------------------------------------------- | ------------------------------------ |
+| `sudo nixos-rebuild switch --flake .#devbox`   | Apply system changes                 |
+| `home-manager switch --flake .#c0d3h01@devbox` | Apply home configuration             |
+| `nixos-rebuild test --flake .#devbox`          | Test configuration without switching |
+| `nix flake update`                             | Update all flake inputs              |
+| `nix flake check`                              | Validate flake configuration         |
+
+<div align="center">
+
+_Built with ❤️ and lots of ☕_
+
+**[⭐ Star this repo](https://github.com/c0d3h01/dotfiles) if you found it helpful!**
+
+</div>
