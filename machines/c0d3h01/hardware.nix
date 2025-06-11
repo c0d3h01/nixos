@@ -20,7 +20,7 @@
 
   services.fstrim = {
     enable = true;
-    interval = "daily";
+    interval = "weekly";
   };
 
   environment.systemPackages = with pkgs; [
@@ -49,7 +49,6 @@
       "nowatchdog"
       "loglevel=3"
       "mitigations=off"
-      "nvme.noacpi=1"
     ];
 
     kernel.sysctl = { };
