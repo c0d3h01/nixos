@@ -22,13 +22,14 @@
     stateVersion = lib.trivial.release;
     enableNixpkgsReleaseCheck = false;
 
-    packages = with pkgs.stable; [
+    packages = with pkgs; [
       # Notion Enhancer With patches
       (pkgs.callPackage ./notion-app-enhanced { })
 
       inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       # Code editors
+      vscode-fhs
       # jetbrains.pycharm-community-bin
       # android-studio
 
