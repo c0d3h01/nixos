@@ -26,12 +26,12 @@
     # Most Android SDK component versions (buildTools, cmdLineTools, platformTools, platforms, NDK, CMake)
     # are automatically configured to be compatible with Flutter when android.flutter.enable is true.
     # You can override them if specific versions are needed, for example:
-    # buildTools.version = [ "34.0.0" ];
+    buildTools.version = [ "34.0.0" ];
     # platforms.version = [ "34" ];
 
     # Emulator, NDK, and System Images are enabled by default which is generally desired for Flutter.
-    # emulator.enable = true;
-    # ndk.enable = true;
+    emulator.enable = true;
+    ndk.enable = true;
     # systemImages.enable = true;
   };
 
