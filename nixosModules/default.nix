@@ -1,11 +1,10 @@
 {
   imports = [
-    ./apps
+    ../pkgs
     ./gnome
     ./server
     ./audio.nix
     ./catppuccin.nix
-    ./fhs-compat.nix
     ./fonts.nix
     ./libvirt.nix
     ./networking.nix
