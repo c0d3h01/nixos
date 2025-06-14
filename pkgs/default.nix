@@ -35,6 +35,8 @@
   # <-- Environment packages -->
   environment.systemPackages = with pkgs; [
     # <-- Desktop applications -->
+    brave
+
     # Notion Enhancer With patches
     (pkgs.callPackage ./notion-app-enhanced { })
 
@@ -42,11 +44,15 @@
     ghostty
 
     # Code editors
+    code-cursor
+    figma-linux
     vscode-fhs
     # jetbrains.pycharm-community-bin
     # android-studio
+    gnome-builder
 
     # Communication apps
+    slack
     vesktop
     telegram-desktop
     zoom-us
@@ -70,7 +76,6 @@
     nodejs
     electron
     gdb
-    glib
     gcc
     gnumake
     cmake
@@ -78,5 +83,11 @@
     clang
     pkg-config
     jdk24
+    gtk4
+    glib
+    pango
+    gdk-pixbuf
+    gobject-introspection
+    libepoxy
   ];
 }
