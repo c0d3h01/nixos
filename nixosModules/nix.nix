@@ -9,7 +9,6 @@
   system.stateVersion = lib.trivial.release;
   networking.hostName = declarative.hostname;
 
-  programs.zsh.enable = true;
   programs.nix-ld.enable = true;
 
   nixpkgs = {
