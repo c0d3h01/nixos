@@ -1,7 +1,9 @@
-{ pkgs, ... }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 
 pkgs.mkShell {
-  name = "java-devshell";
+  name = "Java Dev Shell";
   buildInputs = with pkgs; [
     jdk24
     maven
@@ -9,5 +11,6 @@ pkgs.mkShell {
   ];
   shellHook = ''
     echo "☕ Java development shell. Use 'mvn' or 'gradle' as needed."
+    exec zsh
   '';
 }

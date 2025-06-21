@@ -1,7 +1,9 @@
-{ pkgs, ... }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 
 pkgs.mkShell {
-  name = "node-devshell";
+  name = "Node Dev Shell";
   buildInputs = with pkgs; [
     nodejs
     yarn
@@ -10,5 +12,6 @@ pkgs.mkShell {
   ];
   shellHook = ''
     echo "🟩 Node.js development shell. Use 'npm' or 'yarn' as needed."
+    exec zsh
   '';
 }

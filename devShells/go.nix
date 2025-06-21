@@ -1,7 +1,9 @@
-{ pkgs, ... }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 
 pkgs.mkShell {
-  name = "go-devshell";
+  name = "Go Dev Shell";
   buildInputs = with pkgs; [
     go
     gopls
@@ -10,5 +12,6 @@ pkgs.mkShell {
   ];
   shellHook = ''
     echo "🐹 Go development shell. Use 'go mod' for dependency management."
+    exec zsh
   '';
 }

@@ -1,15 +1,19 @@
-{ pkgs, ... }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 
 pkgs.mkShell {
-  name = "rust-devshell";
+  name = "Rust Dev Shell";
   buildInputs = with pkgs; [
     rustup
     cargo
     rustc
     rustfmt
     clippy
+    rust-analyzer
   ];
   shellHook = ''
-    echo "🦀 Rust development shell. Run 'rustup default stable' for default toolchain."
+    echo "🦀 Rust development shell."
+    exec zsh
   '';
 }
