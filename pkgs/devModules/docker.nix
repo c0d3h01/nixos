@@ -11,7 +11,6 @@
     myModules.docker.enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = "Enable Docker tools installation";
     };
   };
 
@@ -20,7 +19,7 @@
     users.users.${declarative.username}.extraGroups = [ "docker" ];
     virtualisation.docker = {
       enable = true;
-      enableOnBoot = true;
+      enableOnBoot = false;
       autoPrune.enable = true;
     };
     virtualisation.docker.extraOptions = ''
