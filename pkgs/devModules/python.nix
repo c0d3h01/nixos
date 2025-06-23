@@ -19,7 +19,7 @@
       (pkgs.python313.withPackages (
         ps: with ps; [
           pip
-          uv             # Fast package installer and resolver (pip alternative)
+          uv # Fast package installer and resolver (pip alternative)
           virtualenv
           jupyterlab
           # sympy          # Symbolic mathematics library
@@ -32,8 +32,8 @@
           # torch          # Deep learning and neural network library
         ]
       ))
-      pyright           # Static type checker
-      ruff              # Python linter and code formatter
+      pyright # Static type checker
+      ruff # Python linter and code formatter
     ];
   };
 }
