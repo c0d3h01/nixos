@@ -14,6 +14,8 @@
   # firmware updates
   services.fwupd.enable = true;
 
+  hardware.graphics.extraPackages = [ pkgs.mesa ];
+
   zramSwap = {
     enable = true;
     priority = 100;
@@ -37,17 +39,21 @@
     kernelModules = [ "kvm-amd" ];
     extraModulePackages = [ ];
 
-    kernelPackages = pkgs.linuxPackages_latest;
+    # kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = [
       "quiet"
       "nowatchdog"
       "loglevel=3"
       "mitigations=off"
-      "elevator=noop"
       "splash"
     ];
 
-    kernel.sysctl = { };
+    kernel.sysctl = {
+      "vm.swappiness" = 10;
+      "vm.vfs_cache_pressure" = 50;
+      "kernel.sched_autogroup_enabled" = 0;
+      "kernel.numa_balancing" = 0;
+    };
 
     initrd = {
       verbose = false;
