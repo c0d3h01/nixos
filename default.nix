@@ -3,5 +3,11 @@
 }:
 
 pkgs.mkShell {
-  packages = [ pkgs.hello ];
+  name = "Dotfiles Shell";
+  # packages = with pkgs; [ pkgs.nix ];
+  buildInputs = with pkgs; [
+    nix
+  ];
+  # shellHook = ''
+  # '';
 }
