@@ -1,4 +1,5 @@
 {
+  inputs,
   config,
   lib,
   pkgs,
@@ -9,19 +10,13 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+
+    inputs.disko.nixosModules.disko
+    ./disko.nix
   ];
 
   # firmware updates
   services.fwupd.enable = true;
-
-  hardware.graphics.extraPackages = [ pkgs.mesa ];
-
-  zramSwap = {
-    enable = true;
-    priority = 100;
-    algorithm = "zstd";
-    memoryPercent = 200;
-  };
 
   boot.loader = {
     grub = lib.mkDefault {
@@ -38,6 +33,7 @@
   boot = {
     kernelModules = [ "kvm-amd" ];
     extraModulePackages = [ ];
+    supportedFilesystems = [ "ntfs" ];
 
     # kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = [

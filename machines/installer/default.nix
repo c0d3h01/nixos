@@ -1,8 +1,9 @@
 {
   imports = [
-    ./btrfs.nix
-    ./disko-config.nix
+    ./amdGPU.nix
+    ./btrfsMaintance.nix
     ./hardware.nix
-    ./tweaks.nix
+    ./systemTweaks.nix
+    ./zramSwap.nix
   ];
 }
