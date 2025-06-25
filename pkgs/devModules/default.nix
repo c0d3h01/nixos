@@ -19,13 +19,13 @@
 
   # <-- Coustom modules -->
   myModules = {
-    docker.enable = true;
+    # docker.enable = true;
     go.enable = true;
     java.enable = true;
     # monitoring.enable = true;
-    # mysql.enable = true;
+    mysql.enable = true;
     node.enable = true;
-    # podman.enable = true;
+    podman.enable = true;
     python.enable = true;
     r.enable = true;
     rust.enable = true;
@@ -39,8 +39,9 @@
   };
 
   environment.systemPackages = with pkgs; [
-    nodejs
     electron
+    toolbox
+    umlet
     gdb
     gcc
     gnumake
@@ -48,7 +49,6 @@
     ninja
     clang
     pkg-config
-    jdk24
     gtk4
     glib
     pango
