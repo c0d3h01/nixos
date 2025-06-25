@@ -12,13 +12,16 @@
   # flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
   # services.flatpak.enable = true;
 
-  programs.appimage.enable = true;
+  # AppImage support
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+  };
 
   # <-- Environment packages -->
   environment.systemPackages = with pkgs; [
     # <-- Desktop applications -->
     firefox
-    chromium
 
     # Notion Enhancer With patches
     (pkgs.callPackage ./notion-app-enhanced { })
@@ -49,8 +52,6 @@
     qbittorrent
     obs-studio
     libreoffice-qt6-fresh
-    blender
-    # gimp
     obsidian
   ];
 }
