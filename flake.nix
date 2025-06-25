@@ -29,105 +29,53 @@
       ...
     }:
     let
-      declarative = {
+      userConfig = {
         hostname = "devbox";
         username = "c0d3h01";
         fullName = "Harshal Sawant";
       };
 
-      allSystems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
-
-      overlays = import ./overlays;
-
-      nixpkgsConfig = {
-        config.allowUnfree = true;
-        overlays = overlays;
-      };
+      system = "x86_64-linux";
 
       machineModule = name: ./machines/${name};
       homeModule = ./homeManager/home.nix;
 
-      devShellModules = {
-        python = ./devShells/python.nix;
-        rust = ./devShells/rust.nix;
-        node = ./devShells/node.nix;
-        go = ./devShells/go.nix;
-        java = ./devShells/java.nix;
-      };
-
-      devenvShellModules = {
-        rust = ./devenvShells/rust.nix;
-        flutter = ./devenvShells/flutter.nix;
-      };
-
       homeConfigurations = {
-        "${declarative.username}@${declarative.hostname}" = home-manager.lib.homeManagerConfiguration {
+        "${userConfig.username}@${userConfig.hostname}" = home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             system = "x86_64-linux";
-            overlays = overlays;
             config.allowUnfree = true;
           };
           extraSpecialArgs = {
-            inherit inputs self declarative;
+            inherit inputs self userConfig;
           };
           modules = [ homeModule ];
         };
       };
-
     in
+    {
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
 
-    flake-utils.lib.eachSystem allSystems (
-      system:
-      let
-        pkgs = import nixpkgs { inherit system; } // nixpkgsConfig;
-      in
-      {
-        pkgs = pkgs;
-        formatter = pkgs.nixfmt-tree;
-        checks.pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
-          src = ./.;
-          hooks = {
-            alejandra.enable = true;
-            statix.enable = true;
-            deadnix.enable = true;
-          };
-        };
-
-        devShells = builtins.mapAttrs (_: file: import file { inherit pkgs; }) devShellModules;
-        devenvShells = builtins.mapAttrs (
-          _: file:
-          import file {
-            pkgs = pkgs;
-            inputs = inputs;
-          }
-        ) devenvShellModules;
-      }
-    )
-    // {
       inherit homeConfigurations;
 
-      nixosConfigurations.${declarative.hostname} = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+      nixosConfigurations.${userConfig.hostname} = nixpkgs.lib.nixosSystem {
+        system = "${system}";
         specialArgs = {
-          inherit inputs self declarative;
+          inherit inputs self userConfig;
         };
         modules = [
-          (machineModule declarative.username)
-          inputs.disko.nixosModules.disko
+          (machineModule userConfig.username)
           home-manager.nixosModules.home-manager
           {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {
-              inherit inputs self declarative;
-            };
-            home-manager.users.${declarative.username} = {
-              imports = [ homeModule ];
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = {
+                inherit inputs self userConfig;
+              };
+              users.${userConfig.username} = {
+                imports = [ homeModule ];
+              };
             };
           }
         ];
