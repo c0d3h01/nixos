@@ -13,11 +13,6 @@
     ../../secrets
   ];
 
-  documentation.enable = false;
-  documentation.nixos.enable = lib.mkForce false;
-  documentation.info.enable = false;
-  documentation.doc.enable = false;
-
   time.timeZone = "Asia/Kolkata";
   i18n = {
     defaultLocale = "en_IN";
@@ -57,7 +52,6 @@
     shell = pkgs.zsh;
     ignoreShellProgramCheck = true;
     home = "/home/${userConfig.username}";
-    # hashedPasswordFile = config.age.secrets.ssh-key.path;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICSjL8HGjiSAnLHupMZin095bql7A8+UDfc7t9XCZs8l harshalsawant.dev@gmail.com"
     ];
