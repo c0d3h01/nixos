@@ -23,7 +23,6 @@
   nix = {
     enable = true;
     checkConfig = true;
-    channel.enable = false;
 
     gc = {
       automatic = true;
