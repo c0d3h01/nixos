@@ -2,21 +2,25 @@
   description = "NixOS Flake: WorkSpace";
 
   inputs = {
-    # System module inputs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
+
     systems.url = "github:nix-systems/default";
-    flake-utils.inputs.systems.follows = "systems";
+
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Extras / Modules
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+
+    sops-nix.url = "github:c0d3h01/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
+
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
   };
 
@@ -24,7 +28,6 @@
     inputs@{
       self,
       nixpkgs,
-      flake-utils,
       home-manager,
       ...
     }:
