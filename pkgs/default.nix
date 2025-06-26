@@ -10,7 +10,7 @@
 
   # <-- Enable flatpak repo --> :
   # flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-  # services.flatpak.enable = true;
+  services.flatpak.enable = true;
 
   # AppImage support
   programs.appimage = {
@@ -33,6 +33,7 @@
     figma-linux
     vscode-fhs
     jetbrains.pycharm-community-bin
+    jetbrains.webstorm
     # android-studio
 
     # Communication apps
