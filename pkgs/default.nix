@@ -18,7 +18,7 @@
     binfmt = true;
   };
 
-    # <-- Coustom modules -->
+  # <-- Coustom modules -->
   myModules = {
     # docker.enable = true;
     go.enable = true;

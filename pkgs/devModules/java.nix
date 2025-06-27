@@ -15,7 +15,8 @@
 
   config = lib.mkIf config.myModules.java.enable {
     environment.systemPackages = with pkgs; [
-      jdk24
+      # jdk24
+      semeru-bin
       maven
       gradle
     ];
