@@ -9,6 +9,8 @@ pkgs.mkShell {
     yarn
     eslint
     prettierd
+    pnpm
+    bun
   ];
   # shellHook = ''
   # '';
