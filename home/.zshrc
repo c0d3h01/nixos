@@ -1,6 +1,13 @@
 # Core Configuration
 export LC_ALL="en_IN.UTF-8"
 
+export GOPATH="$HOME/go"
+export GOBIN="$HOME/go/bin"
+export PATH="$PATH:$GOBIN"
+
+# Set R_LIBS_USER for custom library path
+export R_LIBS_USER=~/R/x86_64-library/%v
+
 # Editor/Terminal/Browser Selection
 set_default() {
   for cmd in "$@"; do
@@ -51,14 +58,9 @@ export PATH
 # Tool Configurations
 export LESS="-R -F"
 export FZF_DEFAULT_OPTS="
-  --height 40%
-  --layout=reverse
-  --border
-  --preview 'bat --color=always --style=numbers --line-range :500 {} || cat {}'
-  --preview-window=right:60%
-  --color=fg:#d0d0d0,bg:#181818,hl:#ffaf00
-  --color=fg+:#f0f0f0,bg+:#262626,hl+:#ffaf00
-  --color=info:#afd700,prompt:#af00af,pointer:#ff5faf,marker:#87d700,spinner:#af5fff,header:#87afd7
+--color=dark
+--color=fg:-1,bg:-1,hl:#c678dd,fg+:#ffffff,bg+:#4b5263,hl+:#d858fe
+--color=info:#98c379,prompt:#61afef,pointer:#be5046,marker:#e5c07b,spinner:#61afef,header:#61afef
 "
 
 # Zsh Features
@@ -157,6 +159,13 @@ alias home-check='journalctl -u home-manager-$USER.service'
 alias hm='home-manager'
 alias ts='date "+%Y-%m-%d %H:%M:%S"'
 alias reload='source ~/.zshrc'
+
+# R aliases and helpers
+alias r="R --vanilla"
+alias rscript="Rscript"
+alias rdev="R -q --no-save"
+alias rlint="Rscript -e 'lintr::lint_dir()'"
+alias rfmt="Rscript -e 'styler::style_dir()'"
 
 # Environment sources (Home Manager, Nix)
 [ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ] && source ~/.nix-profile/etc/profile.d/hm-session-vars.sh

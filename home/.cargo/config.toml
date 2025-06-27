@@ -1,0 +1,8 @@
+[build]
+target-dir = "/tmp/rust-target"
+
+[net]
+git-fetch-with-cli = true
+
+[registries.crates-io]
+protocol = "sparse"
