@@ -10,13 +10,17 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-
-    inputs.disko.nixosModules.disko
-    ./disko.nix
   ];
 
   # firmware updates
   services.fwupd.enable = true;
+
+  zramSwap = {
+    enable = true;
+    priority = 100;
+    algorithm = "zstd";
+    memoryPercent = 200;
+  };
 
   boot.loader = {
     grub = lib.mkDefault {

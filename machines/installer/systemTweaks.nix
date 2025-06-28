@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   ...
@@ -18,15 +17,15 @@
   powerManagement = {
     enable = true;
     powertop.enable = true;
-    cpuFreqGovernor = lib.mkDefault "schedutil";
+    cpuFreqGovernor = lib.mkForce "schedutil";
   };
 
   # I/O scheduler & USB autosuspend
-  services.udev.extraRules = ''
+  services.udev.extraRules = lib.mkForce ''
     # NVMe SSD: none (noop)
     ACTION=="add|change", KERNEL=="nvme0n1", ATTR{queue/scheduler}="none"
     # HDD: bfq (good for HDD, or use 'mq-deadline' for lowest latency)
-    ACTION=="add|change", KERNEL=="sda", ATTR{queue/scheduler}="mq-deadline"
+    ACTION=="add|change", KERNEL=="sda", ATTR{queue/scheduler}="bfq"
 
     # USB autosuspend for power saving
     ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"

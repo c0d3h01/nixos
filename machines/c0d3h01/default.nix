@@ -1,15 +1,12 @@
 {
-  inputs,
-  config,
   pkgs,
-  lib,
   userConfig,
   ...
 }:
 
 {
   imports = [
-    ../installer
+    ../installer.nix
     ../../nixosModules
     ../../secrets
   ];
@@ -50,7 +47,6 @@
   users.mutableUsers = false;
 
   users.users = {
-
     root = {
       # Allow the user to log in as root without a password.
       hashedPassword = "";

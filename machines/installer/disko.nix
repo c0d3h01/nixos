@@ -32,7 +32,6 @@
                       "lazytime"
                       "space_cache=v2"
                       "commit=120"
-                      "nodiscard"
                     ];
                   };
                   "/@home" = {
@@ -44,7 +43,6 @@
                       "lazytime"
                       "space_cache=v2"
                       "commit=120"
-                      "nodiscard"
                     ];
                   };
                   "/@nix" = {
@@ -55,7 +53,6 @@
                       "noatime"
                       "space_cache=v2"
                       "commit=60"
-                      "nodiscard"
                     ];
                   };
                   "/@log" = {
@@ -66,7 +63,6 @@
                       "noatime"
                       "space_cache=v2"
                       "commit=120"
-                      "nodiscard"
                     ];
                   };
                   "/@tmp" = {
@@ -77,7 +73,6 @@
                       "space_cache=v2"
                       "nodatacow"
                       "commit=120"
-                      "nodiscard"
                     ];
                   };
                 };
