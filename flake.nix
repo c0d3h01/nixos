@@ -83,5 +83,11 @@
           }
         ];
       };
+
+      packages.${system} = {
+        iso = self.nixosConfigurations.${userConfig.hostname}.config.system.build.isoImage;
+        diskImage = self.nixosConfigurations.${userConfig.hostname}.config.system.build.diskImage;
+        vmImage = self.nixosConfigurations.${userConfig.hostname}.config.system.build.vmImage;
+      };
     };
 }
