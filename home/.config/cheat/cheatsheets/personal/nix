@@ -13,14 +13,12 @@ nix flake init      # Create new flake.nix
 nix flake update    # Update flake.lock
 nix flake check     # Run flake checks
 nix flake show      # Show flake outputs
-nix flake list-inputs # List flake inputs
 nix flake metadata  # Show flake metadata
 
 # --- Store & Profiles ---
 nix store gc        # Garbage collect store paths
 nix store verify    # Verify store path integrity
 nix store optimise  # Deduplicate store
-nix store diff-closures # Show diff between closures
 nix profile install # Install package to user profile
 nix profile remove  # Remove package from profile
 nix profile list    # List profile packages
