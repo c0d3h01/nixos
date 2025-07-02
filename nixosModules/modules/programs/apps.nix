@@ -17,11 +17,7 @@
     ghostty
 
     # Code editors
-    figma-linux
     vscode-fhs
-    jetbrains.pycharm-community-bin
-    jetbrains.webstorm
-    # android-studio
 
     # Communication apps
     slack
@@ -43,24 +39,12 @@
     obsidian
 
     # <-- Tools -->
-    electron
-    toolbox
-    umlet
-
     gdb
     gcc
     gnumake
-    cmake
     cmakeWithGui
     ninja
     clang
     pkg-config
-
-    gtk4
-    glib
-    pango
-    gdk-pixbuf
-    gobject-introspection
-    libepoxy
   ];
 }
