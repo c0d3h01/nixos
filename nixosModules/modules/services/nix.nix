@@ -11,6 +11,8 @@
 
   programs.nix-ld.enable = true;
   services.ollama.enable = true;
+  programs.zsh.enable = true;
+  documentation.info.enable = false;
 
   nixpkgs = {
     config = {
