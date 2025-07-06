@@ -160,6 +160,7 @@ alias home-check='journalctl -u home-manager-$USER.service'
 alias hm='home-manager'
 alias ts='date "+%Y-%m-%d %H:%M:%S"'
 alias reload='source ~/.zshrc'
+alias k=kubectl
 
 # R aliases and helpers
 alias r="R --vanilla"
@@ -181,9 +182,6 @@ if [ -f "/etc/profile.d/nix.sh" ]; then
 elif [ -f "~/.nix-profile/etc/profile.d/nix.sh" ]; then
   . ~/.nix-profile/etc/profile.d/nix.sh
 fi
-
-# Ghostty terminal integration
-[ -f "~/.nix-profile/zsh/ghostty-integration" ] && . ~/.nix-profile/zsh/ghostty-integration
 
 # Darwin/Nix/Remote
 [[ $OSTYPE == darwin* ]] && export NIX_PATH="$NIX_PATH:darwin-config=$HOME/.config/nixpkgs/darwin-configuration.nix"
@@ -266,27 +264,22 @@ wrap_command bat cat cat
 wrap_command fastfetch fastfetch ff
 wrap_command rg grep grep
 
-# Direnv hook if available
-if command -v direnv >/dev/null 2>&1; then
-  eval "$(direnv hook zsh)"
-fi
-
-# Kubectl alias and autocompletion if available
-if command -v kubectl >/dev/null 2>&1; then
-  alias k=kubectl
-  source <(kubectl completion zsh)
-fi
-
 # Tool Initialization
-command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh --cmd j)"
-command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
+eval "$(zoxide init zsh --cmd j)"
+eval "$(direnv hook zsh)"
 
 # Starship prompt
-# command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
 
-# Custom Plugin Submodules
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+source "$(fzf-share)/key-bindings.zsh"
+FZF_DEFAULT_COMMAND='fd --type f'
+FZF_CTRL_R_OPTS=--reverse
+
+# fzf tab
 if (( $+commands[fzf] )); then
-  source "$HOME/.zsh-fzf-tab/fzf-tab.zsh"
+  source "$HOME/.fzf-tab/fzf-tab.zsh"
   [[ -n $TMUX ]] && zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
   zstyle ':completion:*:git-checkout:*' sort false
   zstyle ':completion:*:descriptions' format '[%d]'
@@ -298,23 +291,12 @@ if (( $+commands[fzf] )); then
   zstyle ':fzf-tab:*' switch-group '<' '>'
 fi
 
-fpath+=("$HOME/.zsh-completions")
-[[ -d ~/.zsh-completions/src ]] && fpath+=("$HOME/.zsh-completions/src")
-[[ -d ~/.nix-profile/share/zsh/site-functions ]] && fpath+=("$HOME/.nix-profile/share/zsh/site-functions")
-[[ -d /run/current-system/sw/share/zsh/site-functions/ ]] && fpath+=("/run/current-system/sw/share/zsh/site-functions/")
+# Zsh completions plugin
+fpath+=("$HOME/.zsh-completions/src" $fpath)
 
 # zsh-autosuggestions
 source "$HOME/.zsh-autosuggestions/zsh-autosuggestions.zsh"
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=60"
-
-if (( $+commands[fzf-share] )); then
-  FZF_CTRL_R_OPTS=--reverse
-  (( $+commands[fd] )) && export FZF_DEFAULT_COMMAND='fd --type f'
-  source "$(fzf-share)/key-bindings.zsh"
-fi
-
-fignore=(.DS_Store $fignore)
-
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=60,bold,underline"
 
 # Pure Prompt
 fpath+=($HOME/.zsh-pure)
@@ -333,13 +315,6 @@ source "$HOME/.zsh-autopair/autopair.zsh"
 
 # fast-syntax-highlighting
 source "$HOME/.zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
-
-# fzf shell integration
-[ -f "$HOME/.fzf/shell/key-bindings.zsh" ] && source "$HOME/.fzf/shell/key-bindings.zsh"
-[ -f "$HOME/.fzf/shell/completion.zsh" ]   && source "$HOME/.fzf/shell/completion.zsh"
-
-# fzf-tab
-source "$HOME/.zsh-fzf-tab/fzf-tab.zsh"
 
 # Prevent broken terminals by resetting to sane defaults after a command
 ttyctl -f

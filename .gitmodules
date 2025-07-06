@@ -13,30 +13,12 @@
 [submodule "home/.zsh-fast-syntax-highlighting"]
 	path = home/.zsh-fast-syntax-highlighting
 	url = https://github.com/zdharma-continuum/fast-syntax-highlighting.git
-[submodule "home/.zsh-fzf-tab"]
-	path = home/.zsh-fzf-tab
-	url = https://github.com/Aloxaf/fzf-tab.git
-[submodule "home/.oh-my-bash"]
-	path = home/.oh-my-bash
-	url = https://github.com/ohmybash/oh-my-bash.git
-[submodule "home/.bash-completion"]
-	path = home/.bash-completion
-	url = https://github.com/scop/bash-completion.git
-[submodule "home/.fzf"]
-	path = home/.fzf
-	url = https://github.com/junegunn/fzf.git
 [submodule "gdb/gef-extras"]
 	path = gdb/gef-extras
 	url = https://github.com/hugsy/gef-extras
 [submodule "gdb/gef"]
 	path = gdb/gef
 	url = https://github.com/hugsy/gef
-[submodule "fish/pure"]
-	path = fish/pure
-	url = https://github.com/pure-fish/pure
-[submodule "fish/fish-async-prompt"]
-	path = fish/fish-async-prompt
-	url = https://github.com/acomagu/fish-async-prompt
-[submodule "fish/autopair.fish"]
-	path = fish/autopair.fish
-	url = https://github.com/jorgebucaran/autopair.fish
+[submodule "home/.fzf-tab"]
+	path = home/.fzf-tab
+	url = https://github.com/Aloxaf/fzf-tab
