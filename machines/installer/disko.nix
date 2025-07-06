@@ -14,7 +14,10 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "umask=0077" ];
+                mountOptions = [
+                  "defaults"
+                  "umask=0077"
+                ];
               };
             };
             root = {
@@ -29,29 +32,29 @@
                   "/@" = {
                     mountpoint = "/";
                     mountOptions = [
-                      "compress=zstd:1"
-                      "ssd"
+                      "defaults"
                       "noatime"
-                      "space_cache=v2"
+                      "compress=zstd"
+                      "commit=120"
                     ];
                   };
 
                   "/@home" = {
                     mountpoint = "/home";
                     mountOptions = [
-                      "compress=zstd:1"
-                      "ssd"
+                      "defaults"
                       "noatime"
-                      "space_cache=v2"
+                      "compress=zstd"
+                      "commit=120"
                     ];
                   };
 
                   "/@nix" = {
                     mountpoint = "/nix";
                     mountOptions = [
-                      "compress=zstd:1"
-                      "ssd"
+                      "defaults"
                       "noatime"
+                      "compress=zstd"
                       "space_cache=v2"
                     ];
                   };
