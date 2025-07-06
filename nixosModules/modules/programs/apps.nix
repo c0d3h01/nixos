@@ -14,7 +14,7 @@
     (pkgs.callPackage ./_notion-app-enhanced { })
 
     # Terminal
-    ghostty
+    kitty
 
     # Code editors
     vscode-fhs
