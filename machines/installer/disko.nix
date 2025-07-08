@@ -105,14 +105,15 @@
         };
       };
       nodev = {
-      "/tmp" = {
-        fsType = "tmpfs";
-        mountOptions = [
-          "defaults"
-          "noatime"
-          "size=1G"
-          "mode=1777"
-        ];
+        "/tmp" = {
+          fsType = "tmpfs";
+          mountOptions = [
+            "defaults"
+            "noatime"
+            "size=1G"
+            "mode=1777"
+          ];
+        };
       };
     };
   };
