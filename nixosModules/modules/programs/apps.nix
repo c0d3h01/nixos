@@ -18,6 +18,8 @@
 
     # Code editors
     vscode-fhs
+    jetbrains.webstorm
+    jetbrains.pycharm-community-bin
 
     # Communication apps
     slack
