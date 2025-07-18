@@ -5,7 +5,6 @@
     {
       formatter = pkgs.treefmt.withConfig {
         runtimeInputs = with pkgs; [
-          # keep-sorted start
           actionlint
           deadnix
           keep-sorted
@@ -15,7 +14,11 @@
           statix
           stylua
           taplo
-          # keep-sorted end
+          # rustfmt
+          # ruff
+          # mypy
+          # yamlfmt
+          # clang
 
           (writeShellScriptBin "statix-fix" ''
             for file in "$@"; do
@@ -35,7 +38,6 @@
           ];
 
           formatter = {
-            # keep-sorted start block=yes newline_separated=yes
             actionlint = {
               command = "actionlint";
               includes = [
@@ -57,6 +59,7 @@
             nixfmt = {
               command = "nixfmt";
               includes = [ "*.nix" ];
+              excludes = [ ];
             };
 
             shellcheck = {
@@ -67,6 +70,8 @@
                 # direnv
                 "*.envrc"
                 "*.envrc.*"
+                "*.bashrc"
+                "*.zshrc"
               ];
             };
 
@@ -84,25 +89,46 @@
                 # direnv
                 "*.envrc"
                 "*.envrc.*"
+                "*.bashrc"
+                "*.zshrc"
               ];
+              excludes = [ ];
             };
 
             statix = {
               command = "statix-fix";
+              options = "";
               includes = [ "*.nix" ];
+              excludes = [ ];
             };
+
+            # ruff-format = {
+            #   command = "";
+            #   options = "";
+            #   includes = [ ];
+            #   excludes = [ ];
+            # };
+
+            # yamlfmt = {
+            #   command = "";
+            #   options = "";
+            #   includes = [ ];
+            #   excludes = [ ];
+            # };
 
             stylua = {
               command = "stylua";
+              options = "";
               includes = [ "*.lua" ];
+              excludes = [ ];
             };
 
             taplo = {
               command = "taplo";
               options = "format";
               includes = [ "*.toml" ];
+              excludes = [ ];
             };
-            # keep-sorted end
           };
         };
       };
