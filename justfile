@@ -1,2 +1,8 @@
+# Variables
+user := `whoami`
+host := `hostname`
+
+# Rebuild Home Manager configuration
 home:
-    home-manager switch --flake '.#c0d3h01@neo'
+    @echo "Switching Home Manager for {{user}}@{{host}}..."
+    nh home switch || home-manager switch --flake ".#{{user}}@{{host}}"
