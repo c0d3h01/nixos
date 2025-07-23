@@ -1,7 +1,3 @@
-{ lib, config, ... }:
-let
-  inherit (lib) mkOrder removePrefix;
-in
 {
   programs.zsh = {
     enable = true;

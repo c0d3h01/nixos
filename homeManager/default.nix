@@ -1,14 +1,10 @@
 {
-  config,
   username,
   lib,
   pkgs,
-  inputs,
   ...
 }:
-let
-  inherit (config.lib.nixGL) wrap;
-in
+
 {
   imports = [
     ./modules
