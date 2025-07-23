@@ -163,6 +163,7 @@ alias hm='home-manager'
 alias ts='date "+%Y-%m-%d %H:%M:%S"'
 alias reload='source ~/.zshrc'
 alias k=kubectl
+alias grep='rg'
 
 # R aliases and helpers
 alias r="R --vanilla"
@@ -246,14 +247,13 @@ wrap_command() {
 }
 wrap_command bat cat cat
 wrap_command fastfetch fastfetch ff
-wrap_command rg grep grep
 
 # Tool Initialization
 eval "$(zoxide init zsh --cmd j)"
 eval "$(direnv hook zsh)"
 
 # Starship prompt
-# eval "$(starship init zsh)"
+eval "$(starship init zsh)"
 
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
@@ -282,17 +282,17 @@ fpath=("$HOME/.zsh-completions/src" $fpath)
 source "$HOME/.zsh-autosuggestions/zsh-autosuggestions.zsh"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=60,bold,underline"
 
-# Pure Prompt
-fpath+=($HOME/.zsh-pure)
-# fpath+=("$(brew --prefix)/share/zsh/site-functions") # For Homebrew
-zstyle :prompt:pure:path color yellow
-zstyle :prompt:pure:git:branch color yellow
-zstyle :prompt:pure:user color cyan
-zstyle :prompt:pure:host color yellow
-zstyle :prompt:pure:git:branch:cached color red
-zstyle :prompt:pure:git:stash show yes
-autoload -U promptinit; promptinit
-prompt pure
+# # Pure Prompt
+# fpath+=($HOME/.zsh-pure)
+# # fpath+=("$(brew --prefix)/share/zsh/site-functions") # For Homebrew
+# zstyle :prompt:pure:path color yellow
+# zstyle :prompt:pure:git:branch color yellow
+# zstyle :prompt:pure:user color cyan
+# zstyle :prompt:pure:host color yellow
+# zstyle :prompt:pure:git:branch:cached color red
+# zstyle :prompt:pure:git:stash show yes
+# autoload -U promptinit; promptinit
+# prompt pure
 
 # zsh-autopair
 source "$HOME/.zsh-autopair/autopair.zsh"
@@ -302,13 +302,13 @@ source "$HOME/.zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 
 # Launch Zellij automatically
 # eval "$(zellij setup --generate-auto-start zsh)"
-if command -v zellij >/dev/null; then
-  if [[ -z "$ZELLIJ" && -z "$ZELLIJ_SESSION_NAME" && -z "$TMUX" ]]; then
-    if [[ -z "$SSH_CONNECTION" && $- == *i* ]]; then
-      exec zellij
-    fi
-  fi
-fi
+# if command -v zellij >/dev/null; then
+#   if [[ -z "$ZELLIJ" && -z "$ZELLIJ_SESSION_NAME" && -z "$TMUX" ]]; then
+#     if [[ -z "$SSH_CONNECTION" && $- == *i* ]]; then
+#       exec zellij
+#     fi
+#   fi
+# fi
 
 # Prevent broken terminals by resetting to sane defaults after a command
 ttyctl -f
