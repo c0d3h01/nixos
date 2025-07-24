@@ -26,7 +26,7 @@
     # hm-ghostty.enable = true;
     hm-notion-app.enable = true;
     hm-chromium.enable = true;
-    hm-firefox.enable = true;
+    # hm-firefox.enable = true;
     # hm-vscode.enable = true;
     # hm-monitoring.enable = true;
     # hm-fonts.enable = true;
@@ -79,6 +79,7 @@
       fzf # fuzzy finder CLI
       tree-sitter # Parser generator tool
       gdu # Disk usage analyzer CLI
+      seahorse # managing encryption keys
 
       # Language Servers
       lua-language-server
