@@ -1,5 +1,5 @@
 {
-  username,
+  userConfig,
   lib,
   pkgs,
   ...
@@ -26,7 +26,6 @@
     # hm-ghostty.enable = true;
     hm-notion-app.enable = true;
     hm-chromium.enable = true;
-    # hm-firefox.enable = true;
     # hm-vscode.enable = true;
     # hm-monitoring.enable = true;
     # hm-fonts.enable = true;
@@ -36,8 +35,8 @@
   };
 
   home = {
-    inherit username;
-    homeDirectory = "/home/${username}";
+    inherit (userConfig) username;
+    homeDirectory = "/home/${userConfig.username}";
     stateVersion = lib.trivial.release;
     shell.enableZshIntegration = true;
 
