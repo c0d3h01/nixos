@@ -1,7 +1,11 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  userConfig,
+  ...
+}:
 
 {
-  users.users.c0d3h01.extraGroups = [
+  users.users.${userConfig.username}.extraGroups = [
     "libvirtd"
     "kvm"
   ];

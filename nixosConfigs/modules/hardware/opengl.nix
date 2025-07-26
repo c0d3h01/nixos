@@ -7,10 +7,9 @@
 }:
 {
   # Enable OpenGL for graphics applications - only if GUI is available
-  hardware.opengl = lib.mkIf userConfig.machine.opengl {
+  hardware.graphics = lib.mkIf userConfig.machine.opengl {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true; # For 32-bit applications
+    enable32Bit = true; # For 32-bit applications
 
     # Dynamic packages based on actual GPU type
     extraPackages =

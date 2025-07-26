@@ -12,6 +12,12 @@ let
         inherit (inputs) self;
       };
       modules = [
+        # Import all NixOS modules
+        ./modules
+
+        # Disko integration for disk partitioning
+        inputs.disko.nixosModules.disko
+
         # Home Manager integration
         inputs.home-manager.nixosModules.home-manager
         {
@@ -21,6 +27,7 @@ let
             extraSpecialArgs = {
               inherit inputs userConfig hostName;
               inherit (inputs) self;
+              inherit (inputs) nixgl;
             };
             users.${userConfig.username} = {
               imports = [ ../homeManager/modules ];

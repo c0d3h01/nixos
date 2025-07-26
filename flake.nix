@@ -34,6 +34,11 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hosts = {
+      url = "github:StevenBlack/hosts";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -50,6 +55,7 @@
       imports = [
         ./flake-parts
         ./homeManager/flake-module.nix
+        ./nixosConfigs/flake-module.nix
       ];
     };
 }

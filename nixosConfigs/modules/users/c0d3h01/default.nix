@@ -16,7 +16,6 @@ in
 {
   imports = [
     ./disko-btrfs.nix
-    ./hardware.nix
   ];
 
   users.users = lib.mkIf isC0d3h01 {

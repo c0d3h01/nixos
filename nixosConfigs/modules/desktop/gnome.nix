@@ -13,10 +13,11 @@ in
 
     services = {
       # GNOME desktop environment configuration
+      desktopManager.gnome.enable = true;
+      displayManager.gdm.enable = true;
+
       xserver = {
         enable = true;
-        desktopManager.gnome.enable = true;
-        displayManager.gdm.enable = true;
         # Disable xterm
         desktopManager.xterm.enable = false;
         excludePackages = [ pkgs.xterm ];

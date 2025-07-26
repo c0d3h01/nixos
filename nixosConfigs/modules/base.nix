@@ -1,4 +1,5 @@
 {
+  lib,
   config,
   pkgs,
   inputs,
@@ -15,6 +16,7 @@
   # System state version
   system.stateVersion = lib.trivial.release;
 
+  programs.zsh.enable = true;
   # Create the main user
   users.users.${userConfig.username} = {
     isNormalUser = true;
@@ -69,7 +71,7 @@
   fonts.packages = with pkgs; [
     (lib.mkIf (userConfig.dev.terminalFont == "JetBrains Mono") jetbrains-mono)
     noto-fonts
-    noto-fonts-cjk
+    noto-fonts-cjk-sans
     noto-fonts-emoji
     liberation_ttf
     source-code-pro
