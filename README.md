@@ -1,25 +1,6 @@
-# **c0d3h01 Dotfiles**
+# **c0d3h01's dotfiles**
 
 These are my personal dotfiles, managed with [Nix Flakes](https://nixos.org/manual/nix/stable/command-ref/new-cli/nix3-flake) and [Home Manager](https://nix-community.github.io/home-manager/).
-
----
-
-## **Requirements**
-
-* **Nix** (latest stable version) [Reference](https://nixos.org/download/).
-  Install Nix using:
-
-  ```bash
-  sh <(curl -L https://nixos.org/nix/install)
-  ```
-
-* **SELinux Disabled** (required on SELinux-enabled systems).
-  Nix has compatibility issues with SELinux. Disable it by editing `/etc/selinux/config`:
-
-  ```bash
-  sudo sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
-  sudo reboot
-  ```
 
 ---
 
@@ -31,45 +12,21 @@ Run the following command to switch to your Home Manager configuration directly 
 
 ```bash
 nix run github:nix-community/home-manager -- switch \
-  --flake 'github:c0d3h01/dotfiles#c0d3h01@fedora'
+  --flake 'github:c0d3h01/dotfiles#c0d3h01@neo'
 ```
 
----
-
-## **Updating**
-
-To update the flake inputs and reapply the configuration:
-
-```bash
-nix flake update --flake github:c0d3h01/dotfiles
-nix run github:nix-community/home-manager -- switch \
-  --flake 'github:c0d3h01/dotfiles#c0d3h01@fedora'
-```
-
----
-
-## **Optional: Local Clone**
-
-If you want to edit your dotfiles locally:
+- Optional: Local Clone
 
 ```bash
 git clone https://github.com/c0d3h01/dotfiles
 cd dotfiles
 nix run github:nix-community/home-manager -- switch \
-  --flake '.#c0d3h01@fedora'
+  --flake '.#c0d3h01@neo'
 ```
 
 ---
 
-## **System Rebuild (NixOS Only)**
-
-If your flake includes a NixOS system configuration:
-
-```bash
-sudo nixos-rebuild switch --flake 'github:c0d3h01/dotfiles#fedora'
-```
-
-## Clean Installation
+## **NixOS Clean Installation**
 
 ```bash
 # Clone the repository
@@ -87,16 +44,5 @@ sudo btrfs filesystem mkswapfile --size 8G /mnt/swapfile
 sudo swapon /mnt/swapfile
 
 # Install NixOS
-sudo nixos-install --flake '.#laptop'
-```
-
----
-
-## **Bootstrap on a Fresh System**
-
-To bootstrap everything on a new system with a single command:
-
-```bash
-nix run github:nix-community/home-manager -- switch \
-  --flake 'github:c0d3h01/dotfiles#c0d3h01@fedora'
+sudo nixos-install --flake '.#laptop' --no-root-passwd
 ```
