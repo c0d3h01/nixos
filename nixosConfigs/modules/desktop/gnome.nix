@@ -22,34 +22,32 @@ in
         desktopManager.xterm.enable = false;
         excludePackages = [ pkgs.xterm ];
       };
-
-      # Disable gnome initial setup
-      gnome.gnome-initial-setup.enable = false;
-
-      # GNOME settings
-      gnome.gnome-keyring.enable = true;
-      gnome.gnome-remote-desktop.enable = lib.mkForce false;
-      gnome.glib-networking.enable = true;
-      udev.packages = [ pkgs.gnome-settings-daemon ];
     };
 
     # Exclude unwanted GNOME packages
-    environment.gnome.excludePackages = with pkgs; [
-      gnome-tour
-      gnome-font-viewer
-      epiphany
-      yelp
-      baobab
-      gnome-music
-      gnome-remote-desktop
-      gnome-usage
-      gnome-console
-      gnome-contacts
-      gnome-weather
-      gnome-maps
-      gnome-connections
-      gnome-system-monitor
-      gnome-user-docs
-    ];
+    environment = {
+      systemPackages = with pkgs; [
+        gnome-tweaks
+        gnome-photos
+      ];
+
+      gnome.excludePackages = with pkgs; [
+        gnome-tour
+        gnome-font-viewer
+        epiphany
+        yelp
+        baobab
+        gnome-music
+        gnome-remote-desktop
+        gnome-usage
+        gnome-console
+        gnome-contacts
+        gnome-weather
+        gnome-maps
+        gnome-connections
+        gnome-system-monitor
+        gnome-user-docs
+      ];
+    };
   };
 }
