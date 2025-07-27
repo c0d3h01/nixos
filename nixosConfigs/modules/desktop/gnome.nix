@@ -29,6 +29,7 @@ in
       systemPackages = with pkgs; [
         gnome-tweaks
         gnome-photos
+        rhythmbox
       ];
 
       gnome.excludePackages = with pkgs; [
