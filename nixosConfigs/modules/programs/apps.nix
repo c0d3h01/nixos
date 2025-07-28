@@ -39,13 +39,12 @@
       signal-desktop
 
       # Productivity apps
-      libreoffice-qt6-fresh
+      libreoffice
       obsidian
 
       # Media and content creation
       obs-studio
       gimp # Image editing
-      vlc # Media player
 
       # System utilities
       anydesk # Remote desktop
