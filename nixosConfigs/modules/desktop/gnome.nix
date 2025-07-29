@@ -17,7 +17,6 @@ in
       displayManager.gdm.enable = true;
 
       xserver = {
-        enable = true;
         # Disable xterm
         desktopManager.xterm.enable = false;
         excludePackages = [ pkgs.xterm ];
@@ -29,6 +28,7 @@ in
       systemPackages = with pkgs; [
         gnome-tweaks
         gnome-photos
+        thunderbird
         rhythmbox
       ];
 
@@ -48,6 +48,7 @@ in
         gnome-connections
         gnome-system-monitor
         gnome-user-docs
+        geary
       ];
     };
   };

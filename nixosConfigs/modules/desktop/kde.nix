@@ -13,7 +13,6 @@ in
     services = {
       desktopManager.plasma6.enable = lib.mkDefault true;
       displayManager.sddm.enable = lib.mkDefault true;
-      xserver.enable = true;
     };
 
     # Exclude unwanted KDE packages
