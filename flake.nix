@@ -58,8 +58,6 @@
         ./homeManager/flake-module.nix
         ./nixosConfigs/flake-module.nix
       ];
-      diskoConfigurations = {
-        myconfig = diskoConfig;
-      };
+      diskoConfigurations = diskoConfig;
     };
 }
