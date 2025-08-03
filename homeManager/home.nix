@@ -15,10 +15,7 @@ let
 in
 {
   imports = [
-    ./cli
-    ./programs
-    ./services
-    ./system
+    ./modules
   ];
 
   # Let Home Manager install and manage itself.
@@ -86,6 +83,7 @@ in
       tree-sitter # Parser generator tool
       gdu # Disk usage analyzer CLI
       seahorse # managing encryption keys
+      starship
 
       # Language Servers
       lua-language-server
