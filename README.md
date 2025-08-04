@@ -1,8 +1,12 @@
 # **c0d3h01's dotfiles**
 
-- These are my personal dotfiles, managed with [Nix Flakes](https://nixos.org/manual/nix/stable/command-ref/new-cli/nix3-flake) and [Home Manager](https://nix-community.github.io/home-manager/).
+- These are my personal dotfiles, managed with [Nix Flakes](https://nixos.org/manual/nix/stable/command-ref/new-cli/nix3-flake) and [Home Manager](https://nix-community.github.io/home-manager/).  
 
 ---
+
+_NixOs build status_  
+
+[![.github/workflows/build.yml](https://github.com/c0d3h01/dotfiles/actions/workflows/build.yml/badge.svg)](https://github.com/c0d3h01/dotfiles/actions/workflows/build.yml)
 
 ## Installation
 
