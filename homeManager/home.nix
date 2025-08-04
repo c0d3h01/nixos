@@ -1,5 +1,4 @@
 {
-  self,
   userConfig,
   lib,
   pkgs,
