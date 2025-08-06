@@ -38,6 +38,7 @@ in
       powerManagement.finegrained = false;
       open = lib.mkDefault false;
       nvidiaSettings = true;
+      dynamicBoost.enable = true;
     };
 
     # Essential GPU utilities
