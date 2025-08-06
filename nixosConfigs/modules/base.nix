@@ -29,6 +29,7 @@
       "audio"
       "pipewire"
       "video"
+      "render"
       "input"
       "plugdev"
       "lp"
