@@ -49,7 +49,7 @@ let
 in
 {
   config = lib.mkIf userConfig.devStack.ollama {
-    services.open-webui.enable = true;
+    # services.open-webui.enable = true;
 
     services.ollama = {
       enable = true;
