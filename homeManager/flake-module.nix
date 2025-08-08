@@ -13,11 +13,9 @@ let
       extraSpecialArgs = {
         inherit inputs userConfig hostName;
         inherit (inputs) self;
-        inherit (inputs) nixgl;
       };
       modules = [
         ./home.nix
-        ../systems
       ];
     };
 
