@@ -17,53 +17,38 @@
       usbmon.enable = true;
     };
 
-    # Environment packages - only install if GUI is available
     environment.systemPackages =
       with pkgs;
       [
-        # Terminal
         ghostty
-        neovim # Editor
-
-        # Development tools
-        # android-studio-full
+        neovim
+        android-studio
         vscode-fhs
-        # jetbrains.webstorm
-        # jetbrains.pycharm-community-bin
+        jetbrains.webstorm
+        jetbrains.pycharm-community-bin
         postman
         github-desktop
-        # drawio
-
-        # Communication apps
-        # slack
-        vesktop # Better Discord client
+        drawio
+        slack
+        vesktop
         telegram-desktop
         zoom-us
-        # element-desktop # Matrix client
-        # signal-desktop
-
-        # Productivity apps
-        # libreoffice
+        element-desktop
+        signal-desktop
+        libreoffice
         obsidian
-
-        # Media and content creation
-        # gimp # Image editing
-
-        # System utilities
-        # anydesk # Remote desktop
-        # qbittorrent # Torrent client
-
-        # Finance
-        electrum # Bitcoin wallet
+        gimp
+        anydesk
+        qbittorrent
+        electrum
+        arduino
       ]
       ++ lib.optionals userConfig.machineConfig.gaming [
-        # Gaming (conditional)
         lutris
         heroic
         mangohud
       ]
       ++ lib.optionals userConfig.devStack.wine [
-        # Wine for Windows applications
         wineWowPackages.stable
         winetricks
       ];
