@@ -1,0 +1,32 @@
+{
+  imports = [
+    ./appImage.nix
+    ./audio.nix
+    ./automount.nix
+    ./base.nix
+    ./command-not-found.nix
+    ./console.nix
+    ./dbus.nix
+    ./diff.nix
+    ./docs.nix
+    ./fhs-compact.nix
+    ./firmware.nix
+    ./flatpak.nix
+    ./fonts.nix
+    ./libvirt.nix
+    ./locale.nix
+    ./logind.nix
+    ./logs.nix
+    ./oomd.nix
+    ./power.nix
+    ./printing.nix
+    ./scheduler.nix
+    ./seatd.nix
+    ./secrets.nix
+    ./serial.nix
+    ./touchpad.nix
+    ./xdg-portals.nix
+    ./xserver.nix
+    ./yubikey.nix
+  ];
+}
