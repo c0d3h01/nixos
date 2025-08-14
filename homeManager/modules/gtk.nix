@@ -19,7 +19,7 @@
     gtk = {
       enable = true;
 
-     # Set system UI font
+      # Set system UI font
       font = {
         name = "Inter";
         size = 10;

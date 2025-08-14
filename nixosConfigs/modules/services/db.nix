@@ -17,21 +17,27 @@
       enable = true;
       package = pkgs.mariadb;
       ensureDatabases = [ "development" ];
+
       ensureUsers = [
         {
-          name = userConfig.username;
+          name = "root@localhost";
+          ensurePermissions = {
+            "*.*" = "ALL PRIVILEGES";
+          };
+        }
+        {
+          name = "${userConfig.username}@localhost";
           ensurePermissions = {
             "development.*" = "ALL PRIVILEGES";
           };
         }
       ];
-      settings = {
-        mysqld = {
-          bind_address = "127.0.0.1";
-          innodb_buffer_pool_size = "256M";
-          slow_query_log = 1;
-          slow_query_log_file = "/var/log/mysql/slow.log";
-        };
+
+      settings.mysqld = {
+        bind_address = "127.0.0.1";
+        innodb_buffer_pool_size = "256M";
+        slow_query_log = 1;
+        slow_query_log_file = "/var/log/mysql/slow.log";
       };
     };
 
