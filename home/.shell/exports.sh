@@ -7,17 +7,22 @@ export CARGO_HOME="$HOME/.local/share/cargo"
 export PATH="$CARGO_HOME/bin:$PATH"
 
 # android
-export ANDROID_HOME="$HOME/.local/share/android"
+export ANDROID_HOME="$HOME/Android"
 export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export ANDROID_NDK="$ANDROID_HOME/android-ndk"
 export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin"
 export PATH="$PATH:$ANDROID_HOME/platform-tools"
 export PATH="$PATH:$ANDROID_HOME/emulator"
+export PATH="$PATH:$ANDROID_NDK"
 
 # Flutter & Dart
-export FLUTTER_HOME="$HOME/.local/share/flutter"
-PATH="$PATH:$FLUTTER_HOME/bin"
-PATH="$PATH:$FLUTTER_HOME/bin/cache/dart-sdk/bin"
-export PATH="$PATH":"$HOME/.pub-cache/bin"
+export FLUTTER_HOME="$HOME/Android/flutter"
+export PATH="$PATH:$FLUTTER_HOME/bin"
+export PATH="$PATH:$FLUTTER_HOME/bin/cache/dart-sdk/bin"
+export PATH="$PATH:$HOME/.pub-cache/bin"
+
+# Chrome executable for flutter
+export CHROME_EXECUTABLE="/run/current-system/sw/bin/firefox"
 
 # dotnet
 export PATH="$PATH":"$HOME/.dotnet"
