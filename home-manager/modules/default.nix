@@ -14,7 +14,7 @@
     ./monitoring.nix
     ./nix-your-shell.nix
     ./ripgrep.nix
-    ./secrets.nix
+    ./secret.nix
     ./spicetify.nix
     ./zellij.nix
     ./zoxide.nix

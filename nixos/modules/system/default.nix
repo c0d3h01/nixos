@@ -13,6 +13,7 @@
     ./firmware.nix
     ./flatpak.nix
     ./fonts.nix
+    ./gnupg.nix
     ./libvirt.nix
     ./locale.nix
     ./logind.nix
@@ -22,7 +23,7 @@
     ./printing.nix
     ./scheduler.nix
     ./seatd.nix
-    ./secrets.nix
+    ./secret.nix
     ./serial.nix
     ./touchpad.nix
     ./xdg-portals.nix
