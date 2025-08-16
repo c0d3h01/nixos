@@ -8,8 +8,8 @@
     pager = delta
     autocrlf = false
     safecrlf = true
-    excludesfile = ~/.gitignore_global
-    attributesfile = ~/.gitattributes_global
+    excludesfile = ~/.gitignore
+    attributesfile = ~/.gitattributes
     # Treat spaces before tabs and all kinds of trailing whitespace as an error
     whitespace = space-before-tab,-indent-with-non-tab,trailing-space
     # Speed up commands involving untracked files such as `git status`
