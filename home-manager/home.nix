@@ -1,7 +1,6 @@
 {
   userConfig,
   lib,
-  pkgs,
   ...
 }:
 
@@ -17,7 +16,5 @@
     inherit (userConfig) username;
     homeDirectory = "/home/${userConfig.username}";
     stateVersion = lib.trivial.release;
-    shell.enableZshIntegration = true;
-    shell.enableBashIntegration = true;
   };
 }

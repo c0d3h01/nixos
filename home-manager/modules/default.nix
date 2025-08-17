@@ -10,7 +10,6 @@
     ./git.nix
     ./gnome.nix
     ./gtk.nix
-    ./jj.nix
     ./monitoring.nix
     ./neovim.nix
     ./nix-your-shell.nix
