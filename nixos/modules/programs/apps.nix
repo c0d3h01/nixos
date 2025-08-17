@@ -21,7 +21,7 @@
       with pkgs;
       [
         ghostty
-        neovim
+        figma-linux
         android-studio
         vscode-fhs
         jetbrains.webstorm
