@@ -1,10 +1,12 @@
 #!/bin/sh
 
 ensure_dir() { [ -d "$1" ] || mkdir -p "$1"; }
+ifsource(){ [ -f "$1" ] && source "$1"; }
 
 # rustup and cargo
-export CARGO_HOME="$HOME/.local/share/cargo"
-export PATH="$CARGO_HOME/bin:$PATH"
+# export CARGO_HOME="$HOME/.cargo"
+# export PATH="$CARGO_HOME/bin:$PATH"
+ifsource "$CARGO_HOME/env"
 
 # android
 export ANDROID_HOME="$HOME/Android"
