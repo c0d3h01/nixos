@@ -4,9 +4,10 @@ ensure_dir() { [ -d "$1" ] || mkdir -p "$1"; }
 ifsource(){ [ -f "$1" ] && source "$1"; }
 
 # rustup and cargo
-# export CARGO_HOME="$HOME/.cargo"
-# export PATH="$CARGO_HOME/bin:$PATH"
-ifsource "$HOME/.cargo/env"
+ifsource "$HOME/.local/share/cargo/env"
+
+# solana
+export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
 
 # android
 export ANDROID_HOME="$HOME/Android"
@@ -24,7 +25,10 @@ export PATH="$PATH:$FLUTTER_HOME/bin/cache/dart-sdk/bin"
 export PATH="$PATH:$HOME/.pub-cache/bin"
 
 # Chrome executable for flutter
-export CHROME_EXECUTABLE="/run/current-system/sw/bin/firefox"
+export CHROME_EXECUTABLE="$(which firefox)"
+
+# Java Home
+export JAVA_HOME="$(which java)"
 
 # dotnet
 export PATH="$PATH":"$HOME/.dotnet"
@@ -57,6 +61,8 @@ export PATH=$HOME/.local/cache/gems/bin:$PATH
 
 # node
 export NVM_DIR="$HOME/.local/cache/nvm"
+ifsource "$NVM_DIR/nvm.sh"
+ifsource "$NVM_DIR/bash_completion"
 
 # deno
 export PATH="$HOME/.deno/bin:$PATH"
