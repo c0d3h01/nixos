@@ -41,6 +41,7 @@
         anydesk
         qbittorrent
         electrum
+        ledger-live-desktop
         arduino
       ]
       ++ lib.optionals userConfig.devStack.wine.enable [
