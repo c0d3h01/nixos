@@ -8,7 +8,7 @@
 {
   services.scx = lib.mkIf userConfig.machineConfig.workstation.enable {
     enable = true;
-    scheduler = "scx_bpfland";
+    scheduler = "scx_rustland";
     package = pkgs.scx.rustscheds;
   };
 }
