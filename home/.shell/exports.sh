@@ -5,6 +5,9 @@ ifsource(){ [ -f "$1" ] && source "$1"; }
 
 # rustup and cargo
 ifsource "$HOME/.local/share/cargo/env"
+export RUSTFLAGS="-C link-arg=-fuse-ld=mold"
+export CARGO_BUILD_JOBS=8
+export CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER=clang
 
 # solana
 export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
@@ -60,7 +63,7 @@ export GEM_HOME=$HOME/.local/cache/gems
 export PATH=$HOME/.local/cache/gems/bin:$PATH
 
 # node
-export NVM_DIR="$HOME/.local/cache/nvm"
+export NVM_DIR="$HOME/.local/nvm"
 ifsource "$NVM_DIR/nvm.sh"
 ifsource "$NVM_DIR/bash_completion"
 
