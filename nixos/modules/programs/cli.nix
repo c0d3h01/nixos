@@ -1,45 +1,36 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    solana-cli
-    go-ethereum
-    rustup
+    mold
+    lld
     ouch
     psmisc
-    cmake
-    gnumake
     colordiff
     sipcalc
     iperf
     openssl
-    binutils
     wget
+    curl
     lsof
+    nmap
+    iw
+    inxi
     tcpdump
     rsync
     tig
-    nodejs
     glibc
     glfw
-    clang-tools
-    zulu # Java JDK
-    julia
-    php
-    ruby
-    php84Packages.composer
-    gcc
-    uv
+    gtk3
+    gtk4
     python312
-    zig
-    go
-    go-tools
     strace
     bandwhich
     man-pages
-    dnsutils
     netcat
     mtr
     whois
+    dnsutils
+    binutils
     usbutils
     pciutils
   ];
