@@ -9,7 +9,6 @@
       options = "grp:alt_shift_toggle";
     };
 
-    # Drivers will be detected & set itself
     videoDrivers = [
       "amdgpu"
     ];
