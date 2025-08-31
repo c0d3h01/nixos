@@ -31,11 +31,8 @@
         discord
         telegram-desktop
         zoom-us
-        element-desktop
-        signal-desktop
         libreoffice
         obsidian
-        gimp
         anydesk
         qbittorrent
         electrum
