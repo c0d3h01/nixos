@@ -20,7 +20,6 @@
       ollama.enable = true;
       tabby.enable = false;
       virtualisation.enable = false; # VM
-      wine.enable = false; # WinApps with 32 bit support
       monitoring.enable = false; # Monitoring grouped tools
       container = "podman"; # Options = "docker" | "podman"
       sql.enable = true; # Mysql - DBMS
