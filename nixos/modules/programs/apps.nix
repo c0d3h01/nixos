@@ -6,9 +6,6 @@
 }:
 {
   config = lib.mkIf userConfig.machineConfig.workstation.enable {
-    # Default browser
-    programs.firefox.enable = true;
-
     programs.wireshark = {
       enable = true;
       package = pkgs.wireshark;
@@ -17,7 +14,10 @@
     };
 
     environment.systemPackages = with pkgs; [
+      firefox
       ghostty
+      cursor-cli
+      code-cursor-fhs
       android-studio
       vscode-fhs
       jetbrains.webstorm
@@ -35,7 +35,7 @@
       ledger-live-desktop
       arduino
       rpi-imager
-      wineWowPackages.stable
+      wineWowPackages.stableFull
       winetricks
     ];
   };
