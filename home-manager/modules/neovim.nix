@@ -107,9 +107,7 @@ in
 
           (optionals cfg.languages.php [
             php
-            composer
             phpactor
-            php-cs-fixer
             phpPackages.phpstan
           ])
 
@@ -121,7 +119,7 @@ in
           (optionals cfg.languages.python [
             python3
             pyright
-            ruff-lsp
+            ruff
             black
             isort
           ])
@@ -144,7 +142,6 @@ in
             vscode-langservers-extracted # html/css/json
             yaml-language-server
             bash-language-server
-            dockerfile-language-server-nodejs
           ])
         ];
     };
