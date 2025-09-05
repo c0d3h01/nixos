@@ -15,15 +15,12 @@ let
 in
 {
   programs.chromium = lib.mkIf userConfig.machineConfig.workstation.enable {
+    enable = true;
+
     extensions = [
       "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
-      "clngdbkpkpeebahjckkjfobafhncgmne" # stylus
       "nngceckbapebfimnlniiiahkandclblb" # Bitwarden
-      "fkagelmloambgokoeokbpihmgpkbgbfm" # Indie Wiki Buddy
-    ]
-    ++ optionals osConfig.garden.profiles.gaming.enable [
-      "ngonfifpkpeefnhelnfdkficaiihklid" # ProtonDB
-      "dnhpnfgdlenaccegplpojghhmaamnnfp" # Augmented Steam
+      "pihphjfnfjmdbhakhjifipfdgbpenobg" # DocsAfterDark
     ];
 
     package = pkgs.chromium.override {
