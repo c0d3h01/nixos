@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     mold
     sccache
@@ -23,7 +22,9 @@
     glfw
     gtk3
     gtk4
-    python312
+    python3
+    uv
+    poetry
     strace
     bandwhich
     man-pages
