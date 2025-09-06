@@ -12,6 +12,8 @@ in
   hardware.wirelessRegulatoryDatabase = true;
 
   networking = lib.mkIf (!cfg.wireless.enable) {
+    enableIPv6 = true;
+
     networkmanager = {
       enable = true;
       dns = "systemd-resolved";
