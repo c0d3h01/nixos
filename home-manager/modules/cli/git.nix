@@ -7,10 +7,7 @@
 
 let
   inherit (pkgs.stdenv) isDarwin;
-
   ghCredHelper = "!${pkgs.gh}/bin/gh auth git-credential";
-
-  # Use 1Password's signer on macOS; use ssh-keygen on Linux (default/portable)
   sshSignerProgram =
     if isDarwin then
       "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
@@ -21,20 +18,16 @@ in
   programs.git = {
     enable = true;
 
-    # Identity
     userName = "Harshal Sawant";
     userEmail = "harshalsawant.dev@gmail.com";
 
-    # Signing (SSH-based signing)
     signing = {
-      key = "~/.ssh/id_ed25519.pub";
+      key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
       signByDefault = true;
     };
 
-    # LFS
     lfs.enable = true;
 
-    # Delta pager
     delta = {
       enable = true;
       options = {
@@ -42,10 +35,10 @@ in
         side-by-side = "false";
         line-numbers = "true";
         syntax-theme = "TwoDark";
+        light = "false";
       };
     };
 
-    # Aliases
     aliases = {
       st = "status";
       br = "branch --all";
@@ -56,20 +49,23 @@ in
       pr = "pull --rebase";
       dt = "difftool";
       amend = "commit -a --amend";
-      wip = "!git add -u && git commit -m \"WIP\"";
+      amend-last = "commit --amend --no-edit";
+      wip = "!git add -A && git commit -m 'WIP'";
       undo = "reset HEAD~1 --mixed";
       ignore = ''!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/"$@"; }; gi'';
       trim = "!git remote prune origin && git gc";
       remotes = "remote --verbose";
       contributors = "shortlog --summary --numbered";
-      clone = "clone --recursive";
+      cloner = "clone --recursive";
       update = "!git pull && git submodule update --init --recursive";
-      snapshot = "!git stash push -m \"snapshot: $(date)\" && git stash apply stash@{0}";
+      snapshot = "!git stash push -m \"snapshot: $(date +%Y-%m-%d_%H-%M-%S)\" && git stash apply stash@{0}";
+      fixup = "!f() { git commit --fixup \"$1\"; }; f";
+      squash = "!f() { git commit --squash \"$1\"; }; f";
+      last = "diff HEAD~1";
+      root = "rev-parse --show-toplevel";
     };
 
-    # Global ignores
     ignores = [
-      # system residue
       ".cache/"
       ".DS_Store"
       ".Trashes"
@@ -79,8 +75,6 @@ in
       "*.swo"
       "*.elc"
       ".~lock*"
-
-      # build residue
       "tmp/"
       "target/"
       "result"
@@ -90,58 +84,64 @@ in
       "*.dll"
       "*.so"
       "*.dylib"
-
-      # dependencies
       ".direnv/"
       "node_modules"
       "vendor"
+      "*.log"
+      ".env"
+      ".env.*"
+      ".idea/"
+      ".vscode/"
+      "dist/"
+      "coverage/"
     ];
 
-    # Everything else
     extraConfig = {
-      # Init
       init.defaultBranch = "main";
 
-      # Core
       core = {
         editor = "nvim";
         autocrlf = false;
         safecrlf = true;
         whitespace = "space-before-tab,-indent-with-non-tab,trailing-space";
         preloadindex = true;
+        untrackedCache = true;
+        fsmonitor = true;
       };
       color.ui = "auto";
 
-      # Diff & Difftool
       diff = {
         tool = "nvim";
         algorithm = "patience";
         renames = "copies";
         mnemonicPrefix = true;
         compactionHeuristic = true;
+        colorMoved = "default";
+        colorMovedWS = "ignore-space-change";
       };
       difftool = {
         prompt = false;
         "nvim".cmd = ''nvim -d "$LOCAL" "$REMOTE"'';
       };
 
-      # Merge & Mergetool
       merge = {
         tool = "nvim";
         conflictStyle = "zdiff3";
         log = true;
+        # ff = "only";  # forbid non-FF merges you initiate
+        verifySignatures = true;
       };
       mergetool = {
         keepBackup = false;
         "nvim".cmd = "nvim -d \"$LOCAL\" \"$REMOTE\" \"$MERGED\" -c 'wincmd w' -c 'wincmd J'";
       };
 
-      # Push / Pull / Fetch
       push = {
         default = "simple";
         autoSetupRemote = true;
         recurseSubmodules = "on-demand";
         followTags = true;
+        useForceIfIncludes = true;
       };
       pull = {
         rebase = true;
@@ -151,9 +151,10 @@ in
         prune = true;
         pruneTags = true;
         fsckObjects = true;
+        writeCommitGraph = true;
+        negotiationAlgorithm = "skipping";
       };
 
-      # Rebase
       rebase = {
         autosquash = true;
         autostash = true;
@@ -161,7 +162,6 @@ in
         stat = true;
       };
 
-      # Branch & Status
       branch = {
         autoSetupRebase = "always";
         sort = "-committerdate";
@@ -169,62 +169,67 @@ in
       status = {
         showUntrackedFiles = "all";
         submoduleSummary = true;
+        aheadBehind = true;
       };
 
-      # Logging
       log = {
         abbrevCommit = true;
         decorate = "short";
         date = "relative";
+        showSignature = true;
       };
 
-      # Performance
+      # Performance / maintenance
       feature.manyFiles = true;
-      index.threads = 0; # auto-select threads
+      index.threads = 0;
+      index.version = 4;
+      gc.writeCommitGraph = true;
+      commitGraph.generationVersion = 2;
+      maintenance.auto = 1;
+      maintenance.strategy = "incremental";
+      pack.useBitmaps = true;
 
-      # Commit & Format
       commit = {
         verbose = true;
+        cleanup = "strip";
         template = "~/.gitmessage";
+        status = true;
       };
       format = {
         signoff = false;
         pretty = "fuller";
       };
 
-      # Rerere
       rerere = {
         enabled = true;
         autoupdate = true;
       };
 
-      # Submodules
       submodule = {
         fetchJobs = 4;
         recurse = true;
       };
 
-      # Help / Tag
-      help.autocorrect = 10;
+      help.autocorrect = "prompt";
       tag.sort = "-version:refname";
 
-      # SSH signing
       gpg.format = "ssh";
       gpg.ssh.program = sshSignerProgram;
-      gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
+      gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.ssh/allowed_signers";
+      tag.gpgSign = true;
 
-      # Security
       transfer.fsckObjects = true;
       receive.fsckObjects = true;
 
-      # HTTP (disable low-speed timeouts)
+      protocol.file.allow = "user";
+      protocol.ext.allow = "never";
+
       http = {
         cookiefile = "~/.gitcookies";
-        lowSpeedLimit = 0;
-        lowSpeedTime = 0;
+        lowSpeedLimit = 1;
+        lowSpeedTime = 600;
       };
 
-      # Advice
       advice = {
         statusHints = false;
         detachedHead = false;
@@ -232,24 +237,30 @@ in
         pushUpdateRejected = false;
       };
 
-      # URL Shortcuts
+      # URL shortcuts
       url = {
-        "git@github.com:".insteadOf = [
-          "gh:"
-          "github:"
-        ];
-        "git@github.com:".pushInsteadOf = [ "git://github.com/" ];
-        "git://github.com/".insteadOf = "github:";
-        "git@gist.github.com:".insteadOf = [
-          "gst:"
-          "gist:"
-        ];
-        "git@gist.github.com:".pushInsteadOf = [ "git://gist.github.com/" ];
-        "git://gist.github.com/".insteadOf = "gist:";
+        "git@github.com:" = {
+          insteadOf = [
+            "github:"
+            "gh:"
+            "https://github.com/"
+            "git://github.com/"
+          ];
+        };
+        "git@gist.github.com:" = {
+          insteadOf = [
+            "gist:"
+            "gst:"
+            "https://gist.github.com/"
+            "git://gist.github.com/"
+          ];
+        };
       };
 
-      # Auth
-      credential.helper = if isDarwin then "osxkeychain" else "libsecret";
+      credential.helper = [
+        (if isDarwin then "osxkeychain" else "libsecret")
+        ghCredHelper
+      ];
     };
   };
 }
