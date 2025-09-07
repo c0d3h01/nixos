@@ -1,3 +1,7 @@
+# Default recipe
+default:
+    @just --list
+
 # Variables
 user := `whoami`
 host := `hostname`
