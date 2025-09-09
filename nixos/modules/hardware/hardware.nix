@@ -7,45 +7,47 @@
   ...
 }:
 let
+  inherit (lib) optionals mkIf mkDefault;
+
   # Get CPU & GPU types
   inherit (userConfig.machineConfig) gpuType;
   inherit (userConfig.machineConfig) cpuType;
 
   # Dynamic kernel modules based on hardware
   cpuKernelModules =
-    lib.optionals (cpuType == "amd") [
+    optionals (cpuType == "amd") [
       "kvm-amd"
     ]
-    ++ lib.optionals (cpuType == "intel") [
+    ++ optionals (cpuType == "intel") [
       "kvm-intel"
     ];
 
   gpuKernelModules =
-    lib.optionals (gpuType == "amd") [
+    optionals (gpuType == "amd") [
       "amdgpu"
     ]
-    ++ lib.optionals (gpuType == "nvidia") [
+    ++ optionals (gpuType == "nvidia") [
       "nvidia"
       "nvidia_modeset"
       "nvidia_uvm"
       "nvidia_drm"
     ]
-    ++ lib.optionals (gpuType == "intel") [
+    ++ optionals (gpuType == "intel") [
       "i915"
     ];
 
   # Dynamic kernel parameters
   cpuKernelParams =
-    lib.optionals (cpuType == "amd") [
+    optionals (cpuType == "amd") [
       "amd_pstate=active"
     ]
-    ++ lib.optionals (cpuType == "intel") [
+    ++ optionals (cpuType == "intel") [
       "intel_pstate=active"
     ];
 
-  isLaptop = userConfig.machineConfig.type == "laptop";
+  isLaptop = userConfig.machineConfig.laptop.enable;
 
-  laptopKernelParams = lib.optionals isLaptop [
+  laptopKernelParams = optionals isLaptop [
     "acpi_backlight=native"
     "processor.max_cstate=2" # Better responsiveness
   ];
@@ -107,8 +109,8 @@ in
         "dm_mod"
         "xhci_pci"
       ]
-      ++ lib.optionals (gpuType == "amd") [ "amdgpu" ]
-      ++ lib.optionals (gpuType == "intel") [ "i915" ];
+      ++ optionals (gpuType == "amd") [ "amdgpu" ]
+      ++ optionals (gpuType == "intel") [ "i915" ];
 
       availableKernelModules = [
         "nvme"
@@ -123,19 +125,19 @@ in
   };
 
   # Network configuration
-  networking.useDHCP = lib.mkDefault false;
-  networking.dhcpcd.enable = lib.mkDefault false;
+  networking.useDHCP = mkDefault false;
+  networking.dhcpcd.enable = mkDefault false;
 
   # Platform detection
-  nixpkgs.hostPlatform = lib.mkDefault userConfig.system;
+  nixpkgs.hostPlatform = mkDefault userConfig.system;
 
   # CPU microcode updates - dynamic based on CPU type
-  hardware.cpu.amd.updateMicrocode = lib.mkIf (cpuType == "amd") true;
-  hardware.cpu.intel.updateMicrocode = lib.mkIf (cpuType == "intel") true;
+  hardware.cpu.amd.updateMicrocode = mkIf (cpuType == "amd") true;
+  hardware.cpu.intel.updateMicrocode = mkIf (cpuType == "intel") true;
 
   # Enable firmware updates
-  hardware.enableRedistributableFirmware = lib.mkDefault true;
+  hardware.enableRedistributableFirmware = mkDefault true;
 
   # Intel thermal management
-  services.thermald.enable = lib.mkIf (cpuType == "intel" && isLaptop) true;
+  services.thermald.enable = mkIf (cpuType == "intel" && isLaptop) true;
 }

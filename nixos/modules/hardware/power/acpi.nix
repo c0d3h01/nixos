@@ -7,9 +7,10 @@
 }:
 let
   inherit (lib) mkIf;
+  isLaptop = userConfig.machineConfig.laptop.enable;
 in
 {
-  config = mkIf (userConfig.machineConfig.type == "laptop") {
+  config = mkIf isLaptop {
     # handle ACPI events
     services.acpid.enable = true;
     hardware.acpilight.enable = true;

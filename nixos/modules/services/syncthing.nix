@@ -4,8 +4,12 @@
   userConfig,
   ...
 }:
+let
+  inherit (lib) mkIf;
+  isServer = userConfig.machineConfig.server.enable;
+in
 {
-  config = lib.mkIf (userConfig.machineConfig.type == "server") {
+  config = mkIf isServer {
     # ssh -L 9999:localhost:8384 nixos
     services.syncthing = {
       enable = true;

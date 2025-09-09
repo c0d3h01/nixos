@@ -6,12 +6,13 @@
     system = "x86_64-linux";
 
     machineConfig = {
-      type = "laptop"; # Options = "laptop" | "server"
-      workstation.enable = true; # Proper GUI support & apps
+      server.enable = false;
+      laptop.enable = true;
+      workstation.enable = true;
       bootloader = "systemd"; # Options = "systemd" | "grub"
       cpuType = "amd"; # Options = "amd" | "intel"
       gpuType = "amd"; # Options = "amd" | "nvidia" | "intel"
-      networking.backend = "iwd"; # Options = "wpa_supplicant" | "wpa_supplicant"
+      networking.backend = "wpa_supplicant"; # Options = "iwd" | "wpa_supplicant"
       windowManager = "gnome"; # Options = "gnome" | "kde"
     };
 

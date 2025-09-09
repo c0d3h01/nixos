@@ -4,16 +4,18 @@
   ...
 }:
 let
-  cfg = userConfig.machineConfig;
+  inherit (lib) mkIf;
+  isenable = userConfig.machineConfig.networking.backend;
+  iftrue = userConfig.machineConfig.server.enable;
 in
 {
-  config = {
+  config = mkIf iftrue {
     # enable wireless database, it helps keeping wifi speedy
     hardware.wirelessRegulatoryDatabase = true;
 
     networking.wireless = {
       # wpa_supplicant
-      enable = cfg.networking.backend == "wpa_supplicant";
+      enable = isenable == "wpa_supplicant";
 
       # Allow user to manage networks via `nmcli` or GUI
       userControlled.enable = true;
@@ -28,7 +30,7 @@ in
 
       # iwd
       iwd = {
-        enable = cfg.networking.backend == "iwd";
+        enable = isenable == "iwd";
 
         settings = {
           Settings.AutoConnect = true;

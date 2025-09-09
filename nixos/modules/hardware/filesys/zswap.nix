@@ -1,6 +1,6 @@
 { lib, userConfig, ... }:
 let
-  isLaptop = userConfig.machineConfig.type == "laptop";
+  isLaptop = userConfig.machineConfig.laptop.enable;
 in
 {
   # ZRAM configuration

@@ -4,8 +4,12 @@
   pkgs,
   ...
 }:
+let
+  inherit (lib) mkIf;
+  iftrue = userConfig.machineConfig.workstation.enable;
+in
 {
-  services.xserver = lib.mkIf userConfig.machineConfig.workstation.enable {
+  services.xserver = mkIf iftrue {
     enable = false;
     desktopManager.xterm.enable = false;
     excludePackages = [ pkgs.xterm ];

@@ -4,9 +4,12 @@
   userConfig,
   ...
 }:
-
+let
+  inherit (lib) mkIf;
+  iftrue = userConfig.machineConfig.server.enable;
+in
 {
-  config = lib.mkIf (userConfig.machineConfig.type == "server") {
+  config = mkIf iftrue {
     # limit systemd journal size
     # https://wiki.archlinux.org/title/Systemd/Journal#Persistent_journals
     services.journald.extraConfig = ''

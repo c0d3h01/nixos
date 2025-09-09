@@ -4,8 +4,12 @@
   userConfig,
   ...
 }:
+let
+  inherit (lib) mkIf;
+  isLaptop = userConfig.machineConfig.laptop.enable;
+in
 {
-  config = lib.mkIf (userConfig.machineConfig.type == "laptop") {
+  config = mkIf isLaptop {
     # Let logind manage power actions on laptops
     services.logind = {
       settings.Login = {
