@@ -17,7 +17,7 @@ in
     enable = true;
 
     userName = "Harshal Sawant";
-    userEmail = "harshalsawant" + "dev" + "@gmail.com";
+    userEmail = "harshalsawant." + "dev" + "@gmail.com";
 
     signing = {
       key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
