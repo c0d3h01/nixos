@@ -14,8 +14,6 @@ in
       # Terminal Utilities
       tmux
       xclip
-      curl
-      wget
       tree
       stow
       file
