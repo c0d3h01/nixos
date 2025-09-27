@@ -108,3 +108,10 @@ export KEYTIMEOUT=1
 
 # Prevent broken terminals by resetting to sane defaults after a command
 ttyctl -f
+
+# bun completions
+[ -s "/home/c0d3h01/.bun/_bun" ] && source "/home/c0d3h01/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
