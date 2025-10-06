@@ -6,22 +6,19 @@
 [core]
     editor = nvim
     pager = delta
-    autocrlf = false
+    autocrlf = input
     safecrlf = true
     excludesfile = ~/.config/git/ignore
     attributesfile = ~/.config/git/attributes
-    # Treat spaces before tabs and all kinds of trailing whitespace as an error
     whitespace = space-before-tab,-indent-with-non-tab,trailing-space
-    # Speed up commands involving untracked files such as `git status`
     preloadindex = true
-    # Enable parallel I/O for operations like `git diff`
-    precomposeunicode = false
+    untrackedCache = true
 
 [init]
     defaultBranch = main
 
 [color]
-    ui = true
+    ui = auto
 
 [color "branch"]
     current = yellow reverse
@@ -39,7 +36,6 @@
     changed = green
     untracked = cyan
 
-# Delta configuration for better diffs
 [delta]
     navigate = true
     light = false
@@ -52,7 +48,6 @@
 [interactive]
     diffFilter = delta --color-only
 
-# Push/Pull configuration
 [push]
     default = simple
     autoSetupRemote = true
@@ -68,12 +63,10 @@
     pruneTags = true
     fsckobjects = true
 
-# Merge configuration
 [merge]
     tool = nvim
     conflictstyle = zdiff3
     keepBackup = false
-    # Include summaries of merged commits in newly created merge commit messages
     log = true
 
 [mergetool]
@@ -83,7 +76,6 @@
 [mergetool "nvim"]
     cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 
-# Diff configuration
 [diff]
     tool = nvim
     algorithm = patience
@@ -99,65 +91,53 @@
 [difftool "nvim"]
     cmd = nvim -d $LOCAL $REMOTE
 
-# Rebase configuration
 [rebase]
     autosquash = true
     autoStash = true
     updateRefs = true
     stat = true
 
-# Branch configuration
 [branch]
     autoSetupRebase = always
     autoSetupMerge = always
     sort = -committerdate
 
-# Status configuration
 [status]
     showUntrackedFiles = all
     submoduleSummary = true
 
-# Log configuration
 [log]
     abbrevCommit = true
     decorate = short
     date = relative
 
-# Rerere (reuse recorded resolution)
 [rerere]
     enabled = true
     autoupdate = true
 
-# Submodule configuration
 [submodule]
     fetchJobs = 4
     recurse = true
 
-# Performance optimizations
 [feature]
     manyFiles = true
 
 [index]
     threads = true
 
-# Commit configuration
 [commit]
     verbose = true
-    template = ~/.config/git/message
 
 [format]
     signoff = false
     pretty = fuller
 
-# Help configuration
 [help]
     autocorrect = 10
 
-# Tag configuration
 [tag]
     sort = -version:refname
 
-# URL shortcuts
 [url "git@github.com:"]
     insteadOf = "gh:"
     pushInsteadOf = "github:"
@@ -174,36 +154,25 @@
 [url "git://gist.github.com/"]
     insteadOf = "gist:"
 
-# GitHub configuration
 [github]
     user = c0d3h01
 
-# GPG signing
 [gpg]
     format = ssh
 
 [gpg "ssh"]
-    program = "/Applications/1Password 7.app/Contents/Resources/op-ssh-sign"
     allowedSignersFile = ~/.ssh/allowed_signers
 
-# Credential management
 [credential]
-	helper = cache
-[credential "https://github.com"]
-	helper = 
-	helper = !/etc/profiles/per-user/c0d3h01/bin/gh auth git-credential
-[credential "https://gist.github.com"]
-	helper = 
-	helper = !/etc/profiles/per-user/c0d3h01/bin/gh auth git-credential
+    helper = 
+    helper = "!f() { command -v gh >/dev/null 2>&1 && gh auth git-credential; }; f"
 
-# LFS configuration
 [filter "lfs"]
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
     process = git-lfs filter-process
     required = true
 
-# Security
 [transfer]
     fsckobjects = true
 
@@ -227,7 +196,6 @@
     pushUpdateRejected = false
     resolveConflict = false
 
-# Aliases
 [alias]     
     aliases = config --get-regexp alias
     remotes = remote --verbose

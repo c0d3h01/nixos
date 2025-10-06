@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export LC_ALL=en_IN.UTF-8
+export LC_ALL=en_US.UTF-8
 export LANG="$LC_ALL"
 export TERM="xterm-256color"
 export EDITOR='nvim'
@@ -77,15 +77,18 @@ ifsource "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
 ifsource "$HOME/.shell/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
 ifsource "$HOME/.shell/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
 ifsource "$HOME/.shell/zsh-completions/zsh-completions.plugin.zsh"
+
 # FZF - Tab
 ifsource "$HOME/.shell/fzf-tab/fzf-tab.plugin.zsh"
+
 # FZF
 ifsource "$HOME/.shell/fzf/shell/completion.zsh"
 ifsource "$HOME/.shell/fzf/shell/key-bindings.zsh"
+
 # Custom
-ifsource "$HOME/.shell/aliases.sh"
 ifsource "$HOME/.shell/exports.sh"
 ifsource "$HOME/.shell/functions.sh"
+ifsource "$HOME/.shell/aliases.sh"
 
 # Vim mode
 autoload -Uz edit-command-line
@@ -108,14 +111,3 @@ export KEYTIMEOUT=1
 
 # Prevent broken terminals by resetting to sane defaults after a command
 ttyctl -f
-
-# bun completions
-[ -s "/home/c0d3h01/.bun/_bun" ] && source "/home/c0d3h01/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-export NVM_DIR="$HOME/.local/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
