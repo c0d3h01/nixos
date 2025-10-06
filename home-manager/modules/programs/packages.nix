@@ -23,6 +23,22 @@ in
       just
       gdu
       imagemagick
+
+      # Git tools
+      git
+      gh
+      git-lfs
+      delta
+      lazygit
+      mergiraf
+
+      # Extractor tools
+      unzip
+      unrar
+      p7zip
+      xz
+      zstd
+      cabextract
     ]
     ++ [
       # Language Servers

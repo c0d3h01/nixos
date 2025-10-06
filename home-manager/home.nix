@@ -7,6 +7,7 @@
 {
   imports = [
     ./modules
+    ./secrets.nix
   ];
 
   # Let Home Manager install and manage itself.

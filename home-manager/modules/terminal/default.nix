@@ -3,17 +3,12 @@
     ./bat.nix
     ./bottom.nix
     ./direnv.nix
-    ./extractors.nix
-    ./fastfetch.nix
     ./fd.nix
     ./fzf.nix
-    ./gh.nix
-    ./git.nix
     ./htop.nix
     ./lsd.nix
     ./neovim.nix
     ./ripgrep.nix
-    ./starship.nix
     ./zellij.nix
     ./zoxide.nix
   ];
