@@ -47,6 +47,7 @@
                       "noatime"
                       "compress=zstd:1"
                       "ssd"
+                      "space_cache=v2"
                       "commit=120"
                     ];
                   };
@@ -57,36 +58,40 @@
                       "noatime"
                       "compress=zstd:1"
                       "ssd"
+                      "space_cache=v2"
                       "commit=120"
                     ];
                   };
-                  # Nix store subvolume (higher compression)
+                  # Nix store subvolume
                   "/@nix" = {
                     mountpoint = "/nix";
                     mountOptions = [
                       "noatime"
-                      "compress=zstd:3"
+                      "compress=zstd:7"
                       "ssd"
+                      "space_cache=v2"
                       "commit=120"
                     ];
                   };
-                  # Cache subvolume (compression enabled)
+                  # Cache subvolume
                   "/@cache" = {
                     mountpoint = "/var/cache";
                     mountOptions = [
                       "noatime"
-                      "compress=zstd:1"
+                      "nocompress"
                       "ssd"
+                      "space_cache=v2"
                       "commit=120"
                     ];
                   };
-                  # Log subvolume (compression enabled)
+                  # Log subvolume
                   "/@log" = {
                     mountpoint = "/var/log";
                     mountOptions = [
                       "noatime"
                       "compress=zstd:1"
                       "ssd"
+                      "space_cache=v2"
                       "commit=120"
                     ];
                   };
