@@ -169,7 +169,7 @@ in
   home.packages = optionals userConfig.machineConfig.workstation.enable (
     map
       (app: pkgs.makeDesktopItem {
-        name = lib.strings.escapeName app.name;
+        name = app.name;
         exec = "${pkgs.chromium}/bin/chromium --app='${app.url}'";
         icon = app.icon;
         comment = "Web App for ${app.name}";
