@@ -1,5 +1,4 @@
-[general]
-import = ["~/.config/alacritty/catppuccin-mocha.toml"]
+general.import = [ "~/.config/alacritty/catppuccin-mocha.toml "]
 
 [env]
 TERM = "xterm-256color"
@@ -12,25 +11,18 @@ style = "Block"
 hide_when_typing = true
 
 [window]
+padding.x = 14
+padding.y = 14
+decorations = "None"
 startup_mode = "Fullscreen"
 
 [font]
-size = 13.0
-
-[font.bold]
-family = "FiraCode Nerd Font Mono"
-style = "Bold"
-
-[font.italic]
-family = "FiraCode Nerd Font Mono"
-style = "Italic"
-
-[font.normal]
-family = "FiraCode Nerd Font Mono"
-style = "Regular"
+normal = { family = "CaskaydiaMono Nerd Font", style = "Regular" }
+bold = { family = "CaskaydiaMono Nerd Font", style = "Bold" }
+italic = { family = "CaskaydiaMono Nerd Font", style = "Italic" }
+size = 12
 
 [[keyboard.bindings]]
-chars = "\r"
 key = "NumpadEnter"
 
 [scrolling]

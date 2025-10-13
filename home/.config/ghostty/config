@@ -1,21 +1,29 @@
 theme = catppuccin-mocha
 
-clipboard-read = allow
-clipboard-write = allow
-
-shell-integration = zsh
-gtk-titlebar = true
-
+# Font config
 font-size = 12
 font-family = Caskaydia Nerd Font
 
+# Background transperancy
 background-opacity = 0.85
 background-blur-radius = 20
 
+# Window
+window-padding-x = 14
+window-padding-y = 14
+confirm-close-surface=false
+resize-overlay = never
+shell-integration = zsh
+gtk-titlebar = true
+clipboard-read = allow
+clipboard-write = allow
+
+# Macos - sets
 macos-option-as-alt = true
 macos-non-native-fullscreen = visible-menu
 mouse-hide-while-typing = true
 
+# Keybinding
 keybind = super+c=copy_to_clipboard
 keybind = super+v=paste_from_clipboard
 keybind = super+shift+c=copy_to_clipboard
