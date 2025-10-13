@@ -74,9 +74,9 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_ASYNC="true"
 
 # Custom configs
-ifsource "$ZDOTDIR/.exports.sh"
-ifsource "$ZDOTDIR/.functions.sh"
-ifsource "$ZDOTDIR/.aliases.sh"
+ifsource "$ZDOTDIR/exports.sh"
+ifsource "$ZDOTDIR/functions.sh"
+ifsource "$ZDOTDIR/aliases.sh"
 
 # Tool initialization
 eval "$(zoxide init zsh --cmd j)"
