@@ -1,9 +1,11 @@
 {
   imports = [
     ./git
+    ./shell
     ./bat.nix
     ./bottom.nix
     ./direnv.nix
+    ./eza.nix
     ./fd.nix
     ./fzf.nix
     ./htop.nix
