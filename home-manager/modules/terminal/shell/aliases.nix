@@ -1,5 +1,6 @@
+{ lib, ... }:
 {
-  home.shellAliases = {
+  home.shellAliases = lib.mkForce {
     # Navigation
     ".." = "cd ..";
     "..." = "cd ../..";
