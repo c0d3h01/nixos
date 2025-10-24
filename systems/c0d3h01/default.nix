@@ -15,8 +15,6 @@ in
     ./hardware.nix
   ];
 
-  chaotic.mesa-git.enable = true;
-
   users.users = lib.mkIf isC0d3h01 {
     root = {
       # Allow the user to log in as root without a password.
