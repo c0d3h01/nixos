@@ -57,7 +57,7 @@ in
 
       merge = {
         tool = "nvim";
-        conflictStyle = "zdiff3";
+        conflictStyle = "diff3";
         log = true;
       };
 
