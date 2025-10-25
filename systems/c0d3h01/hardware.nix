@@ -1,45 +1,48 @@
 {
   disko.devices = {
-    disk = {
-      nvme = {
-        device = "/dev/nvme0n1";
-        type = "disk";
-        content = {
-          type = "gpt";
-          partitions = {
-            # EFI System Partition (ESP)
-            ESP = {
-              label = "nixos-boot";
-              size = "1G";
-              type = "EF00";
-              content = {
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/boot";
-                mountOptions = [
-                  "umask=0077"
-                ];
-              };
+    nodev."/@" = {
+      fsType = "tmpfs";
+      mountOptions = [
+        "defaults"
+        "size=8G"
+        "mode=755"
+      ];
+    };
+
+    disk.main = {
+      type = "disk";
+      device = "/dev/nvme0n1";
+
+      content = {
+        type = "gpt";
+        partitions = {
+          ESP = {
+            priority = 1;
+            size = "512M";
+            type = "EF00";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
+              mountOptions = [
+                "defaults"
+              ];
             };
-            # Swap partition
-            swap = {
-              label = "nixos-swap";
-              size = "6G";
-              content = {
-                type = "swap";
-                discardPolicy = "both";
-                resumeDevice = true;
+          };
+
+          luks = {
+            size = "100%";
+            content = {
+              type = "luks";
+              name = "crypted";
+              settings = {
+                allowDiscards = true;
               };
-            };
-            # Root partition (Btrfs)
-            root = {
-              label = "nixos-root";
-              size = "100%";
               content = {
                 type = "btrfs";
-                extraArgs = [ "-f" ];
+                extraArgs = [ "-f" ];              
                 subvolumes = {
-                  # Root subvolume
+
                   "/@" = {
                     mountpoint = "/";
                     mountOptions = [
@@ -50,7 +53,7 @@
                       "commit=120"
                     ];
                   };
-                  # Home subvolume
+
                   "/@home" = {
                     mountpoint = "/home";
                     mountOptions = [
@@ -61,7 +64,7 @@
                       "commit=120"
                     ];
                   };
-                  # Nix store subvolume
+
                   "/@nix" = {
                     mountpoint = "/nix";
                     mountOptions = [
@@ -72,7 +75,17 @@
                       "commit=120"
                     ];
                   };
-                  # Cache subvolume
+
+                  "/@persist" = {
+                    mountpoint = "/persist";
+                    mountOptions = [
+                      "subvol=@persist"
+                      "compress=zstd"
+                      "noatime"
+                      "ssd"
+                    ];
+                  };
+
                   "/@cache" = {
                     mountpoint = "/var/cache";
                     mountOptions = [
@@ -83,7 +96,16 @@
                       "commit=120"
                     ];
                   };
-                  # Log subvolume
+
+                  "/@tmp" = {
+                    mountpoint = "/tmp";
+                    mountOptions = [
+                      "noatime"
+                      "nodatacow"
+                      "ssd"
+                    ];
+                  };
+
                   "/@log" = {
                     mountpoint = "/var/log";
                     mountOptions = [
@@ -93,6 +115,11 @@
                       "space_cache=v2"
                       "commit=120"
                     ];
+                  };
+
+                  "/@swap" = {
+                    mountpoint = "/swap";
+                    swap.swapfile.size = "6G";
                   };
                 };
               };
