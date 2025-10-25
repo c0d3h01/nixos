@@ -102,5 +102,13 @@
         };
       };
     };
+    nodev = {
+      "/var/tmp" = {
+        fsType = "tmpfs";
+        mountOptions = [
+          "size=1G"
+        ];
+      };
+    };
   };
 }

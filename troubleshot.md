@@ -3,7 +3,6 @@
 ## Make enter into chroot
 
 ```bash
-sudo mkdir -p /mnt
 sudo mount -o subvol=@ /dev/nvme0n1p3 /mnt
 sudo mount -o subvol=@home /dev/nvme0n1p3 /mnt/home
 sudo mount -o subvol=@nix /dev/nvme0n1p3 /mnt/nix
@@ -12,6 +11,7 @@ sudo mount -o subvol=@log /dev/nvme0n1p3 /mnt/var/log
 sudo mount /dev/nvme0n1p1 /mnt/boot
 sudo mount -o bind,ro /etc/resolv.conf /mnt/etc/resolv.conf
 sudo nixos-enter --root /mnt
+sudo mount -t tmpfs -o mode=1777 tmpfs /mnt/var/tmp
 ```
 
 ## In chroot only!
