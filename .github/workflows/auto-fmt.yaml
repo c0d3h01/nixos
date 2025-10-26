@@ -34,7 +34,7 @@ jobs:
 
       - name: Format files
         run: |
-          nix fmt
+          nix fmt --all-systems
 
       - name: Check for changes
         id: check_changes
