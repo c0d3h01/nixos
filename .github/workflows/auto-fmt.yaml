@@ -9,17 +9,19 @@ on:
 
 concurrency:
   group: format-and-pr-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true  # Cancel previous runs for the same branch
+
 permissions:
   contents: write
   pull-requests: write
+
 jobs:
   format-and-pr:
     name: Format and PR
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
           persist-credentials: false
@@ -33,18 +35,29 @@ jobs:
           nix fmt
           nix run .#treefmt
 
+      - name: Check for changes
+        id: check_changes
+        shell: bash
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "NO_CHANGES=1" >> $GITHUB_ENV
+          else
+            echo "NO_CHANGES=0" >> $GITHUB_ENV
+          fi
+
       - name: Commit and push changes
-        id: commit
+        if: env.NO_CHANGES != '1'
+        shell: bash
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git add -A
-          git diff --quiet && echo "NO_CHANGES=1" >> $GITHUB_ENV || git commit -m "chore: auto-format files"
+          git commit -m "chore: auto-format files"
           git push
 
       - name: Open PR
         if: env.NO_CHANGES != '1'
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore: auto-format files"
