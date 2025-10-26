@@ -40,5 +40,8 @@ jobs:
             - name: Install Nix
               uses: DeterminateSystems/nix-installer-action@v15
 
+            - name: Check formatting
+              run: nix flake check
+
             - name: Check Flake
               run: nix flake check --option allow-import-from-derivation false

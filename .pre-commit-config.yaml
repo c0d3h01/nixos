@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: treefmt
+        name: treefmt
+        entry: nix develop -c treefmt --fail-on-change
+        language: system
+        types: [file, nix]
