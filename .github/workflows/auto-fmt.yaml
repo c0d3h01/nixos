@@ -9,7 +9,7 @@ on:
 
 concurrency:
   group: format-and-pr-${{ github.ref }}
-  cancel-in-progress: true  # Cancel previous runs for the same branch
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -41,9 +41,9 @@ jobs:
         run: |
           git add -A
           if git diff --cached --quiet; then
-            echo "NO_CHANGES=1" >> $GITHUB_ENV
+            echo "NO_CHANGES=1" >> "$GITHUB_ENV"
           else
-            echo "NO_CHANGES=0" >> $GITHUB_ENV
+            echo "NO_CHANGES=0" >> "$GITHUB_ENV"
           fi
 
       - name: Commit and push changes
