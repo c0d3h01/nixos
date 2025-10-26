@@ -6,9 +6,9 @@
 
 {
   imports = [
-    ./environment.nix
-    ./modules
-    ./secrets.nix
+    ./programs
+    ./system
+    ./terminal
   ];
 
   # Let Home Manager install and manage itself.
@@ -22,5 +22,11 @@
     shell.enableShellIntegration = false;
     homeDirectory = "/home/${userConfig.username}";
     stateVersion = lib.trivial.release;
+    sessionVariables = {
+      EDITOR = "nvim";
+      VISUAL = "nvim";
+      BROWSER = "google-chrome";
+      TERMINAL = "alacritty";
+    };
   };
 }

@@ -29,7 +29,6 @@ let
             extraSpecialArgs = {
               inherit inputs userConfig hostName;
               inherit (inputs) self;
-              inherit (inputs) nixgl;
             };
             users.${userConfig.username} = {
               imports = [ ../home-manager/home.nix ];

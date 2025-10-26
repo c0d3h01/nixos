@@ -1,7 +1,7 @@
 {
-  c0d3h01 = {
-    username = "c0d3h01";
-    hostname = "eva";
+  laptop = {
+    username = "harsh";
+    hostname = "firus";
     fullName = "Harshal Sawant";
     system = "x86_64-linux";
 
@@ -19,9 +19,8 @@
     devStack = {
       ollama.enable = true;
       tabby.enable = false;
-      virtualisation.enable = true; # VM
-      monitoring.enable = false; # Monitoring grouped tools
-      container = "podman"; # Options = "docker" | "podman"
+      virtualisation.enable = false; # VM
+      container = "docker"; # Options = "docker" | "podman"
       sql.enable = true; # Mysql - DBMS
     };
   };

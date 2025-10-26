@@ -15,7 +15,7 @@ let
         inherit (inputs) self;
       };
       modules = [
-        ./home.nix
+        ./modules/home.nix
       ];
     };
 

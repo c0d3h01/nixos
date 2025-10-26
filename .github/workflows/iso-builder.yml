@@ -32,9 +32,9 @@ jobs:
             - name: Install Nix
               uses: DeterminateSystems/nix-installer-action@v15
 
-            - name: Build eva Iso
+            - name: Build Iso
               continue-on-error: false
-              run: nix build -L .#nixosConfigurations.eva.config.system.build.isoImage
+              run: nix build -L .#nixosConfigurations.firus.config.system.build.isoImage
 
             - name: Upload Release Artifacts
               if: github.event_name == 'schedule'

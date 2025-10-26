@@ -41,7 +41,7 @@ rebuild/deploy:
 .PHONY: rebuild/deploy-all
 rebuild/deploy-all:
 	$(MAKE) rebuild/deploy HOST=c0d3h01
-	$(MAKE) rebuild/deploy HOST=eva
+	$(MAKE) rebuild/deploy HOST=firus
 
 .PHONY: rebuild/boot
 rebuild/boot:

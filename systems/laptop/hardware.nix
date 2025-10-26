@@ -1,14 +1,5 @@
 {
   disko.devices = {
-    nodev."/@" = {
-      fsType = "tmpfs";
-      mountOptions = [
-        "defaults"
-        "size=8G"
-        "mode=755"
-      ];
-    };
-
     disk.main = {
       type = "disk";
       device = "/dev/nvme0n1";
@@ -17,40 +8,48 @@
         type = "gpt";
         partitions = {
           ESP = {
+            label = "nixos-boot";
             priority = 1;
-            size = "512M";
+            size = "1G";
             type = "EF00";
             content = {
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
-              mountOptions = [
-                "defaults"
-              ];
+            };
+          };
+
+          swap = {
+            label = "nixos-swap";
+            size = "8G";
+            content = {
+              type = "swap";
+               discardPolicy = "both";
+               resumeDevice = true;
             };
           };
 
           luks = {
+            label = "nixos-root";
             size = "100%";
             content = {
               type = "luks";
               name = "crypted";
               settings = {
-                allowDiscards = true;
+                bypassWorkqueues = true;
               };
               content = {
                 type = "btrfs";
-                extraArgs = [ "-f" ];              
+                extraArgs = [ "-f" ];
                 subvolumes = {
 
                   "/@" = {
                     mountpoint = "/";
                     mountOptions = [
                       "noatime"
-                      "compress=zstd:1"
+                      "compress=zstd:3"
                       "ssd"
                       "space_cache=v2"
-                      "commit=120"
                     ];
                   };
 
@@ -58,10 +57,9 @@
                     mountpoint = "/home";
                     mountOptions = [
                       "noatime"
-                      "compress=zstd:1"
+                      "compress=zstd:3"
                       "ssd"
                       "space_cache=v2"
-                      "commit=120"
                     ];
                   };
 
@@ -69,40 +67,9 @@
                     mountpoint = "/nix";
                     mountOptions = [
                       "noatime"
-                      "compress=zstd:7"
+                      "compress=zstd:3"
                       "ssd"
                       "space_cache=v2"
-                      "commit=120"
-                    ];
-                  };
-
-                  "/@persist" = {
-                    mountpoint = "/persist";
-                    mountOptions = [
-                      "subvol=@persist"
-                      "compress=zstd"
-                      "noatime"
-                      "ssd"
-                    ];
-                  };
-
-                  "/@cache" = {
-                    mountpoint = "/var/cache";
-                    mountOptions = [
-                      "noatime"
-                      "nodatacow"
-                      "ssd"
-                      "space_cache=v2"
-                      "commit=120"
-                    ];
-                  };
-
-                  "/@tmp" = {
-                    mountpoint = "/tmp";
-                    mountOptions = [
-                      "noatime"
-                      "nodatacow"
-                      "ssd"
                     ];
                   };
 
@@ -110,16 +77,10 @@
                     mountpoint = "/var/log";
                     mountOptions = [
                       "noatime"
-                      "compress=zstd:1"
+                      "compress=zstd:3"
                       "ssd"
                       "space_cache=v2"
-                      "commit=120"
                     ];
-                  };
-
-                  "/@swap" = {
-                    mountpoint = "/swap";
-                    swap.swapfile.size = "6G";
                   };
                 };
               };
