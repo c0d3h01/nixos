@@ -1,73 +1,104 @@
 name: Bump Flake Inputs
 
 on:
-    workflow_dispatch:
-    schedule:
-        - cron: "3 0 * * *" # run daily at 00:03 UTC
+  workflow_dispatch:
+  schedule:
+    - cron: "3 0 * * *" # run daily at 00:03 UTC
 
 permissions: {}
 
 jobs:
-    update-lockfile:
-        runs-on: ubuntu-latest
+  update-lockfile:
+    runs-on: ubuntu-latest
 
-        permissions:
-            pull-requests: write
-            contents: write
+    permissions:
+      pull-requests: write
+      contents: write
 
-        outputs:
-            pr: ${{ steps.pr.outputs.pull-request-url }}
-            branch: ${{ steps.pr.outputs.pull-request-branch }}
+    outputs:
+      pr: ${{ steps.pr.outputs.pull-request-url }}
+      branch: ${{ steps.pr.outputs.pull-request-branch }}
 
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v5
-              with:
-                  persist-credentials: false
-
-            - name: Install Nix
-              uses: DeterminateSystems/nix-installer-action@v20
-
-            - name: Update Lockfile
-              id: pr
-              uses: DeterminateSystems/update-flake-lock@v27
-              with:
-                  commit-msg: "flake.lock: update all inputs"
-                  pr-title: "flake.lock: update all inputs"
-                  branch: update-flake-inputs
-                  pr-body: |
-                      ```
-                      {{ env.GIT_COMMIT_MESSAGE }}
-                      ```
-
-    check:
-        name: Check Flake
-        needs: update-lockfile
-
-        uses: ./.github/workflows/flake-validator.yml
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
         with:
-            ref: ${{ needs.update-lockfile.outputs.branch }}
+          persist-credentials: false
 
-    check-lock:
-        name: Check Lock
-        needs: update-lockfile
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v20
 
-        uses: ./.github/workflows/check-locks.yml
+      - name: Update Lockfile
+        id: pr
+        uses: DeterminateSystems/update-flake-lock@v27
         with:
-            ref: ${{ needs.update-lockfile.outputs.branch }}
+          commit-msg: "flake.lock: update all inputs"
+          pr-title: "flake.lock: update all inputs"
+          branch: update-flake-inputs
+          pr-body: "Automated flake.lock update"
 
-    merge:
-        name: Merge Pull Request
-        needs: [update-lockfile, check, check-lock]
-        runs-on: ubuntu-latest
+  check:
+    name: Check Flake
+    needs: update-lockfile
+    runs-on: ubuntu-latest
 
-        permissions:
-            pull-requests: write
-            contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.update-lockfile.outputs.branch }}
 
-        steps:
-            - name: Merge Pull Request
-              run: gh pr merge --rebase --auto --delete-branch "$PR"
-              env:
-                  GH_TOKEN: ${{ github.token }}
-                  PR: ${{ needs.update-lockfile.outputs.pr }}
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v20
+
+      - name: Validate Flake
+        run: nix flake check
+
+      - name: Validate Flake (no IFD)
+        run: nix flake check --no-allow-import-from-derivation
+
+  check-lock:
+    name: Check Lock
+    needs: update-lockfile
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.update-lockfile.outputs.branch }}
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v20
+
+      - name: Validate flake.lock
+        run: nix flake check
+
+      - name: Check flake lock integrity
+        run: nix run github:tgirlcloud/pkgs#locker
+
+  merge:
+    name: Merge Pull Request
+    needs: [update-lockfile, check, check-lock]
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install gh CLI
+        run: |
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+          sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+          sudo apt update
+          sudo apt install gh -y
+
+      - name: Merge Pull Request
+        run: gh pr merge ${{ needs.update-lockfile.outputs.pr }} --squash --auto --delete-branch
+        env:
+          GH_TOKEN: ${{ github.token }}

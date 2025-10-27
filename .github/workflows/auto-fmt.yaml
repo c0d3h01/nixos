@@ -1,11 +1,17 @@
 name: Auto-Format and PR
 on:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        required: false
+        type: string
   push:
-    branches: [ main ]
+    branches: [master]
     paths-ignore:
       - "**.lock"
       - "home/**"
+      - "*.md"
 
 concurrency:
   group: format-and-pr-${{ github.ref }}
@@ -25,8 +31,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          ref: ${{ github.ref_name }}
-          persist-credentials: true  # Persist the token for git push
+          ref: ${{ inputs.ref && inputs.ref || github.ref }}
+          persist-credentials: true
           fetch-depth: 0
 
       - name: Install Nix
@@ -51,10 +57,10 @@ jobs:
         if: env.NO_CHANGES != '1'
         shell: bash
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git commit -m "chore: auto-format files"
-          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git push origin HEAD:${{ github.ref_name }} || true
 
       - name: Open PR
         if: env.NO_CHANGES != '1'

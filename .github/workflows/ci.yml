@@ -1,0 +1,53 @@
+name: CI Pipeline
+
+on:
+    workflow_call:
+        inputs:
+            ref:
+                required: false
+                type: string
+    workflow_run:
+        workflows: ["Auto-Format and PR"]
+        types:
+            - completed
+        branches:
+            - master
+
+permissions:
+    contents: read
+    checks: write
+    pull-requests: write
+
+jobs:
+    ci-checks:
+        name: Run CI Checks
+        runs-on: ubuntu-latest
+        if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success'
+
+        steps:
+            - name: Determine Ref
+              id: ref
+              run: |
+                  if [ "${{ github.event_name }}" = "workflow_run" ]; then
+                    echo "ref=refs/heads/master" >> $GITHUB_OUTPUT
+                  else
+                    echo "ref=${{ inputs.ref || github.ref }}" >> $GITHUB_OUTPUT
+                  fi
+
+            - name: Checkout
+              uses: actions/checkout@v5
+              with:
+                  ref: ${{ steps.ref.outputs.ref }}
+                  fetch-depth: 0
+
+            - name: Install Nix
+              uses: DeterminateSystems/nix-installer-action@v20
+
+            - name: Validate Flake (Linux)
+              run: nix flake check
+
+            - name: Validate Flake (no IFD)
+              run: nix flake check --no-allow-import-from-derivation
+
+            - name: Check flake lock integrity
+              run: nix run github:tgirlcloud/pkgs#locker
