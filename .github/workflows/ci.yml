@@ -29,9 +29,9 @@ jobs:
               id: ref
               run: |
                   if [ "${{ github.event_name }}" = "workflow_run" ]; then
-                    echo "ref=refs/heads/master" >> $GITHUB_OUTPUT
+                    echo "ref=refs/heads/master" >> "$GITHUB_OUTPUT"
                   else
-                    echo "ref=${{ inputs.ref || github.ref }}" >> $GITHUB_OUTPUT
+                    echo "ref=${{ inputs.ref || github.ref }}" >> "$GITHUB_OUTPUT"
                   fi
 
             - name: Checkout
