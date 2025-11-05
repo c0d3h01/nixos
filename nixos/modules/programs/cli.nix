@@ -3,6 +3,9 @@
   environment.systemPackages = with pkgs; [
     mold
     sccache
+    nil
+    nixd
+    rustup
     openjdk17
     lld
     ouch
@@ -23,10 +26,7 @@
     glibc
     glfw
     gtk3
-    gtk4
-    python3
-    uv
-    poetry
+    python311
     strace
     ltrace
     bandwhich
