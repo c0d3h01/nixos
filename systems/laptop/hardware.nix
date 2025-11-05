@@ -3,7 +3,6 @@
     disk.main = {
       type = "disk";
       device = "/dev/nvme0n1";
-
       content = {
         type = "gpt";
         partitions = {
@@ -16,7 +15,9 @@
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
-              mountOptions = [ "umask=0077" ];
+              mountOptions = [
+                "umask=0077"
+              ];
             };
           };
 
@@ -37,13 +38,13 @@
               type = "luks";
               name = "crypted";
               settings = {
+                allowDiscards = true;
                 bypassWorkqueues = true;
               };
               content = {
                 type = "btrfs";
                 extraArgs = [ "-f" ];
                 subvolumes = {
-
                   "/@" = {
                     mountpoint = "/";
                     mountOptions = [
@@ -74,8 +75,8 @@
                     ];
                   };
 
-                  "/@tmp" = {
-                    mountpoint = "/var/tmp";
+                  "/@log" = {
+                    mountpoint = "/var/log";
                     mountOptions = [
                       "noatime"
                       "compress=zstd:3"
@@ -84,8 +85,8 @@
                     ];
                   };
 
-                  "/@log" = {
-                    mountpoint = "/var/log";
+                  "/@cache" = {
+                    mountpoint = "/var/cache";
                     mountOptions = [
                       "noatime"
                       "compress=zstd:3"
@@ -99,6 +100,14 @@
           };
         };
       };
+    };
+
+    nodev."/var/tmp" = {
+      fsType = "tmpfs";
+      mountOptions = [
+        "size=4G"
+        "mode=755"
+      ];
     };
   };
 }
