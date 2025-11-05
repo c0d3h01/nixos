@@ -10,7 +10,8 @@ let
 in
 {
   imports = [
-    ./hardware.nix
+    # ./hardware.nix
+    ./hybrid-tmpfs.nix
   ];
 
   users.users = lib.mkIf isUsr {

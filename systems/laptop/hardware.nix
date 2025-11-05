@@ -16,6 +16,7 @@
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
+              mountOptions = [ "umask=0077" ];
             };
           };
 
@@ -65,6 +66,16 @@
 
                   "/@nix" = {
                     mountpoint = "/nix";
+                    mountOptions = [
+                      "noatime"
+                      "compress=zstd:3"
+                      "ssd"
+                      "space_cache=v2"
+                    ];
+                  };
+
+                  "/@tmp" = {
+                    mountpoint = "/var/tmp";
                     mountOptions = [
                       "noatime"
                       "compress=zstd:3"
