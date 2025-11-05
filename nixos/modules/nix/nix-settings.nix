@@ -34,15 +34,15 @@
       sandbox = pkgs.stdenv.hostPlatform.isLinux;
 
       # Avoid tmpfs exhaustion
-      build-dir = "/var/tmp"; 
+      build-dir = "/var/tmp";
 
       # Hard-link identical paths immediately
-      auto-optimise-store = true; 
+      auto-optimise-store = true;
 
       # Output / Debug
       show-trace = true; # Better error diagnostics
       log-lines = 50;
-      
+
       # continue building derivations even if one fails
       # this is important for keeping a nice cache of derivations, usually because I walk away
       # from my PC when building and it would be annoying to deal with nothing saved
