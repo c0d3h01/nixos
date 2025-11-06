@@ -7,6 +7,5 @@
     ./nixgl.nix
     ./secrets.nix
     ./themes.nix
-    ./variables.nix
   ];
 }

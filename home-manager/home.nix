@@ -15,6 +15,7 @@ in
     ./shells
     ./system
     ./terminal
+    ./variables.nix
   ];
 
   # Let Home Manager install and manage itself.

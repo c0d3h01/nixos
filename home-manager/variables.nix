@@ -9,8 +9,10 @@ let
 in
 {
   home.sessionVariables = {
-    EDITOR = editor;
+    GIT_SIGNING_KEY = "B4242C21BAF74B7C";
     GIT_EDITOR = editor;
+    GIT_DEFAULT_BRANCH = "master";
+    EDITOR = editor;
     VISUAL = editor;
     BROWSER = browser;
     TERMINAL = terminal;
