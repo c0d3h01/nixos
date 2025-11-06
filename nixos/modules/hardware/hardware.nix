@@ -81,14 +81,16 @@ in
 
     kernelParams = [
       "nowatchdog"
-      "splash"
-      "quiet"
+      # "splash"
+      # "quiet"
       "loglevel=3"
       "udev.log_level=3"
       "rd.udev.log_level=3"
       "pti=auto"
       "usbcore.autosuspend=-1"
       "pcie_aspm=performance"
+      "transparent_hugepage=madvise"
+      "mitigations=off"
     ]
     ++ cpuKernelParams
     ++ laptopKernelParams;

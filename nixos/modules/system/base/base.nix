@@ -26,6 +26,18 @@ in
   # Install browser for usr.
   programs.firefox.enable = true;
 
+  # Image/video preview
+  services.tumbler.enable = true;
+
+  # Mounting USB & More
+  services.gvfs.enable = true;
+
+  # smartd daemon from smartmontools package
+  services.smartd = {
+    enable = true;
+    autodetect = true;
+  };
+
   # Create the main user
   users.users.${userConfig.username} = {
     uid = mkDefault 1000;

@@ -24,11 +24,17 @@ in
 
       extraPackages = with pkgs; [
         mesa
+        libvdpau-va-gl
+        libva-vdpau-driver
+        # OpenCL support
+        rocmPackages.clr.icd
       ];
 
       enable32Bit = true;
       extraPackages32 = with pkgs.pkgsi686Linux; [
         mesa
+        libvdpau-va-gl
+        libva-vdpau-driver
       ];
     };
 

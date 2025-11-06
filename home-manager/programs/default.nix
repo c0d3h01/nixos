@@ -1,7 +1,7 @@
 {
   imports = [
+    ./ghostty.nix
     ./monitoring.nix
-    ./notion-enhanced.nix
     ./spicetify.nix
   ];
 }

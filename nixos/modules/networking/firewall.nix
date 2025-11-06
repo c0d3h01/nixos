@@ -17,10 +17,17 @@ in
     allowPing = isServer;
 
     allowedTCPPorts = [
+      22
+      80
       443
+      59010
+      59011
       8080
     ];
-    allowedUDPPorts = [ ];
+    allowedUDPPorts = [
+      59010
+      59011
+    ];
 
     allowedTCPPortRanges = [ ];
     allowedUDPPortRanges = [ ];

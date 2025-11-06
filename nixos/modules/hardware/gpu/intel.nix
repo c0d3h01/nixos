@@ -21,6 +21,7 @@ in
 
       extraPackages = with pkgs; [
         intel-media-driver
+        intel-vaapi-driver
         libva-vdpau-driver
         intel-compute-runtime
       ];
@@ -28,6 +29,7 @@ in
       enable32Bit = true;
       extraPackages32 = with pkgs.pkgsi686Linux; [
         intel-media-driver
+        intel-vaapi-driver
         libva-vdpau-driver
         intel-compute-runtime
       ];

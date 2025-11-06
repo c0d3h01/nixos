@@ -76,6 +76,6 @@ in
       ghorg # Mass clone git repos (OSINT/code review)
 
       # Other Security Tools
-      # deepsecrets  # Find secrets in code
+      deepsecrets # Find secrets in code
     ];
 }

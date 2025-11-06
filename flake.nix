@@ -17,6 +17,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixgl = {
+      type = "github";
+      owner = "nix-community";
+      repo = "nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     disko = {
       type = "github";
       owner = "nix-community";

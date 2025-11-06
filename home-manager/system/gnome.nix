@@ -59,7 +59,7 @@ in
         clock-show-weekday = true;
         clock-show-date = true;
         clock-format = "12h";
-        # enable-animations = false;
+        enable-animations = false;
         show-battery-percentage = true;
       };
 
