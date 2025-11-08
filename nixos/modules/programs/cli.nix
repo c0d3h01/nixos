@@ -5,6 +5,9 @@
     sccache
     nil
     nixd
+    gcc
+    clang
+    zig
     rustup
     openjdk17
     lld
