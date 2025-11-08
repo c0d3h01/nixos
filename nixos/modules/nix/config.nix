@@ -23,7 +23,7 @@
       android_sdk.accept_license = true;
 
       # Usually leave false; enabling hides unsupported attrpaths that may break differently.
-      allowUnsupportedSystem = false;
+      allowUnsupportedSystem = true;
     };
   };
 }
