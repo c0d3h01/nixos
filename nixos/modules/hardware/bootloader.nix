@@ -1,33 +1,44 @@
-{ lib, userConfig, ... }:
+{
+  lib,
+  userConfig,
+  pkgs,
+  ...
+}:
+
 let
-  # Boot loader selection
-  useSystemdBoot = userConfig.machineConfig.bootloader == "systemd";
-  useGrub = userConfig.machineConfig.bootloader == "grub";
+  inherit (lib) mkForce mkDefault;
+  inherit (userConfig.machineConfig) bootloader;
+  isSystemdBoot = bootloader == "systemd";
+  isGrub = bootloader == "grub";
+
 in
 {
   boot.loader = {
-    timeout = lib.mkForce 5;
+    timeout = mkForce 5;
 
     efi = {
-      canTouchEfiVariables = true;
+      canTouchEfiVariables = mkDefault true;
       efiSysMountPoint = "/boot";
     };
 
-    # GRUB
-    grub = {
-      enable = useGrub;
-      efiSupport = true;
-      devices = [ "nodev" ]; # For UEFI
-      useOSProber = true;
-      memtest86.enable = true;
-    };
-
-    # systemd-boot
+    # Systemd-boot configuration
     systemd-boot = {
-      enable = useSystemdBoot;
+      enable = mkDefault isSystemdBoot;
       configurationLimit = 15;
       memtest86.enable = true;
-      consoleMode = "auto";
+      consoleMode = "max";
+      editor = false;
+    };
+
+    # GRUB configuration
+    grub = {
+      enable = mkDefault isGrub;
+      efiSupport = true;
+      devices = [ "nodev" ];
+      useOSProber = true;
+      memtest86.enable = true;
+      configurationName = "NixOS - c0d3h01";
+      theme = pkgs.nixos-grub2-theme;
     };
   };
 }
