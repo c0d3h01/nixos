@@ -8,6 +8,5 @@
     ./logs.nix
     ./scheduler.nix
     ./irqbalance.nix
-    ./io.nix
   ];
 }
