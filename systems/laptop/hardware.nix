@@ -17,7 +17,7 @@
             };
           };
           ESP = {
-            name = "ESP";
+            name = "nixos-esp";
             size = "1024M";
             type = "EF00";
             content = {
@@ -27,25 +27,17 @@
               mountOptions = [ "umask=0077" ];
             };
           };
-          nix = {
-            name = "nix";
+          root = {
+            name = "nixos-root";
             size = "100%";
             content = {
               type = "filesystem";
               format = "ext4";
-              mountpoint = "/nix";
+              mountpoint = "/";
             };
           };
         };
       };
-    };
-    nodev."/" = {
-      fsType = "tmpfs";
-      mountOptions = [
-        "size=4G"
-        "defaults"
-        "mode=755"
-      ];
     };
   };
 }
