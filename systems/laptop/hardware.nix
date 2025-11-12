@@ -1,24 +1,14 @@
 {
   disko.devices = {
     disk.main = {
-      device = "/dev/nvme0n1";
       type = "disk";
+      device = "/dev/nvme0n1";
       content = {
         type = "gpt";
         partitions = {
-          plainSwap = {
-            label = "nixos-swap";
-            size = "8024M";
-            content = {
-              type = "swap";
-              discardPolicy = "both";
-              resumeDevice = true;
-              priority = 100;
-            };
-          };
           ESP = {
-            name = "nixos-esp";
-            size = "1024M";
+            label = "nixos-boot";
+            size = "1G";
             type = "EF00";
             content = {
               type = "filesystem";
@@ -27,13 +17,75 @@
               mountOptions = [ "umask=0077" ];
             };
           };
+
+          plainSwap = {
+            label = "nixos-swap";
+            size = "8G";
+            content = {
+              type = "swap";
+              discardPolicy = "both";
+              resumeDevice = true;
+              priority = 100;
+            };
+          };
+
           root = {
-            name = "nixos-root";
+            label = "nixos-root";
             size = "100%";
             content = {
-              type = "filesystem";
-              format = "ext4";
-              mountpoint = "/";
+              type = "btrfs";
+              extraArgs = [ "-f" ];
+              subvolumes = {
+                "/@" = {
+                  mountpoint = "/";
+                  mountOptions = [
+                    "noatime"
+                    "compress=zstd:3"
+                    "ssd"
+                    "space_cache=v2"
+                  ];
+                };
+
+                "/@home" = {
+                  mountpoint = "/home";
+                  mountOptions = [
+                    "noatime"
+                    "compress=zstd:3"
+                    "ssd"
+                    "space_cache=v2"
+                  ];
+                };
+
+                "/@nix" = {
+                  mountpoint = "/nix";
+                  mountOptions = [
+                    "noatime"
+                    "compress=zstd:3"
+                    "ssd"
+                    "space_cache=v2"
+                  ];
+                };
+
+                "/@tmp" = {
+                  mountpoint = "/var/tmp";
+                  mountOptions = [
+                    "noatime"
+                    "compress=zstd:3"
+                    "ssd"
+                    "space_cache=v2"
+                  ];
+                };
+
+                "/@log" = {
+                  mountpoint = "/var/log";
+                  mountOptions = [
+                    "noatime"
+                    "compress=zstd:3"
+                    "ssd"
+                    "space_cache=v2"
+                  ];
+                };
+              };
             };
           };
         };
