@@ -12,6 +12,12 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      - name: Checkout with submodules
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
       - uses: runsascoded/update-submodules@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
