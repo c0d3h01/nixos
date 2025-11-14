@@ -2,7 +2,7 @@ theme = catppuccin-mocha
 
 # Font config
 font-size = 12
-font-family = Caskaydia Nerd Font
+font-family = DejaVu Sans Mono
 
 # Background transperancy
 background-opacity = 0.85
