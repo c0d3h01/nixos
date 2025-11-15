@@ -1,7 +1,6 @@
 {
   lib,
   inputs,
-  nixgl,
   ...
 }:
 {
@@ -19,9 +18,6 @@
           allowUnsupportedSystem = true;
         };
         overlays = [ inputs.nixgl.overlay ];
-
-        nixglLib = nixgl.lib;
-        nixglPackages = nixgl.packages;
       };
     };
 }

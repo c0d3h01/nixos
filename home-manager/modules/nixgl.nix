@@ -2,22 +2,17 @@
   config,
   userConfig,
   lib,
-  nixglLib,
-  nixglPackages,
   ...
 }:
 let
-  inherit (lib) mkIf mkEnableOption;
+  inherit (lib) mkIf;
   cfg = userConfig.machineConfig;
 in
 {
   config = mkIf cfg.glApps {
-    # NixGL configuration for GPU support
-    targets.genericLinux.nixGL = {
-      vulkan.enable = true;
-      defaultWrapper = "mesa";
-      offloadWrapper = "mesa";
-      installScripts = [ "mesa" ];
-    };
+    # nix-gl-host configuration for GPU support
+    nixGL.packages = lib.nixGL.auto.nixGLDefault;
+    nixGL.defaultWrapper = "mesa";
+    nixGL.installScripts = [ "mesa" ];
   };
 }
