@@ -11,15 +11,15 @@ let
 
   # DESKTOP APPLICATIONS
   desktopApps = with pkgs; [
-    ghostty
     vscode-fhs
     postman
     github-desktop
     drawio
-    vesktop
+    discord
     telegram-desktop
     libreoffice-still
-    arduino-core
+    arduino
+    obsidian
   ];
 
   # DEVELOPMENT & SYSTEM TOOLS
@@ -37,7 +37,6 @@ let
     openjdk17
     lld
     nasm
-    gitFull
 
     # System Utilities
     ouch
