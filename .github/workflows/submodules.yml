@@ -1,4 +1,5 @@
 name: "CI: Update submodules"
+
 on:
   workflow_dispatch:
   schedule:
@@ -12,19 +13,19 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: recursive
-
-      - run: |
+      - name: Update submodules
+        run: |
           git submodule update --remote
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
       - uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "chore: update submodules"
           title: "chore: update submodules"
           branch: update-submodules
           delete-branch: true
-          labels: automerge
+          auto-merge: true
+          merge-method: squash

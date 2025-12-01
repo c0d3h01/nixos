@@ -1,4 +1,5 @@
 name: Bump Flake Inputs
+
 on:
   workflow_dispatch:
   schedule:
@@ -14,10 +15,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v20
-
       - name: Update Lockfile
         uses: DeterminateSystems/update-flake-lock@v27
         with:
@@ -25,4 +24,5 @@ jobs:
           pr-title: "chore: flake.lock update"
           branch: update-flake-inputs
           pr-body: "Automated flake.lock update"
-          pr-labels: automerge
+          pr-merge-method: squash
+          pr-merge: true
