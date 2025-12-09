@@ -1,13 +1,5 @@
-{
-  userConfig,
-  lib,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkMerge;
-  inherit (userConfig.machineConfig) gpuType;
-
-  # GPU configuration definitions
+{ userConfig, lib, pkgs, ... }:
+let
   gpuConfigs = {
     nvidia = {
       acceleration = "cuda";
@@ -18,7 +10,6 @@
         OLLAMA_NUM_PARALLEL = "4";
       };
     };
-
     amd = {
       acceleration = "rocm";
       envVars = {
@@ -28,7 +19,6 @@
         OLLAMA_NUM_PARALLEL = "2";
       };
     };
-
     intel = {
       acceleration = "vulkan";
       envVars = {
@@ -36,7 +26,6 @@
         OLLAMA_NUM_PARALLEL = "2";
       };
     };
-
     cpu = {
       acceleration = "cpu";
       envVars = {
@@ -44,30 +33,16 @@
       };
     };
   };
-
-  # Get current GPU config
-  currentGpuConfig = gpuConfigs.${gpuType};
-
-  # Ollama environment
-  environmentVariables = mkMerge [
-    currentGpuConfig.envVars
-  ];
+  config = gpuConfigs.${userConfig.machineConfig.gpuType};
+  pkgName = if config.acceleration == "cpu" then "ollama" else "ollama-${config.acceleration}";
 in {
   services.ollama = {
     enable = true;
-
-    # GPU acceleration
-    package = pkgs.lib.getAttr ollamaPkgName pkgs;
-
-    # Network configuration
+    package = pkgs.lib.getAttr pkgName pkgs;
     openFirewall = true;
-
-    # Environment variables
-    inherit environmentVariables;
-
-    # Load models pre-defined
+    environmentVariables = config.envVars;
     loadModels = [
-      # "qwen2.5-coder:1.5b" # size:986MB, context:32K, text-inputes
+      "qwen2.5-coder:1.5b"
     ];
   };
 }
