@@ -1,6 +1,7 @@
 {
   userConfig,
   lib,
+  pkgs,
   ...
 }: let
   inherit (lib) mkMerge;
@@ -17,6 +18,7 @@
         OLLAMA_NUM_PARALLEL = "4";
       };
     };
+
     amd = {
       acceleration = "rocm";
       envVars = {
@@ -26,21 +28,37 @@
         OLLAMA_NUM_PARALLEL = "2";
       };
     };
+
+    intel = {
+      acceleration = "vulkan";
+      envVars = {
+        OLLAMA_GPU_OVERHEAD = "0";
+        OLLAMA_NUM_PARALLEL = "2";
+      };
+    };
+
+    cpu = {
+      acceleration = "cpu";
+      envVars = {
+        OLLAMA_NUM_PARALLEL = "1";
+      };
+    };
   };
 
   # Get current GPU config
   currentGpuConfig = gpuConfigs.${gpuType};
 
-  # Ollama envionment
+  # Ollama environment
   environmentVariables = mkMerge [
     currentGpuConfig.envVars
   ];
+
 in {
   services.ollama = {
     enable = true;
 
     # GPU acceleration
-    inherit (currentGpuConfig) acceleration;
+    package = pkgs.ollama-${currentGpuConfig.acceleration};
 
     # Network configuration
     openFirewall = true;
