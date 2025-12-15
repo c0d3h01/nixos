@@ -8,8 +8,8 @@
           type = "gpt";
           partitions = {
             ESP = {
-              label = "nixos-boot";
-              size = "1G";
+              label = "NIXBOOT";
+              size = "512M";
               type = "EF00";
               content = {
                 type = "filesystem";
@@ -19,30 +19,28 @@
               };
             };
 
-            plainSwap = {
-              label = "nixos-swap";
-              size = "8G";
+            swap = {
+              label = "NIXSWAP";
+              size = "12G";
               content = {
                 type = "swap";
-                discardPolicy = "both";
-                resumeDevice = true;
-                # priority = 100;
+                randomEncryption = true;
+                resumeDevice = false;
               };
             };
 
             root = {
-              label = "nixos-root";
+              label = "NIXROOT";
               size = "100%";
               content = {
                 type = "filesystem";
                 format = "xfs";
                 mountpoint = "/";
                 mountOptions = [
-                  "defaults"
-                  "noatime" # Reduces unnecessary writes
-                  "inode64" # Required for modern systems
-                  "logbsize=256k" # Larger log buffer for better metadata performance
-                  "largeio" # Optimizes I/O size for large, sequential operations
+                  "noatime"
+                  "nodiratime"
+                  "inode64"
+                  "discard"
                 ];
               };
             };
