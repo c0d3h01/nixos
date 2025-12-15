@@ -1,6 +1,8 @@
-{ lib, pkgs, ... }:
-
 {
+  lib,
+  pkgs,
+  ...
+}: {
   boot.loader = {
     timeout = 3;
 
@@ -17,4 +19,3 @@
     };
   };
 }
-

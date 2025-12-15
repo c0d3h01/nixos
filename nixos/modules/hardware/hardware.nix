@@ -1,31 +1,40 @@
-{ config, lib, pkgs, modulesPath, ... }:
-
 {
-  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}: {
+  imports = [(modulesPath + "/installer/scan/not-detected.nix")];
 
   boot = {
     kernelPackages = pkgs.linuxPackages_6_12;
 
     initrd = {
       availableKernelModules = [
-        "nvme" "ahci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"
+        "nvme"
+        "ahci"
+        "xhci_pci"
+        "usb_storage"
+        "sd_mod"
+        "rtsx_pci_sdmmc"
       ];
-      kernelModules = [ "amdgpu" ];
+      kernelModules = ["amdgpu"];
       systemd.enable = true;
       compressor = "zstd";
-      compressorArgs = [ "-3" "-T0" ];
+      compressorArgs = ["-3" "-T0"];
     };
 
-    kernelModules = [ "kvm-amd" ];
+    kernelModules = ["kvm-amd"];
 
     # Stability-first kernel params
     kernelParams = [
       "quiet"
       "loglevel=3"
-      "nowatchdog"              # Reduce spurious reboots
-      "mitigations=auto"        # Security vs performance balance
-      "mce=ignore_ce"           # Don't panic on corrected CPU errors
-      "split_lock_detect=off"   # Prevent false-positive lockups
+      "nowatchdog" # Reduce spurious reboots
+      "mitigations=auto" # Security vs performance balance
+      "mce=ignore_ce" # Don't panic on corrected CPU errors
+      "split_lock_detect=off" # Prevent false-positive lockups
     ];
 
     # Tmpfs: Conservative 40% (2.4GB) to prevent OOM on 6GB system
@@ -34,13 +43,13 @@
       tmpfsSize = "40%";
     };
 
-    supportedFilesystems = [ "ntfs" "exfat" "vfat" ];
+    supportedFilesystems = ["ntfs" "exfat" "vfat"];
   };
 
   hardware = {
     cpu.amd.updateMicrocode = lib.mkDefault true;
     enableRedistributableFirmware = true;
-    amdgpu.amdvlk.enable = false;  # Use RADV (Mesa) for Vega iGPU
+    amdgpu.amdvlk.enable = false; # Use RADV (Mesa) for Vega iGPU
     graphics.enable = true;
   };
 
@@ -64,8 +73,8 @@
 
       # Aggressive disk power management OFF for stability
       DISK_DEVICES = "nvme0n1 sda";
-      DISK_APM_LEVEL_ON_AC = "254 254";    # Max performance
-      DISK_APM_LEVEL_ON_BAT = "192 192";   # Balanced (not aggressive)
+      DISK_APM_LEVEL_ON_AC = "254 254"; # Max performance
+      DISK_APM_LEVEL_ON_BAT = "192 192"; # Balanced (not aggressive)
 
       # WiFi power save OFF for stable connectivity
       WIFI_PWR_ON_AC = "off";

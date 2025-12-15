@@ -1,12 +1,14 @@
-{ lib, pkgs, ... }:
-
 {
+  lib,
+  pkgs,
+  ...
+}: {
   hardware.graphics = {
     enable = true;
     enable32Bit = false;
 
     extraPackages = with pkgs; [
-      rocmPackages.clr.icd  # OpenCL for parallel compute
+      rocmPackages.clr.icd # OpenCL for parallel compute
     ];
   };
 
@@ -15,6 +17,6 @@
     RADV_PERFTEST = "gpl";
   };
 
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  services.xserver.videoDrivers = ["amdgpu"];
   hardware.amdgpu.opencl.enable = true;
 }

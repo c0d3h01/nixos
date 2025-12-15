@@ -1,11 +1,14 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   rootFs = config.fileSystems."/".fsType;
   isXfs = rootFs == "xfs";
 in {
   # XFS-specific optimizations
-  environment.systemPackages = lib.mkIf isXfs [ pkgs.xfsprogs ];
+  environment.systemPackages = lib.mkIf isXfs [pkgs.xfsprogs];
 
   # Filesystem integrity: weekly scrub for both NVMe + HDD
   systemd.services.filesystem-scrub = lib.mkIf isXfs {
@@ -24,6 +27,6 @@ in {
       OnCalendar = "weekly";
       Persistent = true;
     };
-    wantedBy = [ "timers.target" ];
+    wantedBy = ["timers.target"];
   };
 }
