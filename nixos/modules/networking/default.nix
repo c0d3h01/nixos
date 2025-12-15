@@ -4,6 +4,5 @@
     ./networkManager.nix
     ./ssh.nix
     ./systemd.nix
-    ./wireless.nix
   ];
 }
