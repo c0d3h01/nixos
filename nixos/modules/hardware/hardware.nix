@@ -1,115 +1,91 @@
-{
-  config,
-  lib,
-  modulesPath,
-  ...
-}: {
-  imports = [(modulesPath + "/installer/scan/not-detected.nix")];
+{ config, lib, pkgs, modulesPath, ... }:
 
-  # === BOOT CONFIGURATION ===
+{
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
+
   boot = {
-    # Kernel version
     kernelPackages = pkgs.linuxPackages_6_12;
 
-    # Kernel modules
-    initrd.availableKernelModules = [
-      "nvme"
-      "ahci"
-      "xhci_pci"
-      "usb_storage"
-      "sd_mod"
-      "rtsx_pci_sdmmc"
-    ];
-    initrd.kernelModules = ["amdgpu"];
-    kernelModules = ["kvm-amd"];
+    initrd = {
+      availableKernelModules = [
+        "nvme" "ahci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"
+      ];
+      kernelModules = [ "amdgpu" ];
+      systemd.enable = true;
+      compressor = "zstd";
+      compressorArgs = [ "-3" "-T0" ];
+    };
 
-    # Kernel parameters
+    kernelModules = [ "kvm-amd" ];
+
+    # Stability-first kernel params
     kernelParams = [
       "quiet"
       "loglevel=3"
-      "nowatchdog"
-      "mitigations=auto"
+      "nowatchdog"              # Reduce spurious reboots
+      "mitigations=auto"        # Security vs performance balance
+      "mce=ignore_ce"           # Don't panic on corrected CPU errors
+      "split_lock_detect=off"   # Prevent false-positive lockups
     ];
 
-    # Initrd optimization
-    initrd.systemd.enable = true;
-    initrd.compressor = "zstd";
-    initrd.compressorArgs = ["-19" "-T0"];
-
-    # Tmpfs
+    # Tmpfs: Conservative 40% (2.4GB) to prevent OOM on 6GB system
     tmp = {
       useTmpfs = true;
-      tmpfsSize = "50%";
+      tmpfsSize = "40%";
     };
 
-    # Filesystem support
-    supportedFilesystems = ["ntfs" "exfat" "vfat"];
+    supportedFilesystems = [ "ntfs" "exfat" "vfat" ];
   };
 
-  # === HARDWARE FEATURES ===
   hardware = {
-    # AMD CPU microcode updates
-    cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-
-    # Enable all firmware (WiFi, Bluetooth, etc.)
+    cpu.amd.updateMicrocode = lib.mkDefault true;
     enableRedistributableFirmware = true;
-
-    # Graphics
-    amdgpu.amdvlk.enable = false;
+    amdgpu.amdvlk.enable = false;  # Use RADV (Mesa) for Vega iGPU
     graphics.enable = true;
   };
 
-  # === POWER MANAGEMENT ===
+  # Power management
   powerManagement = {
     enable = true;
-    cpuFreqGovernor = lib.mkDefault "schedutil";
+    cpuFreqGovernor = "schedutil";
   };
 
-  # Battery optimization
   services.tlp = {
     enable = true;
     settings = {
-      # CPU scaling
       CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
-      CPU_SCALING_GOVERNOR_ON_BAT = "schedutil";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
-      # AMD P-State (Zen+ uses acpi-cpufreq, not amd-pstate)
       CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
 
-      # Boost control
       CPU_BOOST_ON_AC = 1;
       CPU_BOOST_ON_BAT = 0;
 
-      # Disk
+      # Aggressive disk power management OFF for stability
       DISK_DEVICES = "nvme0n1 sda";
-      DISK_APM_LEVEL_ON_AC = "254 254";
-      DISK_APM_LEVEL_ON_BAT = "128 128";
+      DISK_APM_LEVEL_ON_AC = "254 254";    # Max performance
+      DISK_APM_LEVEL_ON_BAT = "192 192";   # Balanced (not aggressive)
+
+      # WiFi power save OFF for stable connectivity
+      WIFI_PWR_ON_AC = "off";
+      WIFI_PWR_ON_BAT = "off";
+
+      # USB autosuspend OFF (prevents device disconnects)
+      USB_AUTOSUSPEND = 0;
     };
   };
 
-  # === NETWORKING ===
-  networking = {
-    useDHCP = lib.mkDefault true;
-    networkmanager.enable = true; # GUI network management
+  networking.useDHCP = lib.mkDefault true;
+  nixpkgs.hostPlatform = "x86_64-linux";
 
-    # Interface names from your system
-    interfaces = {
-      enp2s0.useDHCP = lib.mkDefault true; # Ethernet
-      wlp3s0.useDHCP = lib.mkDefault true; # WiFi
-    };
-  };
-
-  # === SYSTEM PROFILE ===
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-
-  # firmware updater for machine hardware
+  # Firmware updates
   services.fwupd = {
     enable = true;
     daemonSettings.EspLocation = config.boot.loader.efi.efiSysMountPoint;
   };
 
-  # === THERMAL/BACKLIGHT ===
-  services.acpid.enable = true; # ACPI event handling
-  hardware.acpilight.enable = true; # Backlight control via /sys
+  # ACPI/backlight
+  services.acpid.enable = true;
+  hardware.acpilight.enable = true;
 }

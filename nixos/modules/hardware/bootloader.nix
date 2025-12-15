@@ -1,40 +1,20 @@
+{ lib, pkgs, ... }:
+
 {
-  lib,
-  userConfig,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkForce mkDefault;
-  inherit (userConfig.machineConfig) bootloader;
-  isSystemdBoot = bootloader == "systemd";
-  isGrub = bootloader == "grub";
-in {
   boot.loader = {
-    timeout = mkForce 5;
+    timeout = 3;
 
     efi = {
-      canTouchEfiVariables = mkDefault true;
+      canTouchEfiVariables = true;
       efiSysMountPoint = "/boot";
     };
 
-    # Systemd-boot configuration
     systemd-boot = {
-      enable = mkDefault isSystemdBoot;
-      configurationLimit = 15;
-      memtest86.enable = true;
-      consoleMode = "max";
+      enable = true;
+      configurationLimit = 10;
       editor = false;
-    };
-
-    # GRUB configuration
-    grub = {
-      enable = mkDefault isGrub;
-      efiSupport = true;
-      devices = ["nodev"];
-      useOSProber = true;
-      memtest86.enable = true;
-      configurationName = "NixOS - c0d3h01";
-      theme = pkgs.nixos-grub2-theme;
+      consoleMode = "max";
     };
   };
 }
+

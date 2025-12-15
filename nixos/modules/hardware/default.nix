@@ -1,10 +1,8 @@
 {
   imports = [
-    ./gpu.nix
     ./bootloader.nix
-    ./btrfs-fs.nix
+    ./filesystem.nix
+    ./graphics.nix
     ./hardware.nix
-    ./sysctl.nix
-    ./zswap.nix
   ];
 }
