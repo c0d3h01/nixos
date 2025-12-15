@@ -22,7 +22,7 @@ jobs:
           git commit -m "Update submodules" || exit 0
 
       - id: pr
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           title: Update SubModules
           token: ${{ secrets.GITHUB_TOKEN }}
