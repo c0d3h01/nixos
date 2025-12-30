@@ -28,6 +28,9 @@
   # System state version
   system.stateVersion = "25.11";
 
+  # Add ~/.local/bin to PATH
+  environment.localBinInPath = true;
+
   # Zsh program enabled as default user
   programs.zsh.enable = true;
 
