@@ -10,6 +10,7 @@ in {
     # Plasma desktop environment configuration
     services.desktopManager.plasma6.enable = true;
     services.displayManager.sddm.enable = true;
+    services.displayManager.sddm.wayland.enable = true;
 
     # X11 session by default
     services.displayManager.defaultSession = "plasmax11";
