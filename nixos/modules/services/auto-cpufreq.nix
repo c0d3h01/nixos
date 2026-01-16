@@ -1,5 +1,9 @@
 {
-  powerManagement.enable = false; # prevent conflict
+  # prevent conflict
+  powerManagement.enable = false;
+  services.power-profiles-daemon.enable = false;
+
+  # auto-cpufreq service
   services.auto-cpufreq = {
     enable = true;
     settings = {
