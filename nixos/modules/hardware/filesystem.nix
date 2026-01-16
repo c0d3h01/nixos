@@ -9,9 +9,10 @@
   isBtrfs = rootFs == "btrfs";
 in {
   # Filesystem-specific packages
-  environment.systemPackages =
+  environment.systemPackages = lib.mkMerge [
     (lib.mkIf isXfs [pkgs.xfsprogs])
-    ++ (lib.mkIf isBtrfs [pkgs.btrfs-progs]);
+    (lib.mkIf isBtrfs [pkgs.btrfs-progs])
+  ];
 
   # XFS scrub service
   systemd.services.xfs-scrub = lib.mkIf isXfs {
