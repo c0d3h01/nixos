@@ -14,6 +14,8 @@
     lazygit
     neovim
     bat
+    starship
+    tree-sitter
     eza
     fd
     ripgrep
