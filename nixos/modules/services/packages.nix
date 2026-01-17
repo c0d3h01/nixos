@@ -10,6 +10,7 @@
   # DESKTOP APPLICATIONS
   desktopApps = with pkgs; [
     brave
+    google-chrome
     vscode-fhs
     postman
     github-desktop
