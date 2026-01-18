@@ -6,6 +6,7 @@
   ...
 }: {
   imports = [
+    ./direnv.nix
     ./dotfiles.nix
     ./packages.nix
     ./secrets.nix
