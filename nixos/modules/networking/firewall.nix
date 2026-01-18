@@ -6,30 +6,34 @@
 }: let
   inherit (lib) mkForce;
 in {
-  networking.firewall = {
-    enable = true;
+  networking = {
+    nftables.enable = true;
 
-    allowedTCPPorts = [
-      22
-      80
-      443
-      59010
-      59011
-      8080
-    ];
-    allowedUDPPorts = [
-      59010
-      59011
-    ];
+    firewall = {
+      enable = true;
 
-    # allowedTCPPortRanges = [];
-    # allowedUDPPortRanges = [];
+      allowedTCPPorts = [
+        22
+        80
+        443
+        59010
+        59011
+        8080
+      ];
+      allowedUDPPorts = [
+        59010
+        59011
+      ];
 
-    # make a much smaller and easier to read log
-    logReversePathDrops = true;
-    logRefusedConnections = false;
+      # allowedTCPPortRanges = [];
+      # allowedUDPPortRanges = [];
 
-    # Don't filter DHCP packets, according to nixops-libvirtd
-    checkReversePath = mkForce false;
+      # make a much smaller and easier to read log
+      logReversePathDrops = true;
+      logRefusedConnections = false;
+
+      # Don't filter DHCP packets, according to nixops-libvirtd
+      checkReversePath = mkForce false;
+    };
   };
 }
