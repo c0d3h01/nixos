@@ -8,6 +8,7 @@
     enable32Bit = false;
 
     extraPackages = with pkgs; [
+      rocmPackages.clr # Vulkan driver
       rocmPackages.clr.icd # OpenCL for parallel compute
     ];
   };
