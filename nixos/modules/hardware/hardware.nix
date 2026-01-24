@@ -16,10 +16,17 @@
         "usb_storage"
         "sd_mod"
       ];
-      kernelModules = [];
+      kernelModules = [
+        "nvme"
+        "xhci_pci"
+        "ahci"
+        "btrfs"
+        "sd_mod"
+        "dm_mod"
+      ];
       systemd.enable = true;
       compressor = "zstd";
-      compressorArgs = ["-3" "-T0"];
+      compressorArgs = ["-19" "-T0"];
     };
 
     kernelModules = ["kvm-amd"];
@@ -29,10 +36,11 @@
       "mitigations=off"
     ];
 
-    # Tmpfs: Conservative 40% (2.4GB) to prevent OOM on 6GB system
+    # Tmpfs settings
     tmp = {
       useTmpfs = true;
-      tmpfsSize = "40%";
+      tmpfsSize = "60%";
+      tmpfsHugeMemoryPages = "within_size";
     };
 
     supportedFilesystems = ["ntfs" "exfat" "vfat"];
