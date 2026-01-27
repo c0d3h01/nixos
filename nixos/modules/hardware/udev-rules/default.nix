@@ -4,5 +4,5 @@
     ./ioschedulers.nix
     ./sata.nix
     ./zram.nix
-  ]
+  ];
 }
