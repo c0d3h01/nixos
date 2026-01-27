@@ -13,6 +13,7 @@
         statix
         stylua
         taplo
+        yamlfmt
         mypy
 
         (writeShellScriptBin "statix-fix" ''
@@ -56,6 +57,18 @@
           deadnix = {
             command = "deadnix";
             includes = ["*.nix"];
+          };
+
+          yamlfmt = {
+            command = "yamlfmt";
+            options = [
+              "-formatter"
+              "retain_line_breaks_single=true"
+            ];
+            includes = [
+              "*.yml"
+              "*.yaml"
+            ];
           };
 
           keep-sorted = {
