@@ -1,99 +1,50 @@
-# you can find out whats recommended for you, by following these steps
-# > sudo sysctl -a > sysctl.txt
-# > kernel-hardening-checker -l /proc/cmdline -c /proc/config.gz -s ./sysctl.txt
-#
-# better read up
-# https://docs.kernel.org/admin-guide/sysctl/vm.html
-#
-# a good place to quickly find what each setting does
-# https://sysctl-explorer.net/
-#
-# we disable sysctl tweaks on wsl since they don't work
 {
-  lib,
-  options,
-  ...
-}: {
   boot.kernel.sysctl = {
-    # The Magic SysRq key is a key combo that allows users connected to the
-    # system console of a Linux kernel to perform some low-level commands.
-    # Disable it, since we don't need it, and is a potential security concern.
-    "kernel.sysrq" = 0;
+    # The sysctl swappiness parameter determines the kernel's preference for pushing anonymous pages or page cache to disk in memory-starved situations.
+    # A low value causes the kernel to prefer freeing up open files (page cache), a high value causes the kernel to try to use swap space,
+    # and a value of 100 means IO cost is assumed to be equal.
+    "vm.swappiness" = 10
 
-    # Restrict ptrace() usage to processes with a pre-defined relationship
-    # (e.g., parent/child)
-    "kernel.yama.ptrace_scope" = 3;
+    # The value controls the tendency of the kernel to reclaim the memory which is used for caching of directory and inode objects (VFS cache).
+    # Lowering it from the default value of 100 makes the kernel less inclined to reclaim VFS cache (do not set it to 0, this may produce out-of-memory conditions)
+    "vm.vfs_cache_pressure" = 50
 
-    # Hide kptrs even for processes with CAP_SYSLOG
-    "kernel.kptr_restrict" = 2;
+    # Contains, as bytes, the number of pages at which a process which is
+    # generating disk writes will itself start writing out dirty data.
+    "vm.dirty_bytes" = 268435456
 
-    # Disable bpf() JIT (to eliminate spray attacks)
-    "net.core.bpf_jit_enable" = false;
+    # page-cluster controls the number of pages up to which consecutive pages are read in from swap in a single attempt.
+    # This is the swap counterpart to page cache readahead. The mentioned consecutivity is not in terms of virtual/physical addresses,
+    # but consecutive on swap space - that means they were swapped out together. (Default is 3)
+    # increase this value to 1 or 2 if you are using physical swap (1 if ssd, 2 if hdd)
+    "vm.page-cluster" = 0
 
-    # Disable ftrace debugging
-    "kernel.ftrace_enabled" = false;
+    # Contains, as bytes, the number of pages at which the background kernel
+    # flusher threads will start writing out dirty data.
+    "vm.dirty_background_bytes" = 67108864
 
-    # Avoid kernel memory address exposures via dmesg (this value can also be set by CONFIG_SECURITY_DMESG_RESTRICT).
-    "kernel.dmesg_restrict" = 1;
+    # The kernel flusher threads will periodically wake up and write old data out to disk.  This
+    # tunable expresses the interval between those wakeups, in 100'ths of a second (Default is 500).
+    "vm.dirty_writeback_centisecs" = 1500
 
-    # Disable SUID binary dump
-    "fs.suid_dumpable" = 0;
+    # This action will speed up your boot and shutdown, because one less module is loaded. Additionally disabling watchdog timers increases   performance and lowers power consumption
+    # Disable NMI watchdog
+    "kernel.nmi_watchdog" = 0
 
-    # Disable late module loading
-    # "kernel.modules_disabled" = 1;
-    # Disallow profiling at all levels without CAP_SYS_ADMIN
-    "kernel.perf_event_paranoid" = 3;
+    # Enable the sysctl setting kernel.unprivileged_userns_clone to allow normal users to run unprivileged containers.
+    "kernel.unprivileged_userns_clone" = 1
 
-    # Require CAP_BPF to use bpf
-    "kernel.unprivileged_bpf_disabled" = true;
+    # To hide any kernel messages from the console
+    "kernel.printk" = "3 3 3 3"
 
-    # Prevent boot console log leaking information
-    "kernel.printk" = "3 3 3 3";
+    # Restricting access to kernel pointers in the proc filesystem
+    "kernel.kptr_restrict" = 2
 
-    # Restrict loading TTY line disaciplines to the CAP_SYS_MODULE capablitiy to
-    # prevent unprvileged attackers from loading vulnrable line disaciplines
-    "dev.tty.ldisc_autoload" = 0;
+    # Increase netdev receive queue
+    # May help prevent losing packets
+    "net.core.netdev_max_backlog" = 4096
 
-    # Kexec allows replacing the current running kernel. There may be an edge case where
-    # you wish to boot into a different kernel, but I do not require kexec. Disabling it
-    # patches a potential security hole in our system.
-    "kernel.kexec_load_disabled" = true;
-
-    # Disable TIOCSTI ioctl, which allows a user to insert characters into the input queue of a terminal
-    # this has been known for a long time to be used in privilege escalation attacks
-    "dev.tty.legacy_tiocsti" = 0;
-
-    # Disable the ability to load kernel modules, we already load the ones that we need
-    # FIXME: this breaks boot, so we should track down what modules we need to boot if
-    # we are going to commit to enabling this
-    # "kernel.modules_disabled" = 1;
-
-    # This enables hardening for the BPF JIT compiler, however it costs at a performance cost
-    # "net.core.bpf_jit_harden" = 2;
-
-    # awesome stuff from
-    # https://github.com/NixOS/nixpkgs/pull/391473/
-    #
-    # Mitigate some TOCTOU vulnerabilites
-    # cf. https://www.kernel.org/doc/Documentation/admin-guide/sysctl/fs.rst
-    #
-    # Don’t allow O_CREAT open on FIFOs not owned by the user in world‐ or
-    # group‐writable sticky directories (e.g. /tmp), unless owned by the
-    # directory owner
-    "fs.protected_fifos" = 2;
-
-    # Don’t allow users to create hardlinks unless they own the source
-    # file or have read/write access to it
-    "fs.protected_hardlinks" = 1;
-
-    # Don’t allow O_CREAT open on regular files not owned by user in world‐
-    # or group‐writable sticky directories (e.g. /tmp), unless owned by the
-    # directory owner
-    "fs.protected_regular" = 2;
-
-    # Don’t follow symlinks in sticky world‐writable directories (e.g. /tmp),
-    # unless the user ID of the follower matches the symlink, or the
-    # directory owner matches the symlink
-    "fs.protected_symlinks" = 1;
+    # Set size of file handles and inode cache
+    "fs.file-max" = 2097152
   };
 }
